@@ -17,9 +17,9 @@ const Header = () => {
         className: "slider variable-width",
         dots: false,
         infinite: true,
-        centerMode: true,
+        centerMode: false,
         slidesToShow: 1,
-        slidesToScroll: 6,
+        slidesToScroll: 2,
         variableWidth: true
     };
 
@@ -61,15 +61,23 @@ const Header = () => {
                 <Container maxWidth="lg">
                     <div>
                         <Slider {...carouselSettings}>
+                            <Button component={NavLink} to="/category/:id">Coronavirus Updates</Button>
+                            <Button component={NavLink} to="/category/:id">Photography</Button>
+                            <Button component={NavLink} to="/category/:id">Design</Button>
+                            <Button component={NavLink} to="/category/:id">Remote Work</Button>
+                            <Button component={NavLink} to="/category/:id">Business</Button>
                             <Button component={NavLink} to="/category/:id">Beauty</Button>
                             <Button component={NavLink} to="/category/:id">Books</Button>
-                            <Button component={NavLink} to="/category/:id">Coronavirus Updates</Button>
                             <Button component={NavLink} to="/category/:id">Travelling</Button>
                             <Button component={NavLink} to="/category/:id">IT Industry</Button>
                             <Button component={NavLink} to="/category/:id">Health</Button>
                             <Button component={NavLink} to="/category/:id">Food</Button>
                             <Button component={NavLink} to="/category/:id">Gaming</Button>
                             <Button component={NavLink} to="/category/:id">Fashion</Button>
+                            <Button component={NavLink} to="/category/:id">Music</Button>
+                            <Button component={NavLink} to="/category/:id">Photography</Button>
+                            <Button component={NavLink} to="/category/:id">Design</Button>
+                            <Button component={NavLink} to="/category/:id">Business</Button>
                         </Slider>
                     </div>
                 </Container>
