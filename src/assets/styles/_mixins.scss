@@ -1,0 +1,298 @@
+@import "variables";
+
+$experimental: true !default; // set True for support Old Browsers
+
+// custom mixins
+@mixin full-width() {
+  width: 100%;
+  float: left;
+  position: relative;
+}
+
+@mixin flex-full-width() {
+  width: 100%;
+  display: flex;
+  position: relative;
+}
+
+@function rem($size) {
+  $remSize: $size / 16px;
+  @return #{$remSize}rem;
+}
+
+@mixin font-smooth-retina {
+  @media (-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 144dpi) {
+    @content;
+  }
+}
+
+// Responsive
+@mixin if-portrait {
+  @media (max-aspect-ratio: 3/4) {
+    @content;
+  }
+}
+
+
+@mixin till-small-desktop {
+  @media only screen and (max-width: 1360px) {
+    @content;
+  }
+}
+
+@mixin till-md-desktop {
+  @media only screen and (max-width: 1440px) {
+    @content;
+  }
+}
+
+@mixin md-screen {
+  @media only screen and (max-width: 991.98px) {
+    @content;
+  }
+}
+
+@mixin sm-screen {
+  @media only screen and (max-width: 767.98px) {
+    @content;
+  }
+}
+
+@mixin from-xs-desktop {
+  @media only screen and (min-width: 1260px) {
+    @content;
+  }
+}
+
+@mixin from-small-desktop {
+  @media only screen and (min-width: 1361px) {
+    @content;
+  }
+}
+
+@mixin xs-screen {
+  @media only screen and (max-width: 575.98px) {
+    @content;
+  }
+}
+
+@mixin from-lg-screen {
+  @media only screen and (min-width: 992px) {
+    @content;
+  }
+}
+
+@mixin from-md-screen {
+  @media only screen and (min-width: 768px) {
+    @content;
+  }
+}
+
+@mixin from-xs-screen {
+  @media only screen and (min-width: 576px) {
+    @content;
+  }
+}
+
+@mixin clearfix() {
+  &:before,
+  &:after {
+    content: "";
+    display: table;
+  }
+  &:after {
+    clear: both;
+  }
+}
+
+@mixin cross-browser($property, $css) {
+  -webkit-#{$property} : $css;
+  -moz-#{$property} : $css;
+  -o-#{$property} : $css;
+  #{$property} : $css;
+}
+
+@mixin abs-pos($top: auto, $right: auto, $bottom: auto, $left: auto) {
+  top: $top;
+  right: $right;
+  bottom: $bottom;
+  left: $left;
+  position: absolute;
+}
+
+@mixin background-size($value) {
+  -webkit-background-size: $value;
+  background-size: $value;
+}
+
+@mixin box-sizing($type:border-box) {
+  @if $experimental {
+    -moz-box-sizing: $type;
+    -webkit-box-sizing: $type;
+  }
+  box-sizing: $type;
+}
+
+@mixin radius($radius: 4px) {
+  @if $radius {
+    @if $experimental {
+      -webkit-border-radius: $radius;
+    }
+    border-radius: $radius;
+  }
+}
+
+@mixin shadow($value) {
+  @if $experimental {
+    -webkit-box-shadow: $value;
+    -moz-box-shadow: $value;
+  }
+  box-shadow: $value;
+}
+
+@mixin fieldPlaceholderColor($color) {
+  *::-webkit-input-placeholder {
+    color: $color !important;
+  }
+
+  *:-moz-placeholder {
+    color: $color !important;
+  }
+
+  *::-moz-placeholder {
+    color: $color !important;
+  }
+  *:ms-input-placeholder {
+    color: $color !important;
+  }
+}
+
+@mixin smooth($speed) {
+  @if $experimental {
+    -webkit-transition: all $speed ease-out;
+    -moz-transition: all $speed ease-out;
+    -o-transition: all $speed ease-out;
+  }
+  transition: all $speed ease-out;
+}
+
+@mixin transform($value) {
+  -webkit-transform: $value;
+  -moz-transform: $value;
+  -ms-transform: $value;
+  -o-transform: $value;
+  transform: $value;
+}
+
+@mixin animation-delay($time) {
+  @if $experimental {
+    -webkit-animation-delay: $time;
+    -moz-animation-delay: $time;
+    -o-animation-delay: $time;
+  }
+  animation-delay: $time;
+}
+
+@mixin animation-duration($time) {
+  @if $experimental {
+    -webkit-animation-duration: $time;
+    -moz-animation-duration: $time;
+    -o-animation-duration: $time;
+  }
+  animation-duration: $time;
+}
+
+@mixin custom-scroll($width) {
+  scrollbar-color: $baseColor #fff;
+  scrollbar-width: thin;
+
+  &::-webkit-scrollbar {
+    width: $width;
+    color: #fff;
+    border-radius: 0.625rem;
+    background: $baseColor;
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    border-radius: 0.625rem;
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    background: #fff;
+    border-radius: 0.625rem;
+    border: 1px solid $baseColor;
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.6);
+  }
+
+}
+
+@mixin custom-scroll-green($width, $color:"", $height:"") {
+  scrollbar-color: $baseColor #F4F4F4;
+  scrollbar-width: thin;
+
+  &::-webkit-scrollbar {
+    width: $width;
+    border-radius: 0.625rem;
+    background: #F4F4F4;
+    @if $color != "" {
+      color: $color;
+    } @else {
+      color: $baseColor;
+    }
+    @if $height != "" {
+      height: $height;
+    } @else {
+      height: auto;
+    }
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    border-radius: 0.625rem;
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+
+    border-radius: 0.625rem;
+    border: 1px solid #F4F4F4;
+    @if $color != "" {
+      background: $color;
+    } @else {
+      background: $baseColor;
+    }
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: $baseColor;
+  }
+}
+
+
+/*
+@mixin only_ie11($selector, $map){
+  @media all and (-ms-high-contrast:none){
+    *::-ms-backdrop, #{$selector} {
+      @each $property, $value in ($map) {
+        #{$property}: $value+\0;
+      }
+    }
+  }
+}
+*/
+
+/* === Usage of IE11 mixin === */
+/*
+@include only_ie11( '.my_element', (
+  background-color: green,
+  display: flex,
+  margin: 2em
+))
+*/
