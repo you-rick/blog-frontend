@@ -59,27 +59,27 @@ const Header = () => {
             </AppBar>
             <Box m={4}>
                 <Container maxWidth="lg">
-                    <div>
+                    <Box p="0 2rem">
                         <Slider {...carouselSettings}>
-                            <Button component={NavLink} to="/category/:id">Coronavirus Updates</Button>
-                            <Button component={NavLink} to="/category/:id">Photography</Button>
-                            <Button component={NavLink} to="/category/:id">Design</Button>
-                            <Button component={NavLink} to="/category/:id">Remote Work</Button>
-                            <Button component={NavLink} to="/category/:id">Business</Button>
-                            <Button component={NavLink} to="/category/:id">Beauty</Button>
-                            <Button component={NavLink} to="/category/:id">Books</Button>
-                            <Button component={NavLink} to="/category/:id">Travelling</Button>
-                            <Button component={NavLink} to="/category/:id">IT Industry</Button>
-                            <Button component={NavLink} to="/category/:id">Health</Button>
-                            <Button component={NavLink} to="/category/:id">Food</Button>
-                            <Button component={NavLink} to="/category/:id">Gaming</Button>
-                            <Button component={NavLink} to="/category/:id">Fashion</Button>
-                            <Button component={NavLink} to="/category/:id">Music</Button>
-                            <Button component={NavLink} to="/category/:id">Photography</Button>
-                            <Button component={NavLink} to="/category/:id">Design</Button>
-                            <Button component={NavLink} to="/category/:id">Business</Button>
+                            <Button className={classes.sliderButton} component={NavLink} to="/category/:id">Coronavirus Updates</Button>
+                            <Button className={classes.sliderButton} component={NavLink} to="/category/:id">Photography</Button>
+                            <Button className={classes.sliderButton} component={NavLink} to="/category/:id">Design</Button>
+                            <Button className={classes.sliderButton} component={NavLink} to="/category/:id">Remote Work</Button>
+                            <Button className={classes.sliderButton} component={NavLink} to="/category/:id">Business</Button>
+                            <Button className={classes.sliderButton} component={NavLink} to="/category/:id">Beauty</Button>
+                            <Button className={classes.sliderButton} component={NavLink} to="/category/:id">Books</Button>
+                            <Button className={classes.sliderButton} component={NavLink} to="/category/:id">Travelling</Button>
+                            <Button className={classes.sliderButton} component={NavLink} to="/category/:id">IT Industry</Button>
+                            <Button className={classes.sliderButton} component={NavLink} to="/category/:id">Health</Button>
+                            <Button className={classes.sliderButton} component={NavLink} to="/category/:id">Food</Button>
+                            <Button className={classes.sliderButton} component={NavLink} to="/category/:id">Gaming</Button>
+                            <Button className={classes.sliderButton} component={NavLink} to="/category/:id">Fashion</Button>
+                            <Button className={classes.sliderButton} component={NavLink} to="/category/:id">Music</Button>
+                            <Button className={classes.sliderButton} component={NavLink} to="/category/:id">Photography</Button>
+                            <Button className={classes.sliderButton} component={NavLink} to="/category/:id">Design</Button>
+                            <Button className={classes.sliderButton} component={NavLink} to="/category/:id">Business</Button>
                         </Slider>
-                    </div>
+                    </Box>
                 </Container>
             </Box>
         </>

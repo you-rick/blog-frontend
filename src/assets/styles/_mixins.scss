@@ -276,17 +276,18 @@ $experimental: true !default; // set True for support Old Browsers
 }
 
 
-/*
+
 @mixin only_ie11($selector, $map){
   @media all and (-ms-high-contrast:none){
     *::-ms-backdrop, #{$selector} {
       @each $property, $value in ($map) {
-        #{$property}: $value+\0;
+        // Temporal hidden - IDE marks it as error
+        //#{$property}: $value+\0;
       }
     }
   }
 }
-*/
+
 
 /* === Usage of IE11 mixin === */
 /*

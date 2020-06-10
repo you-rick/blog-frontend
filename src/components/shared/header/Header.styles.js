@@ -15,6 +15,9 @@ const themeStyles = theme => ({
         '&:focus': {
             width: '12rem'
         }
+    },
+    sliderButton: {
+        textAlign: 'center'
     }
 });
 

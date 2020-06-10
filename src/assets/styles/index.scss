@@ -1,12 +1,4 @@
-a, .link, .internal-link {
-  text-decoration: none;
-  outline: none;
-  cursor: pointer;
-  -webkit-transition: all 0.2s ease;
-  -moz-transition: all 0.2s ease;
-  -o-transition: all 0.2s ease;
-  transition: all 0.2s ease;
-
-  &:hover {
-  }
-}
+@import "variables";
+@import "mixins";
+@import "normalize";
+@import "helpers";

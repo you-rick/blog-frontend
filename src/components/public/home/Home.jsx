@@ -6,7 +6,7 @@ import {Container, Grid, Box, Paper} from "@material-ui/core";
 const Home = () => {
     return (
         <div style={{padding: 20}}>
-            <Container maxWidth="lg" disableGutters>
+            <Container maxWidth="lg">
                 <Grid container spacing={3}>
                     <Grid item xs={12} sm={9}>
                         <Box>
