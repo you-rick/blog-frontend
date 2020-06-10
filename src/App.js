@@ -1,8 +1,9 @@
 import React from 'react';
 import {BrowserRouter, Redirect, Route, Switch, withRouter} from 'react-router-dom';
 
-import Header from "./components/shared/header/Header";
-import Home from "./components/public/home/Home";
+import Header from "./components/shared/Header/Header";
+import Home from "./components/public/Home/Home";
+import Articles from "./components/public/Articles/Articles";
 
 function AppContainer() {
     return (
@@ -12,7 +13,8 @@ function AppContainer() {
                 
                 <div>
                     <Switch>
-                        <Route path="/" render={() => <Home/>}/>
+                        <Route exact path="/" render={() => <Home/>}/>
+                        <Route path="/articles" render={() => <Articles/>}/>
                     </Switch>
                 </div>
             </div>

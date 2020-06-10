@@ -4,7 +4,7 @@ import Slider from "react-slick";
 import "./Header.scss";
 
 import {AppBar, InputBase, Toolbar, Typography, Container, IconButton, Grid, Box, Button} from "@material-ui/core";
-import {AccountCircle, Bookmarks, Search} from "@material-ui/icons";
+import {AccountCircle, BookmarksOutlined, Search} from "@material-ui/icons";
 import themeStyles from "./Header.styles";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 
@@ -47,7 +47,7 @@ const Header = () => {
                                 </Grid>
 
                                 <IconButton aria-label="saved articles" aria-controls="menu-appbar" color="inherit">
-                                    <Bookmarks/>
+                                    <BookmarksOutlined/>
                                 </IconButton>
                                 <IconButton aria-label="user account" aria-controls="menu-appbar" color="inherit">
                                     <AccountCircle/>

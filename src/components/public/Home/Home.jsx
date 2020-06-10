@@ -1,6 +1,6 @@
 import React from "react";
 import ArticleCard from "./ArticleCard/ArticleCard";
-import Sidebar from "./Sidebar/Sidebar";
+import Sidebar from "../../shared/Sidebar/Sidebar";
 import {Container, Grid, Box, Paper} from "@material-ui/core";
 
 const Home = () => {
