@@ -8,6 +8,10 @@ import Article from "./components/public/Articles/Article/Article";
 import Authors from "./components/public/Authors/Authors"
 import Login from "./components/auth/Login/Login";
 import Register from "./components/auth/Register/Register";
+import SavedArticles from "./components/dashboard/SavedArticles/SavedArticles";
+import FollowedAuthors from "./components/dashboard/FollowedAuthors/FollowedAuthors";
+import MyArticles from "./components/dashboard/MyArticles/MyArticles";
+import ArticleForm from "./components/dashboard/MyArticles/ArticleForm/ArticleForm";
 
 function AppContainer() {
     return (
@@ -23,6 +27,11 @@ function AppContainer() {
                         <Route exact path="/authors" render={() => <Authors/>}/>
                         <Route path="/login" render={() => <Login/>}/>
                         <Route path="/register" render={() => <Register/>}/>
+
+                        <Route path="/profile/saved" render={() => <SavedArticles/>}/>
+                        <Route path="/profile/followed" render={() => <FollowedAuthors/>}/>
+                        <Route exact path="/profile/articles" render={() => <MyArticles/>}/>
+                        <Route path="/profile/articles/add" render={() => <ArticleForm/>}/>
                     </Switch>
                 </div>
             </div>

@@ -1,5 +1,5 @@
 import React from "react";
-import ArticleCard from "./ArticleCard/ArticleCard";
+import ArticleCardHome from "./ArticleCardHome/ArticleCardHome";
 import Sidebar from "../../shared/Sidebar/Sidebar";
 import {Container, Grid, Box, Paper} from "@material-ui/core";
 
@@ -12,22 +12,22 @@ const Home = () => {
                         <Box>
                             <Grid container spacing={3}>
                                 <Grid item xs={12} sm={6} md={4}>
-                                    <ArticleCard/>
+                                    <ArticleCardHome/>
                                 </Grid>
                                 <Grid item xs={12} sm={6} md={4}>
-                                    <ArticleCard/>
+                                    <ArticleCardHome/>
                                 </Grid>
                                 <Grid item xs={12} sm={6} md={4}>
-                                    <ArticleCard/>
+                                    <ArticleCardHome/>
                                 </Grid>
                                 <Grid item xs={12} sm={6} md={4}>
-                                    <ArticleCard/>
+                                    <ArticleCardHome/>
                                 </Grid>
                                 <Grid item xs={12} sm={6} md={4}>
-                                    <ArticleCard/>
+                                    <ArticleCardHome/>
                                 </Grid>
                                 <Grid item xs={12} sm={6} md={4}>
-                                    <ArticleCard/>
+                                    <ArticleCardHome/>
                                 </Grid>
                             </Grid>
                         </Box>

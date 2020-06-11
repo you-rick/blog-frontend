@@ -3,7 +3,7 @@ import {NavLink} from "react-router-dom";
 import Slider from "react-slick";
 import "./Header.scss";
 
-import {AppBar, InputBase, Toolbar, Typography, Container, IconButton, Grid, Box, Button} from "@material-ui/core";
+import {AppBar, InputBase, Toolbar, Typography, Container, IconButton, Grid, Box, Button, Menu, MenuItem} from "@material-ui/core";
 import {AccountCircle, BookmarksOutlined, Search} from "@material-ui/icons";
 import themeStyles from "./Header.styles";
 import makeStyles from "@material-ui/core/styles/makeStyles";
@@ -13,6 +13,9 @@ const useStyles = makeStyles((theme) => themeStyles(theme));
 const Header = () => {
     const classes = useStyles();
 
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const open = Boolean(anchorEl);
+
     const carouselSettings = {
         className: "slider variable-width",
         dots: false,
@@ -21,6 +24,14 @@ const Header = () => {
         slidesToShow: 1,
         slidesToScroll: 2,
         variableWidth: true
+    };
+
+    const handleMenu = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
     };
 
     return (
@@ -49,9 +60,35 @@ const Header = () => {
                                 <IconButton aria-label="saved articles" aria-controls="menu-appbar" color="inherit">
                                     <BookmarksOutlined/>
                                 </IconButton>
-                                <IconButton aria-label="user account" aria-controls="menu-appbar" color="inherit">
-                                    <AccountCircle/>
-                                </IconButton>
+                                <div>
+                                    <IconButton
+                                        aria-label="account of current user"
+                                        aria-controls="menu-appbar"
+                                        aria-haspopup="true"
+                                        onClick={handleMenu}
+                                        color="inherit"
+                                    >
+                                        <AccountCircle/>
+                                    </IconButton>
+                                    <Menu
+                                        id="menu-appbar"
+                                        anchorEl={anchorEl}
+                                        anchorOrigin={{
+                                            vertical: 'top',
+                                            horizontal: 'right',
+                                        }}
+                                        keepMounted
+                                        transformOrigin={{
+                                            vertical: 'top',
+                                            horizontal: 'right',
+                                        }}
+                                        open={open}
+                                        onClose={handleClose}
+                                    >
+                                        <MenuItem onClick={handleClose}>Profile</MenuItem>
+                                        <MenuItem onClick={handleClose}>Logout</MenuItem>
+                                    </Menu>
+                                </div>
                             </Box>
                         </Grid>
                     </Toolbar>
@@ -61,23 +98,40 @@ const Header = () => {
                 <Container maxWidth="lg">
                     <Box p="0 2rem">
                         <Slider {...carouselSettings}>
-                            <Button className={classes.sliderButton} component={NavLink} to="/category/:id">Coronavirus Updates</Button>
-                            <Button className={classes.sliderButton} component={NavLink} to="/category/:id">Photography</Button>
-                            <Button className={classes.sliderButton} component={NavLink} to="/category/:id">Design</Button>
-                            <Button className={classes.sliderButton} component={NavLink} to="/category/:id">Remote Work</Button>
-                            <Button className={classes.sliderButton} component={NavLink} to="/category/:id">Business</Button>
-                            <Button className={classes.sliderButton} component={NavLink} to="/category/:id">Beauty</Button>
-                            <Button className={classes.sliderButton} component={NavLink} to="/category/:id">Books</Button>
-                            <Button className={classes.sliderButton} component={NavLink} to="/category/:id">Travelling</Button>
-                            <Button className={classes.sliderButton} component={NavLink} to="/category/:id">IT Industry</Button>
-                            <Button className={classes.sliderButton} component={NavLink} to="/category/:id">Health</Button>
-                            <Button className={classes.sliderButton} component={NavLink} to="/category/:id">Food</Button>
-                            <Button className={classes.sliderButton} component={NavLink} to="/category/:id">Gaming</Button>
-                            <Button className={classes.sliderButton} component={NavLink} to="/category/:id">Fashion</Button>
-                            <Button className={classes.sliderButton} component={NavLink} to="/category/:id">Music</Button>
-                            <Button className={classes.sliderButton} component={NavLink} to="/category/:id">Photography</Button>
-                            <Button className={classes.sliderButton} component={NavLink} to="/category/:id">Design</Button>
-                            <Button className={classes.sliderButton} component={NavLink} to="/category/:id">Business</Button>
+                            <Button className={classes.sliderButton} component={NavLink} to="/category/:id">Coronavirus
+                                Updates</Button>
+                            <Button className={classes.sliderButton} component={NavLink}
+                                    to="/category/:id">Photography</Button>
+                            <Button className={classes.sliderButton} component={NavLink}
+                                    to="/category/:id">Design</Button>
+                            <Button className={classes.sliderButton} component={NavLink} to="/category/:id">Remote
+                                Work</Button>
+                            <Button className={classes.sliderButton} component={NavLink}
+                                    to="/category/:id">Business</Button>
+                            <Button className={classes.sliderButton} component={NavLink}
+                                    to="/category/:id">Beauty</Button>
+                            <Button className={classes.sliderButton} component={NavLink}
+                                    to="/category/:id">Books</Button>
+                            <Button className={classes.sliderButton} component={NavLink}
+                                    to="/category/:id">Travelling</Button>
+                            <Button className={classes.sliderButton} component={NavLink} to="/category/:id">IT
+                                Industry</Button>
+                            <Button className={classes.sliderButton} component={NavLink}
+                                    to="/category/:id">Health</Button>
+                            <Button className={classes.sliderButton} component={NavLink}
+                                    to="/category/:id">Food</Button>
+                            <Button className={classes.sliderButton} component={NavLink}
+                                    to="/category/:id">Gaming</Button>
+                            <Button className={classes.sliderButton} component={NavLink}
+                                    to="/category/:id">Fashion</Button>
+                            <Button className={classes.sliderButton} component={NavLink}
+                                    to="/category/:id">Music</Button>
+                            <Button className={classes.sliderButton} component={NavLink}
+                                    to="/category/:id">Photography</Button>
+                            <Button className={classes.sliderButton} component={NavLink}
+                                    to="/category/:id">Design</Button>
+                            <Button className={classes.sliderButton} component={NavLink}
+                                    to="/category/:id">Business</Button>
                         </Slider>
                     </Box>
                 </Container>

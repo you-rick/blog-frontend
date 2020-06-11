@@ -1,5 +1,5 @@
 import React from "react";
-import AuthorCard from "./AuthorCard/AuthorCard";
+import AuthorCard from "../../shared/AuthorCard/AuthorCard";
 import {Container, List, ListItem} from "@material-ui/core";
 
 const Authors = () => {

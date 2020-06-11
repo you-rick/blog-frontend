@@ -5,7 +5,7 @@ import {Card, CardHeader, CardMedia, CardContent, CardActions, Typography, Avata
 import {FavoriteBorder, BookmarkBorder} from "@material-ui/icons";
 
 
-const ArticleCard = () => {
+const ArticleCardHome = () => {
     return (
         <>
             <Card>
@@ -40,4 +40,4 @@ const ArticleCard = () => {
 };
 
 
-export default ArticleCard;
+export default ArticleCardHome;

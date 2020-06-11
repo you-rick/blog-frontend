@@ -1,8 +1,29 @@
 @import "variables";
 @import "mixins";
-@import "normalize";
 @import "helpers";
 
 .mainContainer {
   margin-bottom: 6rem;
+}
+
+// Custom File Upload
+.customFileUploader.customFileUploader {
+  .fileContainer {
+    box-shadow: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .fileUploadButton {
+    background: #3f51b5;
+    color: #fff;
+  }
+
+  .deleteImage {
+    font-size: 14px;
+  }
+
+  .uploadPictureContainer {
+    box-shadow: none;
+  }
 }
