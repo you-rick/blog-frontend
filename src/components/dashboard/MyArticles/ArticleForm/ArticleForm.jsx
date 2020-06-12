@@ -3,7 +3,7 @@ import TextEditor from "mui-rte";
 import "./ArticleForm.scss";
 import classNames from "classnames";
 import ImageUploader from "react-images-upload";
-import {Box, Container, Card, CardContent, TextField, MenuItem} from "@material-ui/core";
+import {Box, Container, Card, CardContent, TextField, MenuItem, Grid, Button} from "@material-ui/core";
 import {createMuiTheme, MuiThemeProvider} from '@material-ui/core/styles'
 
 
@@ -55,7 +55,6 @@ const ArticleForm = () => {
         }
     });
 
-
     return (
         <Container maxWidth="md">
             <h1>Create new post</h1>
@@ -89,7 +88,7 @@ const ArticleForm = () => {
                     buttonClassName="fileUploadButton"
                 />
             </Box>
-            <Box m="1.5rem 0 0">
+            <Box m="1.5rem 0">
                 <Card>
                     <CardContent>
                         <MuiThemeProvider theme={defaultTheme}>
@@ -101,6 +100,11 @@ const ArticleForm = () => {
                     </CardContent>
                 </Card>
             </Box>
+            <Grid container justify="flex-end">
+                <Button variant="contained" size="large" color="primary">
+                    Post!
+                </Button>
+            </Grid>
         </Container>
     )
 };
