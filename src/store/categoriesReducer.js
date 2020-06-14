@@ -1,12 +1,14 @@
 import {categoriesAPI} from "../api/api";
 
-const ADD_CATEGORY = 'ADD-CATEGORY';
-const UPDATE_CATEGORY = 'UPDATE-CATEGORY';
-const DELETE_CATEGORY = 'DELETE-CATEGORY';
+let initialState = {
+    categories: []
+};
 
-
-const categoriesReducer = (state, action) => {
-
+const categoriesReducer = (state = initialState, action) => {
+    switch (action.type) {
+        default:
+            return state;
+    }
 };
 
 

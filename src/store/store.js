@@ -1,17 +1,17 @@
 import {applyMiddleware, combineReducers, compose, createStore} from "redux";
 
 import thunkMiddleware from "redux-thunk";
-import usersReducer from "usersReducer";
-import categoriesReducer from "categoriesReducer";
-import articlesReducer from "articlesReducer";
-import profileReducer from "profileReducer";
+import usersReducer from "./usersReducer";
+import categoriesReducer from "./categoriesReducer";
+import articlesReducer from "./articlesReducer";
+import profileReducer from "./profileReducer";
 import {reducer as formReducer} from "redux-form";
 
 const redusersGroup = combineReducers({
     users: usersReducer,
     profile: profileReducer,
-    categories: categoriesReducer,
-    articles: articlesReducer,
+    //articles: articlesReducer,
+    //categories: categoriesReducer,
     form: formReducer
 });
 

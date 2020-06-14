@@ -1,43 +1,27 @@
-import React from "react";
+import React, {useState} from "react";
+import {register} from "../../../store/profileReducer";
+import {connect} from "react-redux";
+import {reduxForm, change} from "redux-form";
 
 import AccountForm from "./AccountForm/AccountForm";
-import PersonalInfoForm from "./PersonalInfoForm/PersonalInfoForm";
 import CategoriesForm from "./CategoriesForm/CategoriesForm";
-import {Box, Container, Stepper, Step, StepLabel, Button, Card, CardContent} from "@material-ui/core";
-import {makeStyles} from '@material-ui/core/styles';
+import PersonalInfoForm from "./PersonalInfoForm/PersonalInfoForm";
+import {Box, Container, Stepper, Step, StepLabel, Card, CardContent} from "@material-ui/core";
+import {objectToFormData} from "../../../utils/helpers/object-helpers";
 
-const useStyles = makeStyles((theme) => ({
-    stepper: {
-        padding: theme.spacing(3, 0, 5),
-    },
-    buttons: {
-        display: 'flex',
-        justifyContent: 'flex-end',
-    },
-    button: {
-        marginTop: theme.spacing(3),
-        marginLeft: theme.spacing(1),
-    },
-}));
 
 const steps = ['Create Account', 'Personal Information', 'Topics'];
 
-const getStepContent = (step) => {
-    switch (step) {
-        case 0:
-            return <AccountForm/>;
-        case 1:
-            return <PersonalInfoForm/>;
-        case 2:
-            return <CategoriesForm/>;
-        default:
-            throw new Error('Step does not exist');
-    }
-};
 
-const Register = () => {
-    const classes = useStyles();
-    const [activeStep, setActiveStep] = React.useState(0);
+const RegisterForm = (props) => {
+    const {onSubmit} = props;
+    const [activeStep, setActiveStep] = useState(0);
+    const [imagePreview, setImagePreview] = useState('');
+
+    const fileChange = ((file, preview) => {
+        //props.dispatch(change('register', 'photo', file));
+        setImagePreview(preview);
+    });
 
     const handleNext = () => {
         setActiveStep(activeStep + 1);
@@ -51,7 +35,7 @@ const Register = () => {
             <Container maxWidth="sm">
                 <Card>
                     <CardContent>
-                        <Stepper alternativeLabel activeStep={activeStep} className={classes.stepper}>
+                        <Stepper alternativeLabel activeStep={activeStep}>
                             {steps.map((label) => (
                                 <Step key={label}>
                                     <StepLabel>{label}</StepLabel>
@@ -59,21 +43,15 @@ const Register = () => {
                             ))}
                         </Stepper>
 
-                        <React.Fragment>
-                            {getStepContent(activeStep)}
-                            <div className={classes.buttons}>
-                                {activeStep !== 0 && (
-                                    <Button onClick={handleBack} className={classes.button}>Back</Button>)}
-                                <Button
-                                    variant="contained"
-                                    color="primary"
-                                    onClick={handleNext}
-                                    className={classes.button}
-                                >
-                                    {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                                </Button>
-                            </div>
-                        </React.Fragment>
+                        {activeStep === 0 && <AccountForm onSubmit={handleNext}/>}
+                        {activeStep === 1 &&
+                        <PersonalInfoForm
+                            previousPage={handleBack}
+                            onSubmit={handleNext}
+                            onFileChange={fileChange}
+                            preview={imagePreview}
+                        />}
+                        {activeStep === 2 && <CategoriesForm previousPage={handleBack} onSubmit={onSubmit}/>}
                     </CardContent>
                 </Card>
 
@@ -82,5 +60,17 @@ const Register = () => {
     )
 };
 
+const Register = (props) => {
+    const onSubmit = (data) => {
+        const formData = objectToFormData(data);
+        console.log(data);
+        //props.register(formData);
+    };
 
-export default Register;
+    return <RegisterForm onSubmit={onSubmit}/>;
+};
+
+
+const mapStateToProps = (state) => ({});
+
+export default connect(mapStateToProps, {register})(Register);

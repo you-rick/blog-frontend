@@ -1,0 +1,34 @@
+.chipCheckboxContainer {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.chipCheckbox {
+  display: flex;
+  position: relative;
+  margin: 0 5px 5px 0;
+
+
+  label {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+  }
+
+  input {
+    opacity: 0;
+    position: absolute;
+    left: -9999px;
+
+    &:checked + label {
+      border-color: #336699;
+    }
+  }
+}
+
+.chipCheckboxError {
+  margin-top: 10px;
+  color: #f44336;
+}
