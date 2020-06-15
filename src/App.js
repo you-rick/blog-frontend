@@ -1,5 +1,8 @@
 import React from 'react';
 import {BrowserRouter, Redirect, Route, Switch, withRouter} from 'react-router-dom';
+import {compose} from "redux";
+import {connect} from "react-redux";
+import {hideNote} from "./store/notificationReducer";
 
 import Header from "./components/shared/Header/Header";
 import Home from "./components/public/Home/Home";
@@ -12,8 +15,9 @@ import SavedArticles from "./components/dashboard/SavedArticles/SavedArticles";
 import FollowedAuthors from "./components/dashboard/FollowedAuthors/FollowedAuthors";
 import MyArticles from "./components/dashboard/MyArticles/MyArticles";
 import ArticleForm from "./components/dashboard/MyArticles/ArticleForm/ArticleForm";
+import Notification from "./components/shared/Notification/Notification";
 
-function AppContainer() {
+const AppContainer = (props) => {
     return (
         <BrowserRouter>
             <div className="appWrapper">
@@ -34,12 +38,22 @@ function AppContainer() {
                         <Route path="/profile/articles/add" render={() => <ArticleForm/>}/>
                     </Switch>
                 </div>
+
+                <Notification type={props.notification.type} msg={props.notification.msg} hideNote={props.hideNote} />
             </div>
         </BrowserRouter>
     );
-}
+};
 
-let AppWrapper = withRouter(AppContainer);
+
+const mapStateToProps = (state) => ({
+    notification: state.notification
+});
+
+
+
+
+let AppWrapper = compose(withRouter, connect(mapStateToProps, {hideNote}))(AppContainer);
 
 const App = () => {
     return (

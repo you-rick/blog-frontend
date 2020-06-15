@@ -1,4 +1,5 @@
 import React from "react";
+import {NavLink} from "react-router-dom";
 import {Box, Container, TextField, FormControlLabel, Button, Checkbox, Grid, Link} from "@material-ui/core";
 
 const Login = () => {
@@ -41,7 +42,7 @@ const Login = () => {
                         <Link href="#" variant="body2">Forgot password?</Link>
                     </Grid>
                     <Grid item>
-                        <Link href="#" variant="body2">{"Don't have an account? Sign Up"}</Link>
+                        <Link component={NavLink} to="/register" variant="body2">{"Don't have an account? Sign Up"}</Link>
                     </Grid>
                 </Grid>
                 </Box>

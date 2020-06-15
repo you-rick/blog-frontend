@@ -1,11 +1,13 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {register} from "../../../store/profileReducer";
 import {connect} from "react-redux";
 import {reduxForm, change} from "redux-form";
+import Preloader from "../../shared/Preloader/Preloader";
 
 import AccountForm from "./AccountForm/AccountForm";
 import CategoriesForm from "./CategoriesForm/CategoriesForm";
 import PersonalInfoForm from "./PersonalInfoForm/PersonalInfoForm";
+import RegisterSuccess from "./RegisterSuccess/RegisterSuccess";
 import {Box, Container, Stepper, Step, StepLabel, Card, CardContent} from "@material-ui/core";
 import {objectToFormData} from "../../../utils/helpers/object-helpers";
 
@@ -18,8 +20,13 @@ const RegisterForm = (props) => {
     const [activeStep, setActiveStep] = useState(0);
     const [imagePreview, setImagePreview] = useState('');
 
+    useEffect(() => {
+        if (props.isSuccessNote && activeStep !== 0) {
+            setActiveStep(3);
+        }
+    }, [props]);
+
     const fileChange = ((file, preview) => {
-        //props.dispatch(change('register', 'photo', file));
         setImagePreview(preview);
     });
 
@@ -32,6 +39,7 @@ const RegisterForm = (props) => {
 
     return (
         <Box m="6rem 0">
+            {props.isFetching && <Preloader/>}
             <Container maxWidth="sm">
                 <Card>
                     <CardContent>
@@ -43,7 +51,9 @@ const RegisterForm = (props) => {
                             ))}
                         </Stepper>
 
-                        {activeStep === 0 && <AccountForm onSubmit={handleNext}/>}
+                        {activeStep === 0 &&
+                        <AccountForm
+                            onSubmit={handleNext}/>}
                         {activeStep === 1 &&
                         <PersonalInfoForm
                             previousPage={handleBack}
@@ -51,7 +61,13 @@ const RegisterForm = (props) => {
                             onFileChange={fileChange}
                             preview={imagePreview}
                         />}
-                        {activeStep === 2 && <CategoriesForm previousPage={handleBack} onSubmit={onSubmit}/>}
+                        {activeStep === 2 &&
+                        <CategoriesForm
+                            previousPage={handleBack}
+                            onSubmit={onSubmit}/>}
+                        {activeStep === 3 &&
+                        <RegisterSuccess/>
+                        }
                     </CardContent>
                 </Card>
 
@@ -62,15 +78,17 @@ const RegisterForm = (props) => {
 
 const Register = (props) => {
     const onSubmit = (data) => {
-        const formData = objectToFormData(data);
-        console.log(data);
-        //props.register(formData);
+        props.register(objectToFormData(data));
     };
 
-    return <RegisterForm onSubmit={onSubmit}/>;
+    return <RegisterForm onSubmit={onSubmit} isFetching={props.isFetching} isSuccessNote={props.isSuccessNote}/>;
 };
 
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+    isFetching: state.profile.isFetching,
+    isErrorNote: state.notification.error,
+    isSuccessNote: state.notification.success
+});
 
 export default connect(mapStateToProps, {register})(Register);

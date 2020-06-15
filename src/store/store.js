@@ -5,6 +5,7 @@ import usersReducer from "./usersReducer";
 import categoriesReducer from "./categoriesReducer";
 import articlesReducer from "./articlesReducer";
 import profileReducer from "./profileReducer";
+import notificationReducer from "./notificationReducer";
 import {reducer as formReducer} from "redux-form";
 
 const redusersGroup = combineReducers({
@@ -12,6 +13,7 @@ const redusersGroup = combineReducers({
     profile: profileReducer,
     //articles: articlesReducer,
     //categories: categoriesReducer,
+    notification: notificationReducer,
     form: formReducer
 });
 

@@ -85,7 +85,7 @@ const Header = () => {
                                         open={open}
                                         onClose={handleClose}
                                     >
-                                        <MenuItem onClick={handleClose}>Profile</MenuItem>
+                                        <MenuItem component={NavLink} to="/login">Login</MenuItem>
                                         <MenuItem onClick={handleClose}>Logout</MenuItem>
                                     </Menu>
                                 </div>

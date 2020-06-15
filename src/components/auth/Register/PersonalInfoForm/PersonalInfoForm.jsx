@@ -8,7 +8,7 @@ import validate from "../validate";
 import {renderTextField} from "../../../shared/FormControls/FormControls";
 
 const maxNumber = 1;
-const maxMbFileSize = 5 * 1024 * 1024; // 5Mb
+const maxMbFileSize = 4 * 1024 * 1024; // 5Mb
 
 const PersonalInfoForm = (props) => {
 
@@ -39,7 +39,7 @@ const PersonalInfoForm = (props) => {
 
                                 {imageList.map((image) => (
                                     <div key={image.key}>
-                                        <img src={image.dataURL}/>
+                                        <img src={image.dataURL} className="imagePreview"/>
                                         <button type="button" onClick={image.onUpdate}>Update</button>
                                         <button type="button" onClick={image.onRemove}>Remove</button>
                                     </div>
