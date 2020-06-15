@@ -12,6 +12,7 @@ const Notification = ({type, msg, hideNote}) => {
     const [open, setOpen] = useState(false);
 
     useEffect(() => {
+        setOpen(false);
         msg && setOpen(true);
     }, [msg]);
 
@@ -25,11 +26,16 @@ const Notification = ({type, msg, hideNote}) => {
     };
 
     return (
-        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-            <Alert onClose={handleClose} severity={type}>
-                {msg}
-            </Alert>
-        </Snackbar>
+        <>
+            {(msg && type) &&
+            <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                <Alert onClose={handleClose} severity={type}>
+                    {msg}
+                </Alert>
+            </Snackbar>
+            }
+        </>
+
     );
 };
 
