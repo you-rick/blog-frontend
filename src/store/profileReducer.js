@@ -6,6 +6,7 @@ import {reset} from "redux-form";
 // Actions
 const SET_PROFILE_DATA = 'SET_PROFILE_DATA';
 const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING';
+const SET_AUTH_STATUS = 'SET_AUTH_STATUS';
 
 let initialState = {
     fullName: null,
@@ -31,6 +32,8 @@ const profileReducer = (state = initialState, action) => {
         case TOGGLE_IS_FETCHING: {
             return {...state, isFetching: action.isFetching}
         }
+        case SET_AUTH_STATUS:
+            return {...state, isAuth: action.isAuth};
         default:
             return state;
     }
@@ -39,6 +42,7 @@ const profileReducer = (state = initialState, action) => {
 // Action Creators
 export const setProfileData = (data) => ({type: SET_PROFILE_DATA, data: data});
 export const toggleIsFetching = (isFetching) => ({type: TOGGLE_IS_FETCHING, isFetching});
+export const setAuthStatus = (isAuth) => ({type: SET_AUTH_STATUS, isAuth});
 
 
 // Thunk Creators
@@ -46,8 +50,10 @@ export const getProfile = () => {
     return (dispatch) => {
         profileAPI.me()
             .then(response => {
-                if (response.status) {
-                    dispatch(setProfileData(response.user));
+                let res = response.data;
+                if (res.status) {
+                    dispatch(setProfileData(res.user));
+                    dispatch(setAuthStatus(true));
                 }
             });
     }
@@ -76,10 +82,33 @@ export const register = (data) => {
 
 export const login = (email, password) => {
     return (dispatch) => {
+        dispatch(toggleIsFetching(true));
+        dispatch(hideNote());
+
         profileAPI.login(email, password)
             .then(response => {
-                console.log(response);
-            });
+                dispatch(toggleIsFetching(false));
+                let res = response.data;
+                if (res.status) {
+                    localStorage.setItem('token', res.token)
+                    setTimeout(() => {
+                        dispatch(getProfile());
+                    }, 100);
+                }
+            }).catch(error => {
+            console.log(error.response);
+            dispatch(toggleIsFetching(false));
+            dispatch(setNote({msg: error.response.data.message, type: "error", error: true, success: false}));
+
+        });
+    }
+};
+
+
+export const logout = () => {
+    return (dispatch) => {
+        dispatch(setAuthStatus(true));
+        localStorage.removeItem('token');
     }
 };
 

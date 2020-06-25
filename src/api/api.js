@@ -1,8 +1,10 @@
 import * as axios from 'axios';
+import {authHeader} from "../utils/helpers/auth-helpers";
 
 const axiosInstance = axios.create({
     baseURL: 'http://localhost:4200/'
 });
+
 
 export const usersAPI = {
     getUsers(currentPage = 1, pageSize = 10) {
@@ -12,10 +14,10 @@ export const usersAPI = {
         return axiosInstance.get(`users/${userId}`);
     },
     follow(userId) {
-        return axiosInstance.put(`users/${userId}/follow`);
+        return axiosInstance.put(`users/${userId}/follow`, {headers: authHeader()});
     },
     unfollow(userId) {
-        return axiosInstance.put(`users/${userId}/unfollow`);
+        return axiosInstance.put(`users/${userId}/unfollow`, {headers: authHeader()});
     }
 };
 
@@ -27,10 +29,10 @@ export const profileAPI = {
         return axiosInstance.post(`auth/register`, data);
     },
     update(data) {
-        return axiosInstance.put(`auth/update/${data._id}`, data);
+        return axiosInstance.put(`auth/update/${data._id}`, data, {headers: authHeader()});
     },
     me() {
-        return axiosInstance.get(`auth/profile`);
+        return axiosInstance.get(`auth/profile`, {headers: authHeader()});
     }
 };
 
@@ -43,43 +45,24 @@ export const articlesAPI = {
         return axiosInstance.get(`articles/${articleId}`);
     },
     postArticle(data) {
-        return axiosInstance.post(`articles`, data);
+        return axiosInstance.post(`articles`, data, {headers: authHeader()});
     },
     updateArticle(data) {
-        return axiosInstance.put(`articles/${data._id}`, data);
+        return axiosInstance.put(`articles/${data._id}`, data, {headers: authHeader()});
     },
     deleteArticle(articleId) {
-        return axiosInstance.delete(`articles`, articleId);
+        return axiosInstance.delete(`articles`, articleId, {headers: authHeader()});
     },
     like(articleId) {
-        return axiosInstance.put(`articles/${articleId}/like`);
+        return axiosInstance.put(`articles/${articleId}/like`, {headers: authHeader()});
     },
     unlike(articleId) {
-        return axiosInstance.put(`articles/${articleId}/unlike`);
+        return axiosInstance.put(`articles/${articleId}/unlike`, {headers: authHeader()});
     },
     save(articleId) {
-        return axiosInstance.put(`articles/${articleId}/save`);
+        return axiosInstance.put(`articles/${articleId}/save`, {headers: authHeader()});
     },
     unsave(articleId) {
-        return axiosInstance.put(`articles/${articleId}/unsave`);
-    }
-};
-
-
-export const categoriesAPI = {
-    getCategories() {
-        return axiosInstance.get(`categories`);
-    },
-    getCategoryById(categoryId) {
-        return axiosInstance.get(`categories/${categoryId}`);
-    },
-    addCategory(data) {
-        return axiosInstance.post(`categories`, data);
-    },
-    updateCategory(data) {
-        return axiosInstance.put(`categories/${data._id}`, data);
-    },
-    deleteArticle(categoryId) {
-        return axiosInstance.delete(`categories`, categoryId);
+        return axiosInstance.put(`articles/${articleId}/unsave`, {headers: authHeader()});
     }
 };

@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const AuthorCard = () => {
+const AuthorCard = (props) => {
     const classes = useStyles();
 
     return (

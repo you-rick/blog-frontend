@@ -16,6 +16,7 @@ import FollowedAuthors from "./components/dashboard/FollowedAuthors/FollowedAuth
 import MyArticles from "./components/dashboard/MyArticles/MyArticles";
 import ArticleForm from "./components/dashboard/MyArticles/ArticleForm/ArticleForm";
 import Notification from "./components/shared/Notification/Notification";
+import Profile from "./components/dashboard/Profile/Profile";
 
 const AppContainer = (props) => {
     return (
@@ -32,6 +33,7 @@ const AppContainer = (props) => {
                         <Route path="/login" render={() => <Login/>}/>
                         <Route path="/register" render={() => <Register/>}/>
 
+                        <Route exact path="/profile" render={() => <Profile/>}/>
                         <Route path="/profile/saved" render={() => <SavedArticles/>}/>
                         <Route path="/profile/followed" render={() => <FollowedAuthors/>}/>
                         <Route exact path="/profile/articles" render={() => <MyArticles/>}/>
