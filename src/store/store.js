@@ -14,7 +14,7 @@ const redusersGroup = combineReducers({
     users: usersReducer,
     profile: profileReducer,
     //articles: articlesReducer,
-    //categories: categoriesReducer,
+    categories: categoriesReducer,
     notification: notificationReducer,
     form: formReducer
 });

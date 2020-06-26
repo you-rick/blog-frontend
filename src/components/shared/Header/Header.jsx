@@ -1,20 +1,34 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {NavLink} from "react-router-dom";
+import {connect} from "react-redux";
 import Slider from "react-slick";
 import "./Header.scss";
 
-import {AppBar, InputBase, Toolbar, Typography, Container, IconButton, Grid, Box, Button, Menu, MenuItem} from "@material-ui/core";
+import {
+    AppBar,
+    InputBase,
+    Toolbar,
+    Typography,
+    Container,
+    IconButton,
+    Grid,
+    Box,
+    Button,
+    Menu,
+    MenuItem
+} from "@material-ui/core";
 import {AccountCircle, BookmarksOutlined, Search} from "@material-ui/icons";
 import themeStyles from "./Header.styles";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 
 const useStyles = makeStyles((theme) => themeStyles(theme));
 
-const Header = () => {
+const Header = (props) => {
     const classes = useStyles();
 
-    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
+
 
     const carouselSettings = {
         className: "slider variable-width",
@@ -98,40 +112,12 @@ const Header = () => {
                 <Container maxWidth="lg">
                     <Box p="0 2rem">
                         <Slider {...carouselSettings}>
-                            <Button className={classes.sliderButton} component={NavLink} to="/category/:id">Coronavirus
-                                Updates</Button>
-                            <Button className={classes.sliderButton} component={NavLink}
-                                    to="/category/:id">Photography</Button>
-                            <Button className={classes.sliderButton} component={NavLink}
-                                    to="/category/:id">Design</Button>
-                            <Button className={classes.sliderButton} component={NavLink} to="/category/:id">Remote
-                                Work</Button>
-                            <Button className={classes.sliderButton} component={NavLink}
-                                    to="/category/:id">Business</Button>
-                            <Button className={classes.sliderButton} component={NavLink}
-                                    to="/category/:id">Beauty</Button>
-                            <Button className={classes.sliderButton} component={NavLink}
-                                    to="/category/:id">Books</Button>
-                            <Button className={classes.sliderButton} component={NavLink}
-                                    to="/category/:id">Travelling</Button>
-                            <Button className={classes.sliderButton} component={NavLink} to="/category/:id">IT
-                                Industry</Button>
-                            <Button className={classes.sliderButton} component={NavLink}
-                                    to="/category/:id">Health</Button>
-                            <Button className={classes.sliderButton} component={NavLink}
-                                    to="/category/:id">Food</Button>
-                            <Button className={classes.sliderButton} component={NavLink}
-                                    to="/category/:id">Gaming</Button>
-                            <Button className={classes.sliderButton} component={NavLink}
-                                    to="/category/:id">Fashion</Button>
-                            <Button className={classes.sliderButton} component={NavLink}
-                                    to="/category/:id">Music</Button>
-                            <Button className={classes.sliderButton} component={NavLink}
-                                    to="/category/:id">Photography</Button>
-                            <Button className={classes.sliderButton} component={NavLink}
-                                    to="/category/:id">Design</Button>
-                            <Button className={classes.sliderButton} component={NavLink}
-                                    to="/category/:id">Business</Button>
+                            {props.categories.map(category =>
+                                <Button className={classes.sliderButton} component={NavLink}
+                                        to={`/category/${category.slug}`}>
+                                    {category.title}
+                                </Button>
+                            )}
                         </Slider>
                     </Box>
                 </Container>
@@ -140,4 +126,9 @@ const Header = () => {
     );
 };
 
-export default Header;
+
+const mapStateToProps = (state) => ({
+    categories: state.categories.list
+});
+
+export default connect(mapStateToProps, {})(Header);

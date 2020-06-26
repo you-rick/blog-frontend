@@ -15,6 +15,10 @@ const Dashboard = (props) => {
         console.log(props);
     }, []);
 
+    if (!localStorage.getItem('token')) {
+        return <Redirect to='/login'/>
+    }
+
     return (
         <>
             <Switch>

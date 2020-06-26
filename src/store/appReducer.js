@@ -1,4 +1,5 @@
 import {getProfile} from "./profileReducer";
+import {getCategories} from "./categoriesReducer";
 
 // Actions
 const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING';
@@ -36,13 +37,12 @@ export const initializeApp = () => {
     return (dispatch) => {
         if (localStorage.getItem('token')) {
             dispatch(toggleIsFetching(true));
-            dispatch(getProfile());
 
-            let authMePromise = dispatch(getProfile());
-
-            Promise.all([authMePromise]).then(() => {
-                dispatch(toggleIsFetching(false));
-                dispatch(initializedSuccess());
+            Promise.all([dispatch(getProfile()), dispatch(getCategories())]).then(() => {
+                setTimeout(() => {
+                    dispatch(toggleIsFetching(false));
+                    dispatch(initializedSuccess());
+                }, 100);
             });
         } else {
             dispatch(initializedSuccess());

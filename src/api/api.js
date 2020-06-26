@@ -66,3 +66,12 @@ export const articlesAPI = {
         return axiosInstance.put(`articles/${articleId}/unsave`, {headers: authHeader()});
     }
 };
+
+export const categoriesAPI = {
+    getCategories() {
+        return axiosInstance.get(`categories`);
+    },
+    getCategoryById(categoryId) {
+        return axiosInstance.get(`categories/${categoryId}`);
+    },
+};
