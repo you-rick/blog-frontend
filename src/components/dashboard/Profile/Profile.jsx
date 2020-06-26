@@ -1,17 +1,18 @@
-import React from "react";
+import React, {useEffect} from "react";
 import AuthorCard from "../../shared/AuthorCard/AuthorCard";
 import {Box, Container} from "@material-ui/core";
 import {connect} from "react-redux";
+import {getProfile} from "../../../store/profileReducer";
 
 
 const Profile = (props) => {
-    console.log(props);
+    useEffect(() => console.log('mounted'), []);
 
     return (
         <Container maxWidth="md">
             <h1>hello!</h1>
             <Box m="1.5rem 0 0">
-                <AuthorCard/>
+                <AuthorCard {...props.user}/>
             </Box>
         </Container>
     )
@@ -19,7 +20,7 @@ const Profile = (props) => {
 
 const mapStateToProps = (state) => ({
     user: state.profile
-})
+});
 
 
-export default connect(mapStateToProps,{})(Profile);
+export default connect(mapStateToProps,{getProfile})(Profile);

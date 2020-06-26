@@ -1,11 +1,11 @@
 import {profileAPI} from "../api/api";
 import {setNote, hideNote} from "./notificationReducer";
 import {reset} from "redux-form";
+import {toggleIsFetching} from "./appReducer";
 
 
 // Actions
 const SET_PROFILE_DATA = 'SET_PROFILE_DATA';
-const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING';
 const SET_AUTH_STATUS = 'SET_AUTH_STATUS';
 
 let initialState = {
@@ -20,8 +20,7 @@ let initialState = {
     followers: [],
     saved: [],
     liked: [],
-    isAuth: false,
-    isFetching: false
+    isAuth: false
 };
 
 
@@ -29,9 +28,6 @@ const profileReducer = (state = initialState, action) => {
     switch (action.type) {
         case SET_PROFILE_DATA:
             return {...state, ...action.data};
-        case TOGGLE_IS_FETCHING: {
-            return {...state, isFetching: action.isFetching}
-        }
         case SET_AUTH_STATUS:
             return {...state, isAuth: action.isAuth};
         default:
@@ -41,7 +37,6 @@ const profileReducer = (state = initialState, action) => {
 
 // Action Creators
 export const setProfileData = (data) => ({type: SET_PROFILE_DATA, data: data});
-export const toggleIsFetching = (isFetching) => ({type: TOGGLE_IS_FETCHING, isFetching});
 export const setAuthStatus = (isAuth) => ({type: SET_AUTH_STATUS, isAuth});
 
 

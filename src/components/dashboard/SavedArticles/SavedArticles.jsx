@@ -1,9 +1,14 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {Box, Container, List, ListItem} from "@material-ui/core";
 import ArticleCard from "../../shared/ArticleCard/ArticleCard";
 
 
-const SavedArticles = () => {
+const SavedArticles = (props) => {
+
+    useEffect(() => {
+        console.log(props);
+    }, []);
+
     return (
         <Container maxWidth="md">
             <h1>Saved Articles</h1>

@@ -7,8 +7,10 @@ import articlesReducer from "./articlesReducer";
 import profileReducer from "./profileReducer";
 import notificationReducer from "./notificationReducer";
 import {reducer as formReducer} from "redux-form";
+import appReducer from "./appReducer";
 
 const redusersGroup = combineReducers({
+    app: appReducer,
     users: usersReducer,
     profile: profileReducer,
     //articles: articlesReducer,

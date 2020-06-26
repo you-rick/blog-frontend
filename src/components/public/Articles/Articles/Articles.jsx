@@ -1,7 +1,7 @@
 import React from "react";
 import {Container, Grid, Box, List, ListItem} from "@material-ui/core";
-import Sidebar from "../../shared/Sidebar/Sidebar";
-import ArticleCard from "../../shared/ArticleCard/ArticleCard";
+import Sidebar from "../../../shared/Sidebar/Sidebar";
+import ArticleCard from "../../../shared/ArticleCard/ArticleCard";
   
 
 const Articles = () => {

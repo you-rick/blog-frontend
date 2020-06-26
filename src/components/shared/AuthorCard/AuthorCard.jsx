@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {makeStyles} from '@material-ui/core/styles';
 import {Grid, Box, Button, Card, CardContent, CardMedia, Typography} from "@material-ui/core";
 
@@ -20,20 +20,27 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AuthorCard = (props) => {
+    let avatar = "/images/placeholder/default-avatar.png";
+
+    useEffect(() => {
+        console.log(props.photo);
+        avatar = props.photo;
+    }, [props.photo]);
+
     const classes = useStyles();
 
     return (
         <Card className={classes.root}>
             <CardMedia
                 className={classes.media}
-                image="/images/placeholder/author.jpg"
+                image={process.env.REACT_APP_SERVER_URL + props.photo || avatar}
                 title="Contemplative Reptile"
             />
             <CardContent className={classes.content}>
                 <Grid container justify="space-between" alignItems="flex-start">
                     <Grid item>
                         <Typography gutterBottom variant="h6" component="h6">
-                            Mariana Lenharo
+                            {props.fullName}
                         </Typography>
                         <Typography variant="body2" color="textSecondary" component="p">
                             Member since - Apr 2019
@@ -44,7 +51,7 @@ const AuthorCard = (props) => {
                     </Grid>
                     <Grid item>
                         <Button variant="outlined" color="primary">
-                          Follow
+                            Follow
                         </Button>
                     </Grid>
                 </Grid>
