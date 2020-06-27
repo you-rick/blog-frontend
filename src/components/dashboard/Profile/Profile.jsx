@@ -10,7 +10,7 @@ const Profile = (props) => {
 
     return (
         <Container maxWidth="md">
-            <h1>hello!</h1>
+            <h1>My Profile</h1>
             <Box m="1.5rem 0 0">
                 <AuthorCard {...props.user}/>
             </Box>

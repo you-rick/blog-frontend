@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {makeStyles} from '@material-ui/core/styles';
+import Moment from "react-moment";
 import {Grid, Box, Button, Card, CardContent, CardMedia, Typography} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
@@ -44,16 +45,19 @@ const AuthorCard = (props) => {
                             {props.fullName}
                         </Typography>
                         <Typography variant="body2" color="textSecondary" component="p">
-                            Member since - Apr 2019
+                            Member since -
+                            <Moment format="MMMM YYYY">
+                                {props.date}
+                            </Moment>
                         </Typography>
                         <Box m="1rem 0 0">
-                            <Typography variant="subtitle2" color="textSecondary">19 followers, 26 articles</Typography>
+                            <Typography variant="subtitle2" color="textSecondary">
+                                {props.followers.length} followers, {props.following.length} following
+                            </Typography>
                         </Box>
                     </Grid>
                     <Grid item>
-                        <Button variant="outlined" color="primary">
-                            Follow
-                        </Button>
+                        {!props.isAuth && <Button variant="outlined" color="primary">Follow</Button>}
                     </Grid>
                 </Grid>
 

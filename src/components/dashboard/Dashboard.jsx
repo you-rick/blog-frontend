@@ -15,7 +15,7 @@ const Dashboard = (props) => {
         console.log(props);
     }, []);
 
-    if (!localStorage.getItem('token')) {
+    if (!props.isAuth) {
         return <Redirect to='/login'/>
     }
 

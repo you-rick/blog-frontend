@@ -3,6 +3,7 @@ import {NavLink} from "react-router-dom";
 import {connect} from "react-redux";
 import Slider from "react-slick";
 import "./Header.scss";
+import {logout} from "../../../store/profileReducer";
 
 import {
     AppBar,
@@ -46,6 +47,10 @@ const Header = (props) => {
 
     const handleClose = () => {
         setAnchorEl(null);
+    };
+
+    const logout = () => {
+        props.logout();
     };
 
     return (
@@ -99,8 +104,11 @@ const Header = (props) => {
                                         open={open}
                                         onClose={handleClose}
                                     >
-                                        <MenuItem component={NavLink} to="/login">Login</MenuItem>
-                                        <MenuItem onClick={handleClose}>Logout</MenuItem>
+                                        {!props.isAuth && <MenuItem component={NavLink} to="/login">Login</MenuItem>}
+                                        {!props.isAuth && <MenuItem component={NavLink} to="/register">Sign Up</MenuItem>}
+                                        {props.isAuth && <MenuItem component={NavLink} to="/dashboard/profile">Profile</MenuItem>}
+                                        {props.isAuth && <MenuItem onClick={logout}>Logout</MenuItem>}
+
                                     </Menu>
                                 </div>
                             </Box>
@@ -113,7 +121,7 @@ const Header = (props) => {
                     <Box p="0 2rem">
                         <Slider {...carouselSettings}>
                             {props.categories.map(category =>
-                                <Button className={classes.sliderButton} component={NavLink}
+                                <Button key={category._id} className={classes.sliderButton} component={NavLink}
                                         to={`/category/${category.slug}`}>
                                     {category.title}
                                 </Button>
@@ -128,7 +136,8 @@ const Header = (props) => {
 
 
 const mapStateToProps = (state) => ({
-    categories: state.categories.list
+    categories: state.categories.list,
+    isAuth: state.profile.isAuth
 });
 
-export default connect(mapStateToProps, {})(Header);
+export default connect(mapStateToProps, {logout})(Header);

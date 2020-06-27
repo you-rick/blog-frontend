@@ -42,7 +42,7 @@ export const initializeApp = () => {
                 setTimeout(() => {
                     dispatch(toggleIsFetching(false));
                     dispatch(initializedSuccess());
-                }, 100);
+                }, 500);
             });
         } else {
             dispatch(initializedSuccess());

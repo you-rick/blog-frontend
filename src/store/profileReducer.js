@@ -102,7 +102,7 @@ export const login = (email, password) => {
 
 export const logout = () => {
     return (dispatch) => {
-        dispatch(setAuthStatus(true));
+        dispatch(setAuthStatus(false));
         localStorage.removeItem('token');
     }
 };
