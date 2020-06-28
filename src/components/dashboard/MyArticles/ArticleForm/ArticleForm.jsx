@@ -1,40 +1,51 @@
-import React from "react";
+import React, {useState} from "react";
 import TextEditor from "mui-rte";
 import "./ArticleForm.scss";
-import classNames from "classnames";
-import ImageUploader from "react-images-upload";
+import {EditorState, convertToRaw} from "draft-js";
+import {stateToHTML} from "draft-js-export-html";
+import ImageUploading from "react-images-uploading";
+import {connect} from "react-redux";
+import validate from "./validate";
+import {change, reduxForm, Field} from "redux-form";
+import {renderTextField, renderSelectField} from "../../../shared/FormControls/FormControls";
 import {Box, Container, Card, CardContent, TextField, MenuItem, Grid, Button} from "@material-ui/core";
 import {createMuiTheme, MuiThemeProvider} from '@material-ui/core/styles'
 
 
-const categories = [
-    {value: 0, label: 'Coronavirus Updates'},
-    {value: 1, label: 'Photography'},
-    {value: 2, label: 'Design'},
-    {value: 3, label: 'Remote Work'},
-    {value: 4, label: 'Business'},
-    {value: 5, label: 'Beauty'},
-    {value: 6, label: 'Books'},
-    {value: 7, label: 'Travelling'},
-    {value: 8, label: 'IT Industry'},
-    {value: 9, label: 'Health'},
-    {value: 10, label: 'Food'},
-    {value: 11, label: 'Gaming'},
-    {value: 12, label: 'Fashion'},
-    {value: 13, label: 'Music'},
-    {value: 14, label: 'Design'},
-    {value: 15, label: 'Family'}
-];
+const bodyField = ({input, label, type, meta: {touched, error}}) => (
+    <input {...input} placeholder={label} type="hidden" className={touched && error ? 'bodyFieldError' : ''}/>
+);
 
-const ArticleForm = () => {
+const maxNumber = 1;
+const maxMbFileSize = 4 * 1024 * 1024; // 5Mb
 
+const ArticleForm = (props) => {
     const defaultTheme = createMuiTheme();
+    const {handleSubmit} = props;
 
-    const [pictures, setPictures] = React.useState([]);
-    const [category, setCategory] = React.useState('');
+    const [imagePreview, setImagePreview] = useState('');
+    const [category, setCategory] = useState('');
+    const [postBody, setPostBody] = useState('');
 
-    const onDrop = picture => {
-        setPictures([...pictures, picture]);
+    const onDrop = (image) => {
+        console.log(image);
+        image.length && props.dispatch(change('articleForm', 'image', image[0].file));
+        image.length && setImagePreview(image[0].dataURL);
+    };
+
+    const editorChange = (state) => {
+        let content = state.getCurrentContent();
+
+        // Get current content
+        if (content.getPlainText().length) {
+            setPostBody(JSON.stringify(stateToHTML(content)));
+        } else {
+            setPostBody('');
+        }
+    };
+
+    const editorBlur = () => {
+        props.dispatch(change('articleForm', 'body', postBody));
     };
 
     const handleCategoryChange = (event) => {
@@ -58,56 +69,123 @@ const ArticleForm = () => {
     return (
         <Container maxWidth="md">
             <h1>Create new post</h1>
+            <form onSubmit={handleSubmit}>
+                <Field
+                    name="category"
+                    label="Select Category"
+                    variant="outlined"
+                    margin="normal"
+                    fullWidth
+                    value={category}
+                    onChange={handleCategoryChange}
+                    component={renderSelectField}
+                >
+                    {props.categories.map((option) => (
+                        <MenuItem key={option._id} value={option._id}>
+                            {option.title}
+                        </MenuItem>
+                    ))}
+                </Field>
 
-            <TextField
-                select
-                label="Select Category"
-                value={category}
-                onChange={handleCategoryChange}
-                variant="outlined"
-                fullWidth
-                margin="normal"
-            >
-                {categories.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                        {option.label}
-                    </MenuItem>
-                ))}
-            </TextField>
-            <TextField label="Post title" variant="outlined" margin="normal" fullWidth/>
-            <Box m="1.5rem 0 0">
-                <ImageUploader
-                    className={classNames('customFileUploader', 'postPhoto')}
-                    name="photo"
-                    withIcon={true}
-                    onChange={onDrop}
-                    imgExtension={[".jpg", ".gif", ".png", ".gif"]}
-                    maxFileSize={5242880}
-                    singleImage={true}
-                    withPreview={true}
-                    buttonClassName="fileUploadButton"
+                <Field
+                    name="title"
+                    label="Post title"
+                    variant="outlined"
+                    margin="normal"
+                    fullWidth={true}
+                    component={renderTextField}
                 />
-            </Box>
-            <Box m="1.5rem 0">
-                <Card>
-                    <CardContent>
-                        <MuiThemeProvider theme={defaultTheme}>
-                            <TextEditor
-                                label="Post content goes here..."
-                                controls={["title", "bold", "italic", "underline", "strikethrough", "highlight", "undo", "redo", "link", "numberList", "bulletList", "quote"]}
-                            />
-                        </MuiThemeProvider>
-                    </CardContent>
-                </Card>
-            </Box>
-            <Grid container justify="flex-end">
-                <Button variant="contained" size="large" color="primary">
-                    Post!
-                </Button>
-            </Grid>
+
+                <Field
+                    name="description"
+                    label="Short Description"
+                    variant="outlined"
+                    margin="normal"
+                    fullWidth={true}
+                    component={renderTextField}
+                />
+
+                <Box m="1.5rem 0 0">
+                    <ImageUploading
+                        onChange={onDrop}
+                        maxNumber={maxNumber}
+                        maxFileSize={maxMbFileSize}
+                        defaultValue={imagePreview && [{dataURL: imagePreview}]}
+                        acceptType={["jpg", "gif", "png"]}
+                    >
+                        {({imageList, onImageUpload, onImageRemoveAll}) => (
+                            // write your building UI
+                            <div>
+                                <button type="button" onClick={onImageUpload}>Upload images</button>
+                                <button type="button" onClick={onImageRemoveAll}>Remove all images</button>
+
+                                {imageList.map((image) => (
+                                    <div key={image.key}>
+                                        <img src={image.dataURL} className="imagePreview" alt="Preview"/>
+                                        <button type="button" onClick={image.onUpdate}>Update</button>
+                                        <button type="button" onClick={image.onRemove}>Remove</button>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </ImageUploading>
+                </Box>
+                <Box m="1.5rem 0">
+                    <Card>
+                        <CardContent>
+                            <Field name="body" component={bodyField} value={postBody}/>
+                            <Box className="articleBodyEditor">
+                                <MuiThemeProvider theme={defaultTheme}>
+                                    <TextEditor
+                                        label="Post content..."
+                                        onChange={editorChange}
+                                        onBlur={editorBlur}
+                                        controls={["title", "bold", "italic", "underline", "strikethrough", "highlight", "undo", "redo", "link", "numberList", "bulletList", "quote"]}
+                                    />
+                                </MuiThemeProvider>
+                            </Box>
+                        </CardContent>
+                    </Card>
+                </Box>
+                <Grid container justify="flex-end">
+                    <Button variant="contained" type="submit" size="large" color="primary">
+                        Post!
+                    </Button>
+                </Grid>
+            </form>
         </Container>
     )
 };
 
 
-export default ArticleForm;
+const ArticleReduxForm = reduxForm({
+    form: 'articleForm',
+    validate,
+    initialValues: {
+        image: {},
+        body: ''
+    }
+})(ArticleForm);
+
+
+const ArticleFormContainer = (props) => {
+    const [bodyError, setBodyError] = useState(null);
+    const onSubmit = (data) => {
+        if (!data.body.length) {
+            setBodyError('Required Field');
+        } else {
+            setBodyError(null);
+            console.log(data);
+        }
+    };
+
+    return <ArticleReduxForm onSubmit={onSubmit} bodyError={bodyError} categories={props.categories}/>
+};
+
+
+const mapStateToProps = (state) => ({
+    categories: state.categories.list
+});
+
+
+export default connect(mapStateToProps, {})(ArticleFormContainer);

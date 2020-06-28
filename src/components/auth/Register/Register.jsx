@@ -88,7 +88,8 @@ const Register = (props) => {
 const mapStateToProps = (state) => ({
     isFetching: state.profile.isFetching,
     isErrorNote: state.notification.error,
-    isSuccessNote: state.notification.success
+    isSuccessNote: state.notification.success,
+    categories: state.categories.list
 });
 
 export default connect(mapStateToProps, {register})(Register);

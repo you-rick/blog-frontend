@@ -79,20 +79,16 @@ export const renderFromHelper = ({touched, error}) => {
 };
 
 
-export const renderSelectField = ({input, label, meta: {touched, error}, children, ...custom}) => (
-    <FormControl error={touched && error}>
-        <InputLabel htmlFor="age-native-simple">Age</InputLabel>
-        <Select
-            native
-            {...input}
-            {...custom}
-            inputProps={{
-                name: 'age',
-                id: 'age-native-simple'
-            }}
-        >
-            {children}
-        </Select>
-        {renderFromHelper({touched, error})}
-    </FormControl>
+export const renderSelectField = ({input, label, meta: {touched, error, invalid}, children, ...custom}) => (
+    <TextField select
+               label={label}
+               placeholder={label}
+               error={touched && invalid}
+               helperText={touched && error}
+               {...input}
+               {...custom}
+
+    >
+        {children}
+    </TextField>
 );
