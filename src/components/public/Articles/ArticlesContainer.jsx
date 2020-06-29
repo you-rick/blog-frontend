@@ -6,12 +6,10 @@ import Articles from "./Articles/Articles";
 const ArticlesContainer = (props) => {
     let url = props.match.url;
     return (
-        <>
-            <Switch>
-                <Route path={`${url}`} render={() => <Articles/>}/>
-                <Route path={`${url}/:id?`} render={() => <Article/>}/>
-            </Switch>
-        </>
+        <Switch>
+            <Route exact path={`${url}/`} render={() => <Articles/>}/>
+            <Route path={`${url}/:slug`} render={() => <Article/>}/>
+        </Switch>
     );
 };
 

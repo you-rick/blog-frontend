@@ -1,14 +1,24 @@
 import React from "react";
-import {Box, Container, List, ListItem} from "@material-ui/core";
+import {Box, Container, List, ListItem, Grid, Button} from "@material-ui/core";
 import ArticleCard from "../../shared/ArticleCard/ArticleCard";
+import {NavLink} from "react-router-dom";
 
 
 const MyArticles = () => {
     return (
         <Container maxWidth="md">
-            <h1>My Articles</h1>
+            <Grid container justify="space-between" alignItems="center">
+                 <h1>My Articles</h1>
+                <Button
+                    component={NavLink}
+                    to="/profile/articles/add"
+                    variant="contained"
+                    color="primary">
+                    Add Article
+                </Button>
+            </Grid>
 
-            <Box m="1.5rem 0 0" p="0 2rem 0 0">
+            <Box m="1.5rem 0 0">
                 <List>
                     <ListItem disableGutters>
                         <ArticleCard/>

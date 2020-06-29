@@ -8,8 +8,6 @@ import AuthorCard from "../../../shared/AuthorCard/AuthorCard";
 const Author = (props) => {
     let {id} = useParams();
 
-    console.log(id);
-
     useEffect(() => {
         props.requestUserById(id);
     }, []);

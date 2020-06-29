@@ -6,8 +6,6 @@ import {requestUsers} from "../../../../store/usersReducer";
 
 
 const Authors = (props) => {
-    console.log(props);
-
     useEffect(() => {
         props.requestUsers();
     }, []);

@@ -6,8 +6,6 @@ import {getProfile} from "../../../store/profileReducer";
 
 
 const Profile = (props) => {
-    useEffect(() => console.log('mounted'), []);
-
     return (
         <Container maxWidth="md">
             <h1>My Profile</h1>
@@ -23,4 +21,4 @@ const mapStateToProps = (state) => ({
 });
 
 
-export default connect(mapStateToProps,{getProfile})(Profile);
+export default connect(mapStateToProps, {getProfile})(Profile);

@@ -62,6 +62,11 @@ const Header = (props) => {
                             <Typography variant="h4" className={classes.brand} component={NavLink} to="/">
                                 Small
                             </Typography>
+                            <Box>
+                                <Typography variant="h6" component={NavLink} to="/articles">
+                                    Articles
+                                </Typography>
+                            </Box>
                             <Box display="flex" alignItems="center">
                                 <Grid container spacing={1} alignItems="flex-end">
                                     <Grid item>
@@ -105,11 +110,15 @@ const Header = (props) => {
                                         onClose={handleClose}
                                     >
                                         {!props.isAuth && <MenuItem component={NavLink} to="/login">Login</MenuItem>}
-                                        {!props.isAuth && <MenuItem component={NavLink} to="/register">Sign Up</MenuItem>}
+                                        {!props.isAuth &&
+                                        <MenuItem component={NavLink} to="/register">Sign Up</MenuItem>}
                                         {props.isAuth && <MenuItem component={NavLink} to="/profile">Profile</MenuItem>}
-                                        {props.isAuth && <MenuItem component={NavLink} to="/profile/articles">My Articles</MenuItem>}
-                                        {props.isAuth && <MenuItem component={NavLink} to="/profile/saved">Saved</MenuItem>}
-                                        {props.isAuth && <MenuItem component={NavLink} to="/profile/liked" divider>Liked</MenuItem>}
+                                        {props.isAuth &&
+                                        <MenuItem component={NavLink} to="/profile/articles">My Articles</MenuItem>}
+                                        {props.isAuth &&
+                                        <MenuItem component={NavLink} to="/profile/saved">Saved</MenuItem>}
+                                        {props.isAuth &&
+                                        <MenuItem component={NavLink} to="/profile/liked" divider>Liked</MenuItem>}
                                         {props.isAuth && <MenuItem onClick={logout}>Logout</MenuItem>}
                                     </Menu>
                                 </div>

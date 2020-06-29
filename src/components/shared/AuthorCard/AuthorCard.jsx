@@ -23,8 +23,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AuthorCard = (props) => {
-    console.log(props);
-
     const [avatar, setAvatar] = useState("/images/placeholder/default-avatar.png");
 
     useEffect(() => {

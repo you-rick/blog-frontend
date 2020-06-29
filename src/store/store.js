@@ -13,7 +13,7 @@ const redusersGroup = combineReducers({
     app: appReducer,
     users: usersReducer,
     profile: profileReducer,
-    //articles: articlesReducer,
+    articles: articlesReducer,
     categories: categoriesReducer,
     notification: notificationReducer,
     form: formReducer

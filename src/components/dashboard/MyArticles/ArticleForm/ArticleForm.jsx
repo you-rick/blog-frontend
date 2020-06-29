@@ -39,7 +39,8 @@ const ArticleForm = (props) => {
 
         // Get current content
         if (content.getPlainText().length) {
-            setPostBody(JSON.stringify(stateToHTML(content)));
+            setPostBody(stateToHTML(content));
+            console.log(stateToHTML(content));
         } else {
             setPostBody('');
         }
@@ -112,7 +113,7 @@ const ArticleForm = (props) => {
                         maxNumber={maxNumber}
                         maxFileSize={maxMbFileSize}
                         defaultValue={imagePreview && [{dataURL: imagePreview}]}
-                        acceptType={["jpg", "gif", "png"]}
+                        acceptType={["jpg", "jpeg", "gif", "png"]}
                     >
                         {({imageList, onImageUpload, onImageRemoveAll}) => (
                             // write your building UI

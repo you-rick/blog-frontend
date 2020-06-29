@@ -42,8 +42,8 @@ export const articlesAPI = {
         let query = `page=${currentPage}&limit=${pageSize}&author=${author}&category=${category}`;
         return axiosInstance.get(`articles?${query}`);
     },
-    getArticleById(articleId) {
-        return axiosInstance.get(`articles/${articleId}`);
+    getArticleBySlug(slug) {
+        return axiosInstance.get(`articles/${slug}`);
     },
     postArticle(data) {
         return axiosInstance.post(`articles`, data, {headers: authHeader()});
