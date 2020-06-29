@@ -3,17 +3,18 @@ import {Route, Switch, withRouter} from 'react-router-dom';
 import Authors from "./Authors/Authors";
 import Author from "./Author/Author";
 
-const ArticlesContainer = (props) => {
+const AuthorsContainer = (props) => {
     let url = props.match.url;
+    console.log(url);
     return (
         <>
             <Switch>
-                <Route path={`${url}`} render={() => <Authors/>}/>
-                <Route path=path={`${url}/:id?`} render={() => <Author/>}/>
+                <Route exact path={`${url}/`} render={() => <Authors/>}/>
+                <Route path={`${url}/:id`} render={() => <Author/>}/>
             </Switch>
         </>
     );
 };
 
 
-export default withRouter(ArticlesContainer);
+export default withRouter(AuthorsContainer);

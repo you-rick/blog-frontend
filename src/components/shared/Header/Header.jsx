@@ -106,9 +106,11 @@ const Header = (props) => {
                                     >
                                         {!props.isAuth && <MenuItem component={NavLink} to="/login">Login</MenuItem>}
                                         {!props.isAuth && <MenuItem component={NavLink} to="/register">Sign Up</MenuItem>}
-                                        {props.isAuth && <MenuItem component={NavLink} to="/dashboard/profile">Profile</MenuItem>}
+                                        {props.isAuth && <MenuItem component={NavLink} to="/profile">Profile</MenuItem>}
+                                        {props.isAuth && <MenuItem component={NavLink} to="/profile/articles">My Articles</MenuItem>}
+                                        {props.isAuth && <MenuItem component={NavLink} to="/profile/saved">Saved</MenuItem>}
+                                        {props.isAuth && <MenuItem component={NavLink} to="/profile/liked" divider>Liked</MenuItem>}
                                         {props.isAuth && <MenuItem onClick={logout}>Logout</MenuItem>}
-
                                     </Menu>
                                 </div>
                             </Box>

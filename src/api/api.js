@@ -8,7 +8,8 @@ const axiosInstance = axios.create({
 
 export const usersAPI = {
     getUsers(currentPage = 1, pageSize = 10) {
-        return axiosInstance.get(`users?page=${currentPage}&limit=${pageSize}`);
+        console.log("here somehow?!");
+        return axiosInstance.get(`users`, {params: {page: currentPage, limit: pageSize}});
     },
     getUserById(userId) {
         return axiosInstance.get(`users/${userId}`);

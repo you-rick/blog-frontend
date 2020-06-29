@@ -14,6 +14,7 @@ import Notification from "./components/shared/Notification/Notification";
 import Dashboard from "./components/dashboard/Dashboard";
 import ArticlesContainer from "./components/public/Articles/ArticlesContainer";
 import Preloader from "./components/shared/Preloader/Preloader";
+import AuthorsContainer from "./components/public/Authors/AuthorsContainer"
 
 const AppContainer = (props) => {
     useEffect(() => {
@@ -34,7 +35,7 @@ const AppContainer = (props) => {
                     <Switch>
                         <Route exact path="/" render={() => <Home/>}/>
                         <Route path="/articles" render={() => <ArticlesContainer/>}/>
-                        <Route path="/authors" render={() => <Authors/>}/>
+                        <Route path="/authors" render={() => <AuthorsContainer/>}/>
                         <Route path="/login" render={() => <Login/>}/>
                         <Route path="/register" render={() => <Register/>}/>
                         <Route path="/profile" render={() => <Dashboard/>}/>

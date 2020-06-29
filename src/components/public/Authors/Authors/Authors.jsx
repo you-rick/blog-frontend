@@ -1,34 +1,33 @@
-import React from "react";
+import React, {useEffect} from "react";
 import AuthorCard from "../../../shared/AuthorCard/AuthorCard";
 import {Container, List, ListItem} from "@material-ui/core";
+import {connect} from "react-redux";
+import {requestUsers} from "../../../../store/usersReducer";
 
-const Authors = () => {
+
+const Authors = (props) => {
+    console.log(props);
+
+    useEffect(() => {
+        props.requestUsers();
+    }, []);
+
 
     return (
         <Container maxWidth="md">
-             <List>
-                 <ListItem disableGutters>
-                     <AuthorCard />
-                 </ListItem>
-                 <ListItem disableGutters>
-                     <AuthorCard />
-                 </ListItem>
-                 <ListItem disableGutters>
-                     <AuthorCard />
-                 </ListItem>
-                 <ListItem disableGutters>
-                     <AuthorCard />
-                 </ListItem>
-                 <ListItem disableGutters>
-                     <AuthorCard />
-                 </ListItem>
-                 <ListItem disableGutters>
-                     <AuthorCard />
-                 </ListItem>
-             </List>
+            <List>
+                {props.authors.map((author) => (
+                    <ListItem key={author._id} disableGutters>
+                        <AuthorCard key={author._id}  {...author} />
+                    </ListItem>
+                ))}
+            </List>
         </Container>
     )
 };
 
+const mapStateToProps = (state) => ({
+    authors: state.users.list
+});
 
-export default Authors;
+export default connect(mapStateToProps, {requestUsers})(Authors);

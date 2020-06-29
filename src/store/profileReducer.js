@@ -9,6 +9,7 @@ const SET_PROFILE_DATA = 'SET_PROFILE_DATA';
 const SET_AUTH_STATUS = 'SET_AUTH_STATUS';
 
 let initialState = {
+    _id: null,
     fullName: null,
     email: null,
     photo: null,

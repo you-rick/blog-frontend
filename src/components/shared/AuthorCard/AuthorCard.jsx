@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from "react";
 import {makeStyles} from '@material-ui/core/styles';
+import {connect} from "react-redux";
 import Moment from "react-moment";
+import {NavLink} from "react-router-dom";
 import {Grid, Box, Button, Card, CardContent, CardMedia, Typography} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
@@ -21,6 +23,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AuthorCard = (props) => {
+    console.log(props);
+
     const [avatar, setAvatar] = useState("/images/placeholder/default-avatar.png");
 
     useEffect(() => {
@@ -41,7 +45,7 @@ const AuthorCard = (props) => {
             <CardContent className={classes.content}>
                 <Grid container justify="space-between" alignItems="flex-start">
                     <Grid item>
-                        <Typography gutterBottom variant="h6" component="h6">
+                        <Typography gutterBottom variant="h6" component={NavLink} to={`/authors/${props._id}`}>
                             {props.fullName}
                         </Typography>
                         <Typography variant="body2" color="textSecondary" component="p">
@@ -57,7 +61,7 @@ const AuthorCard = (props) => {
                         </Box>
                     </Grid>
                     <Grid item>
-                        {!props.isAuth && <Button variant="outlined" color="primary">Follow</Button>}
+                        {(props.user._id !== props._id) && <Button variant="outlined" color="primary">Follow</Button>}
                     </Grid>
                 </Grid>
 
@@ -68,5 +72,8 @@ const AuthorCard = (props) => {
     )
 };
 
+const mapStateToProps = (state) => ({
+    user: state.profile
+});
 
-export default AuthorCard;
+export default connect(mapStateToProps, {})(AuthorCard);

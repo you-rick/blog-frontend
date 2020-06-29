@@ -12,8 +12,19 @@ const SET_CURRENT_USER = 'SET_CURRENT_USER';
 
 
 let initialState = {
-    users: [],
-    currentUser: {},
+    list: [],
+    currentUser: {
+        fullName: null,
+        photo: null,
+        about: null,
+        linkedin: null,
+        facebook: null,
+        categories: [],
+        following: [],
+        followers: [],
+        saved: [],
+        liked: []
+    },
     pageSize: 10,
     totalPages: 1,
     currentPage: 1
@@ -23,7 +34,7 @@ let initialState = {
 const usersReducer = (state = initialState, action) => {
     switch (action.type) {
         case SET_USERS:
-            return {...state, users: action.users};
+            return {...state, list: action.users};
         case SET_CURRENT_PAGE:
             return {...state, currentPage: action.currentPage};
         case SET_TOTAL_PAGES:
@@ -45,16 +56,17 @@ export const followSuccess = (userId) => ({type: FOLLOW, userId: userId});
 export const unfollowSuccess = (userId) => ({type: UNFOLLOW, userId: userId});
 
 
-
 // Thunk Creators
 export const requestUsers = (page, pageSize) => {
     return (dispatch) => {
         usersAPI.getUsers(page, pageSize)
             .then(response => {
-                if (response.status) {
-                    dispatch(setUsers(response.users));
-                    dispatch(setCurrentPage(response.currentPage));
-                    dispatch(setTotalPages(response.totalPages));
+                let res = response.data;
+                console.log(response);
+                if (res.status) {
+                    dispatch(setUsers(res.users));
+                    dispatch(setCurrentPage(res.currentPage));
+                    dispatch(setTotalPages(res.totalPages));
                 }
             });
     }
@@ -65,8 +77,10 @@ export const requestUserById = (userId) => {
     return (dispatch) => {
         usersAPI.getUserById(userId)
             .then(response => {
-                if (response.status) {
-                    dispatch(setCurrentUser(response.user));
+                let res = response.data;
+                if (res.status) {
+                    console.log(res);
+                    dispatch(setCurrentUser(res.user));
                 }
             });
     }
@@ -90,7 +104,7 @@ export const follow = (userId) => {
 
 export const unfollow = (userId) => {
     return async (dispatch) => {
-       followUnfollowFlow(dispatch, userId, usersAPI.unfollow.bind(usersAPI), unfollowSuccess);
+        followUnfollowFlow(dispatch, userId, usersAPI.unfollow.bind(usersAPI), unfollowSuccess);
     }
 };
 
