@@ -1,14 +1,15 @@
 import React, {useState} from "react";
 import TextEditor from "mui-rte";
 import "./ArticleForm.scss";
-import {EditorState, convertToRaw} from "draft-js";
+import {objectToFormData} from "../../../../utils/helpers/object-helpers";
 import {stateToHTML} from "draft-js-export-html";
 import ImageUploading from "react-images-uploading";
 import {connect} from "react-redux";
+import {postArticle} from "../../../../store/articlesReducer";
 import validate from "./validate";
 import {change, reduxForm, Field} from "redux-form";
 import {renderTextField, renderSelectField} from "../../../shared/FormControls/FormControls";
-import {Box, Container, Card, CardContent, TextField, MenuItem, Grid, Button} from "@material-ui/core";
+import {Box, Container, Card, CardContent, MenuItem, Grid, Button} from "@material-ui/core";
 import {createMuiTheme, MuiThemeProvider} from '@material-ui/core/styles'
 
 
@@ -45,7 +46,7 @@ const ArticleForm = (props) => {
     };
 
     const editorBlur = () => {
-        props.dispatch(change('articleForm', 'body', postBody));
+        props.dispatch(change('articleForm', 'content', postBody));
     };
 
     const handleCategoryChange = (event) => {
@@ -133,7 +134,7 @@ const ArticleForm = (props) => {
                 <Box m="1.5rem 0">
                     <Card>
                         <CardContent>
-                            <Field name="body" component={bodyField} value={postBody}/>
+                            <Field name="content" component={bodyField} value={postBody}/>
                             <Box className="articleBodyEditor">
                                 <MuiThemeProvider theme={defaultTheme}>
                                     <TextEditor
@@ -163,23 +164,17 @@ const ArticleReduxForm = reduxForm({
     validate,
     initialValues: {
         image: {},
-        body: ''
+        content: ''
     }
 })(ArticleForm);
 
 
 const ArticleFormContainer = (props) => {
-    const [bodyError, setBodyError] = useState(null);
     const onSubmit = (data) => {
-        if (!data.body.length) {
-            setBodyError('Required Field');
-        } else {
-            setBodyError(null);
-            console.log(data);
-        }
+        props.postArticle(objectToFormData(data));
     };
 
-    return <ArticleReduxForm onSubmit={onSubmit} bodyError={bodyError} categories={props.categories}/>
+    return <ArticleReduxForm onSubmit={onSubmit} categories={props.categories}/>
 };
 
 
@@ -188,4 +183,4 @@ const mapStateToProps = (state) => ({
 });
 
 
-export default connect(mapStateToProps, {})(ArticleFormContainer);
+export default connect(mapStateToProps, {postArticle})(ArticleFormContainer);

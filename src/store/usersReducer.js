@@ -6,8 +6,8 @@ import {updateObjectInArray} from "../utils/helpers/object-helpers";
 const FOLLOW = 'FOLLOW';
 const UNFOLLOW = 'UNFOLLOW';
 const SET_USERS = 'SET_USERS';
-const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
-const SET_TOTAL_PAGES = 'SET_TOTAL_PAGES';
+const SET_CURRENT_PAGE = 'users/SET_CURRENT_PAGE';
+const SET_TOTAL_PAGES = 'users/SET_TOTAL_PAGES';
 const SET_CURRENT_USER = 'SET_CURRENT_USER';
 
 
