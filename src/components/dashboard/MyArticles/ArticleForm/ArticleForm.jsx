@@ -8,7 +8,7 @@ import ImageUploading from "react-images-uploading";
 import {connect} from "react-redux";
 import {postArticle, updateArticle, requestArticleBySlug} from "../../../../store/articlesReducer";
 import validate from "./validate";
-import {change, reduxForm, Field} from "redux-form";
+import {change, reduxForm, Field, reset} from "redux-form";
 import {renderTextField, renderSelectField} from "../../../shared/FormControls/FormControls";
 import {Box, Container, Card, CardContent, MenuItem, Grid, Button} from "@material-ui/core";
 import {createMuiTheme, MuiThemeProvider} from '@material-ui/core/styles';
@@ -25,7 +25,7 @@ const baseUrl = process.env.REACT_APP_SERVER_URL;
 
 const ArticleForm = (props) => {
     const defaultTheme = createMuiTheme();
-    const {handleSubmit, article} = props;
+    const {handleSubmit, article, editMode} = props;
 
     const [imagePreview, setImagePreview] = useState('');
     const [category, setCategory] = useState('');
@@ -33,7 +33,8 @@ const ArticleForm = (props) => {
     const [defaultPostBody, setDefaultPostBody] = useState(null);
 
     useEffect(() => {
-        if (article._id) {
+        console.log(article, editMode);
+        if (article && editMode) {
             console.log(article);
             props.initialize(
                 {
@@ -44,11 +45,13 @@ const ArticleForm = (props) => {
                     content: article.content
                 }
             );
-            setImagePreview(baseUrl + '' +article.image);
+            article.image && setImagePreview(baseUrl + '' +article.image);
 
-            const contentHTML = convertFromHTML(article.content);
+            const contentHTML = convertFromHTML(article.content || "");
             const editorState = ContentState.createFromBlockArray(contentHTML.contentBlocks, contentHTML.entityMap);
             setDefaultPostBody(JSON.stringify(convertToRaw(editorState)));
+        } else {
+            props.reset();
         }
     }, [article]);
 
@@ -64,7 +67,6 @@ const ArticleForm = (props) => {
         // Get current content
         if (content.getPlainText().length) {
             setPostBody(stateToHTML(content));
-            console.log(stateToHTML(content));
         } else {
             setPostBody('');
         }
@@ -198,13 +200,16 @@ const ArticleReduxForm = reduxForm({
 
 const ArticleFormContainer = (props) => {
     const {slug} = useParams();
+    const [editMode, setEditMode] = useState(false);
 
     useEffect(() => {
         if (slug) {
             props.requestArticleBySlug(slug);
-            console.log(props);
+            setEditMode(true);
+            console.log(props.article);
         }
     }, []);
+
 
     const onSubmit = (data) => {
         console.log(data);
@@ -217,7 +222,7 @@ const ArticleFormContainer = (props) => {
 
     };
 
-    return <ArticleReduxForm onSubmit={onSubmit} article={props.article} categories={props.categories}/>
+    return <ArticleReduxForm onSubmit={onSubmit} article={props.article} editMode={editMode} categories={props.categories}/>
 };
 
 

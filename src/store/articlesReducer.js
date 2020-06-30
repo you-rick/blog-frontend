@@ -18,7 +18,7 @@ let initialState = {
         slug: null,
         description: null,
         content: '',
-        image: null,
+        image: '',
         date: null,
         category: null,
         author: null,
@@ -60,8 +60,6 @@ export const requestArticles = (page, pageSize, author, category) => {
         articlesAPI.getArticles(page, pageSize, author, category)
             .then(response => {
                 let res = response.data;
-                console.log(res);
-
                 if (res.status) {
 
                     dispatch(setArticles(res.articles));
@@ -77,7 +75,6 @@ export const requestArticleBySlug = (slug) => {
         articlesAPI.getArticleBySlug(slug)
             .then(response => {
                 let res = response.data;
-                console.log(response);
                 if (res.status) {
                     dispatch(setCurrentArticle(res.article[0]));
                 }
@@ -92,11 +89,10 @@ const handleArticle = (dispatch, data, apiMethod) => {
     apiMethod(data)
         .then(response => {
             let res = response.data;
-            console.log(res);
             dispatch(toggleIsFetching(false));
             if (res.status) {
                 dispatch(setNote({msg: res.message, type: "success", error: false, success: true}));
-                dispatch(reset('articleForm'));
+                //dispatch(reset('articleForm'));
             } else {
                 dispatch(setNote({msg: res.message, type: "error", error: true, success: false}));
             }
