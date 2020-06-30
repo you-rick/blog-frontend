@@ -2,6 +2,10 @@
 @import "mixins";
 @import "helpers";
 
+img {
+  max-width: 100%;
+}
+
 .mainContainer {
   margin-bottom: 6rem;
 }

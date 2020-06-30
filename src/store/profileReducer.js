@@ -21,7 +21,8 @@ let initialState = {
     followers: [],
     saved: [],
     liked: [],
-    isAuth: false
+    isAuth: false,
+    articles: []
 };
 
 

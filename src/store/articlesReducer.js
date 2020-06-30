@@ -55,9 +55,9 @@ export const setCurrentArticle = (article) => ({type: SET_CURRENT_ARTICLE, artic
 
 
 // Thunk Creators
-export const requestArticles = (page, pageSize) => {
+export const requestArticles = (page, pageSize, author, category) => {
     return (dispatch) => {
-        articlesAPI.getArticles(page, pageSize)
+        articlesAPI.getArticles(page, pageSize, author, category)
             .then(response => {
                 let res = response.data;
                 console.log(res);
@@ -85,30 +85,41 @@ export const requestArticleBySlug = (slug) => {
     }
 };
 
+
+const handleArticle = (dispatch, data, apiMethod) => {
+    dispatch(toggleIsFetching(true));
+    dispatch(hideNote());
+    apiMethod(data)
+        .then(response => {
+            let res = response.data;
+            console.log(res);
+            dispatch(toggleIsFetching(false));
+            if (res.status) {
+                dispatch(setNote({msg: res.message, type: "success", error: false, success: true}));
+                dispatch(reset('articleForm'));
+            } else {
+                dispatch(setNote({msg: res.message, type: "error", error: true, success: false}));
+            }
+        }).catch(error => {
+        dispatch(toggleIsFetching(false));
+        error.response && dispatch(setNote({
+            msg: error.response.data.message,
+            type: "error",
+            error: true,
+            success: false
+        }));
+    });
+};
+
 export const postArticle = (data) => {
     return (dispatch) => {
-        dispatch(toggleIsFetching(true));
-        dispatch(hideNote());
-        articlesAPI.postArticle(data)
-            .then(response => {
-                let res = response.data;
-                console.log(res);
-                dispatch(toggleIsFetching(false));
-                if (res.status) {
-                    dispatch(setNote({msg: res.message, type: "success", error: false, success: true}));
-                    dispatch(reset('articleForm'));
-                } else {
-                    dispatch(setNote({msg: res.message, type: "error", error: true, success: false}));
-                }
-            }).catch(error => {
-            dispatch(toggleIsFetching(false));
-            error.response && dispatch(setNote({
-                msg: error.response.data.message,
-                type: "error",
-                error: true,
-                success: false
-            }));
-        });
+        handleArticle(dispatch, data, articlesAPI.postArticle.bind(articlesAPI));
+    }
+};
+
+export const updateArticle = (data) => {
+    return (dispatch) => {
+        handleArticle(dispatch, data, articlesAPI.updateArticle.bind(articlesAPI));
     }
 };
 

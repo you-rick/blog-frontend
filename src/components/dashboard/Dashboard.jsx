@@ -27,6 +27,7 @@ const Dashboard = (props) => {
                 <Route path={`${url}/followed`} render={() => <FollowedAuthors/>}/>
                 <Route exact path={`${url}/articles`} render={() => <MyArticles/>}/>
                 <Route path={`${url}/articles/add`} render={() => <ArticleForm/>}/>
+                <Route path={`${url}/articles/edit/:slug`} render={() => <ArticleForm/>}/>
             </Switch>
         </>
     );

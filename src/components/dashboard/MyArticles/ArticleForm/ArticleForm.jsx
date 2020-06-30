@@ -1,16 +1,18 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import TextEditor from "mui-rte";
 import "./ArticleForm.scss";
 import {objectToFormData} from "../../../../utils/helpers/object-helpers";
 import {stateToHTML} from "draft-js-export-html";
+import {convertFromHTML, ContentState, convertToRaw} from "draft-js";
 import ImageUploading from "react-images-uploading";
 import {connect} from "react-redux";
-import {postArticle} from "../../../../store/articlesReducer";
+import {postArticle, updateArticle, requestArticleBySlug} from "../../../../store/articlesReducer";
 import validate from "./validate";
 import {change, reduxForm, Field} from "redux-form";
 import {renderTextField, renderSelectField} from "../../../shared/FormControls/FormControls";
 import {Box, Container, Card, CardContent, MenuItem, Grid, Button} from "@material-ui/core";
-import {createMuiTheme, MuiThemeProvider} from '@material-ui/core/styles'
+import {createMuiTheme, MuiThemeProvider} from '@material-ui/core/styles';
+import {useParams} from 'react-router-dom';
 
 
 const bodyField = ({input, label, type, meta: {touched, error}}) => (
@@ -19,14 +21,36 @@ const bodyField = ({input, label, type, meta: {touched, error}}) => (
 
 const maxNumber = 1;
 const maxMbFileSize = 4 * 1024 * 1024; // 5Mb
+const baseUrl = process.env.REACT_APP_SERVER_URL;
 
 const ArticleForm = (props) => {
     const defaultTheme = createMuiTheme();
-    const {handleSubmit} = props;
+    const {handleSubmit, article} = props;
 
     const [imagePreview, setImagePreview] = useState('');
     const [category, setCategory] = useState('');
     const [postBody, setPostBody] = useState('');
+    const [defaultPostBody, setDefaultPostBody] = useState(null);
+
+    useEffect(() => {
+        if (article._id) {
+            console.log(article);
+            props.initialize(
+                {
+                    _id: article._id,
+                    category: article.category,
+                    title: article.title,
+                    description: article.description,
+                    content: article.content
+                }
+            );
+            setImagePreview(baseUrl + '' +article.image);
+
+            const contentHTML = convertFromHTML(article.content);
+            const editorState = ContentState.createFromBlockArray(contentHTML.contentBlocks, contentHTML.entityMap);
+            setDefaultPostBody(JSON.stringify(convertToRaw(editorState)));
+        }
+    }, [article]);
 
     const onDrop = (image) => {
         console.log(image);
@@ -109,6 +133,7 @@ const ArticleForm = (props) => {
 
                 <Box m="1.5rem 0 0">
                     <ImageUploading
+                        key={imagePreview}
                         onChange={onDrop}
                         maxNumber={maxNumber}
                         maxFileSize={maxMbFileSize}
@@ -139,6 +164,7 @@ const ArticleForm = (props) => {
                             <Box className="articleBodyEditor">
                                 <MuiThemeProvider theme={defaultTheme}>
                                     <TextEditor
+                                        value={defaultPostBody}
                                         label="Post content..."
                                         onChange={editorChange}
                                         onBlur={editorBlur}
@@ -171,17 +197,34 @@ const ArticleReduxForm = reduxForm({
 
 
 const ArticleFormContainer = (props) => {
+    const {slug} = useParams();
+
+    useEffect(() => {
+        if (slug) {
+            props.requestArticleBySlug(slug);
+            console.log(props);
+        }
+    }, []);
+
     const onSubmit = (data) => {
-        props.postArticle(objectToFormData(data));
+        console.log(data);
+
+        if (slug) {
+            props.updateArticle(objectToFormData(data));
+        } else {
+             props.postArticle(objectToFormData(data));
+        }
+
     };
 
-    return <ArticleReduxForm onSubmit={onSubmit} categories={props.categories}/>
+    return <ArticleReduxForm onSubmit={onSubmit} article={props.article} categories={props.categories}/>
 };
 
 
 const mapStateToProps = (state) => ({
+    article: state.articles.currentArticle,
     categories: state.categories.list
 });
 
 
-export default connect(mapStateToProps, {postArticle})(ArticleFormContainer);
+export default connect(mapStateToProps, {postArticle, updateArticle, requestArticleBySlug})(ArticleFormContainer);
