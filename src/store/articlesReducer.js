@@ -1,7 +1,6 @@
 import {articlesAPI} from "../api/api";
 import {toggleIsFetching} from "./appReducer";
 import {hideNote, setNote} from "./notificationReducer";
-import {reset} from "redux-form";
 
 
 // Actions
@@ -92,7 +91,6 @@ const handleArticle = (dispatch, data, apiMethod) => {
             dispatch(toggleIsFetching(false));
             if (res.status) {
                 dispatch(setNote({msg: res.message, type: "success", error: false, success: true}));
-                //dispatch(reset('articleForm'));
             } else {
                 dispatch(setNote({msg: res.message, type: "error", error: true, success: false}));
             }

@@ -8,7 +8,7 @@ import ImageUploading from "react-images-uploading";
 import {connect} from "react-redux";
 import {postArticle, updateArticle, requestArticleBySlug} from "../../../../store/articlesReducer";
 import validate from "./validate";
-import {change, reduxForm, Field, reset} from "redux-form";
+import {change, reduxForm, Field} from "redux-form";
 import {renderTextField, renderSelectField} from "../../../shared/FormControls/FormControls";
 import {Box, Container, Card, CardContent, MenuItem, Grid, Button} from "@material-ui/core";
 import {createMuiTheme, MuiThemeProvider} from '@material-ui/core/styles';
@@ -23,6 +23,7 @@ const maxNumber = 1;
 const maxMbFileSize = 4 * 1024 * 1024; // 5Mb
 const baseUrl = process.env.REACT_APP_SERVER_URL;
 
+
 const ArticleForm = (props) => {
     const defaultTheme = createMuiTheme();
     const {handleSubmit, article, editMode} = props;
@@ -33,9 +34,7 @@ const ArticleForm = (props) => {
     const [defaultPostBody, setDefaultPostBody] = useState(null);
 
     useEffect(() => {
-        console.log(article, editMode);
         if (article && editMode) {
-            console.log(article);
             props.initialize(
                 {
                     _id: article._id,
@@ -45,10 +44,11 @@ const ArticleForm = (props) => {
                     content: article.content
                 }
             );
-            article.image && setImagePreview(baseUrl + '' +article.image);
+            article.image && setImagePreview(baseUrl + '' + article.image);
 
             const contentHTML = convertFromHTML(article.content || "");
-            const editorState = ContentState.createFromBlockArray(contentHTML.contentBlocks, contentHTML.entityMap);
+            const editorState = ContentState
+                .createFromBlockArray(contentHTML.contentBlocks, contentHTML.entityMap);
             setDefaultPostBody(JSON.stringify(convertToRaw(editorState)));
         } else {
             props.reset();
@@ -56,20 +56,13 @@ const ArticleForm = (props) => {
     }, [article]);
 
     const onDrop = (image) => {
-        console.log(image);
         image.length && props.dispatch(change('articleForm', 'image', image[0].file));
         image.length && setImagePreview(image[0].dataURL);
     };
 
     const editorChange = (state) => {
         let content = state.getCurrentContent();
-
-        // Get current content
-        if (content.getPlainText().length) {
-            setPostBody(stateToHTML(content));
-        } else {
-            setPostBody('');
-        }
+        setPostBody(content.getPlainText().length ? stateToHTML(content) : '');
     };
 
     const editorBlur = () => {
@@ -179,7 +172,7 @@ const ArticleForm = (props) => {
                 </Box>
                 <Grid container justify="flex-end">
                     <Button variant="contained" type="submit" size="large" color="primary">
-                        Post!
+                        {editMode ? 'Update!' : 'Post!'}
                     </Button>
                 </Grid>
             </form>
@@ -206,18 +199,15 @@ const ArticleFormContainer = (props) => {
         if (slug) {
             props.requestArticleBySlug(slug);
             setEditMode(true);
-            console.log(props.article);
         }
     }, []);
 
 
     const onSubmit = (data) => {
-        console.log(data);
-
         if (slug) {
             props.updateArticle(objectToFormData(data));
         } else {
-             props.postArticle(objectToFormData(data));
+            props.postArticle(objectToFormData(data));
         }
 
     };
@@ -232,4 +222,10 @@ const mapStateToProps = (state) => ({
 });
 
 
-export default connect(mapStateToProps, {postArticle, updateArticle, requestArticleBySlug})(ArticleFormContainer);
+export default connect(
+    mapStateToProps, {
+        postArticle,
+        updateArticle,
+        requestArticleBySlug
+    }
+)(ArticleFormContainer);
