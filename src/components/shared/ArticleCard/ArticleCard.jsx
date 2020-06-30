@@ -18,6 +18,10 @@ const useStyles = makeStyles({
         flexShrink: '0',
         minHeight: '160px'
     },
+    link: {
+        textDecoration: 'none',
+        color: '#222'
+    }
 });
 
 const ArticleCard = (props) => {
@@ -26,7 +30,7 @@ const ArticleCard = (props) => {
     return (
         <Card className={classes.root}>
             <CardContent className={classes.content}>
-                <Typography gutterBottom variant="h6" component={NavLink} to={`/articles/${props.slug}`}>
+                <Typography gutterBottom variant="h6" component={NavLink} to={`/articles/${props.slug}`} className={classes.link}>
                     {props.title}
                 </Typography>
                 <Typography variant="body2" color="textSecondary" component="p">

@@ -1,23 +1,33 @@
-import React, {useEffect} from "react";
-import {Container, Grid, Box, List, ListItem} from "@material-ui/core";
+import React, {useEffect, useState} from "react";
+import {Container, Grid, Box, List, ListItem, Typography, CardContent} from "@material-ui/core";
 import Sidebar from "../../../shared/Sidebar/Sidebar";
 import ArticleCard from "../../../shared/ArticleCard/ArticleCard";
 import {connect} from "react-redux";
 import {requestArticles} from "../../../../store/articlesReducer";
+import {useParams} from 'react-router-dom';
 
 
 const Articles = (props) => {
     console.log(props);
+    const {slug} = useParams();
+    const [category, setCategory] = useState('Articles');
 
     useEffect(() => {
-        props.requestArticles();
-    }, []);
+        if (slug) {
+            let ctg = props.categories.filter(el => el.slug === slug)[0];
+            setCategory(ctg.title);
+            props.requestArticles(1, 10, '', ctg._id);
+        } else {
+            props.requestArticles();
+        }
+
+    }, [slug]);
 
     return (
         <Container maxWidth="lg">
             <Grid container spacing={3} justify="space-between">
                 <Grid item xs={12} sm={9}>
-                    <h1>{props.category ? props.category : 'Articles'}</h1>
+                    <h1>{category}</h1>
 
                     <Box m="1.5rem 0 0" p="0 2rem 0 0">
                         <List>
@@ -26,6 +36,12 @@ const Articles = (props) => {
                                     <ArticleCard key={article._id} {...article}/>
                                 </ListItem>
                             ))}
+
+                            {!props.articles.length &&
+                            <Typography variant="body2" color="textSecondary" component="p">
+                                Sorry, no articles with this topic
+                            </Typography>
+                            }
                         </List>
 
                     </Box>
@@ -40,7 +56,7 @@ const Articles = (props) => {
 
 const mapStateToProps = (state) => ({
     articles: state.articles.list,
-    category: state.categories.currentCategory
+    categories: state.categories.list
 });
 
 export default connect(mapStateToProps, {requestArticles})(Articles);
