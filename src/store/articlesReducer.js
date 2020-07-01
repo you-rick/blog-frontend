@@ -1,13 +1,12 @@
 import {articlesAPI} from "../api/api";
 import {toggleIsFetching} from "./appReducer";
 import {hideNote, setNote} from "./notificationReducer";
+import {toggleArrayEl} from "../utils/helpers/object-helpers";
 
 
 // Actions
-const LIKE = 'ARTICLE_LIKE';
-const UNLIKE = 'ARTICLE_UNLIKE';
-const SAVE = 'ARTICLE_SAVE';
-const UNSAVE = 'ARTICLE_UNSAVE';
+const LIKE_TOGGLE = 'ARTICLE_LIKE_TOGGLE';
+const SAVE_TOGGLE = 'ARTICLE_SAVE_TOGGLE';
 const SET_ARTICLES = 'SET_ARTICLES';
 const SET_CURRENT_PAGE = 'ARTICLE_SET_CURRENT_PAGE';
 const SET_TOTAL_PAGES = 'ARTICLE_SET_TOTAL_PAGES';
@@ -44,6 +43,45 @@ const articlesReducer = (state = initialState, action) => {
             return {...state, totalPages: action.totalPages};
         case SET_CURRENT_ARTICLE:
             return {...state, currentArticle: {...action.article}};
+        case LIKE_TOGGLE:
+            let newList = state.list.map(el => {
+                if (el._id === action.articleId) {
+                    el.liked = [...toggleArrayEl(el.liked, action.userId)];
+                    console.log(toggleArrayEl(['bla1', 'bla2', 'bla3'], 'bla3'));
+                    console.log(toggleArrayEl(['bla1', 'bla2', 'bla3'], 'bla4'));
+                }
+                return el
+            });
+
+            console.log(newList);
+
+            return {
+                ...state,
+                list: [...newList],
+                currentArticle: {
+                    ...state.currentArticle,
+                    liked:
+                        state.currentArticle._id === action.articleId
+                            ? [...toggleArrayEl(state.currentArticle.liked, action.userId)]
+                            : state.currentArticle.liked
+                }
+            };
+        case SAVE_TOGGLE:
+            return {
+                ...state,
+                list: [...state.list.map(el => {
+                    if (el._id === action.articleId) {
+                        el.saved = toggleArrayEl(el.saved, action.userId);
+                    }
+                    return el
+                })],
+                currentArticle: {
+                    ...state.currentArticle,
+                    saved: state.currentArticle._id === action.articleId
+                        ? [...toggleArrayEl(state.currentArticle.saved, action.userId)]
+                        : state.currentArticle.saved
+                }
+            };
         default:
             return state;
     }
@@ -55,12 +93,8 @@ export const setArticles = (articles) => ({type: SET_ARTICLES, articles: article
 export const setCurrentPage = (currentPage) => ({type: SET_CURRENT_PAGE, currentPage: currentPage});
 export const setTotalPages = (totalPages) => ({type: SET_TOTAL_PAGES, totalPages: totalPages});
 export const setCurrentArticle = (article) => ({type: SET_CURRENT_ARTICLE, article: article});
-export const likeSuccess = (articleId) => ({type: LIKE, _id: articleId});
-export const unlikeSuccess = (articleId) => ({type: UNLIKE, _id: articleId});
-export const saveSuccess = (articleId) => ({type: SAVE, _id: articleId});
-export const unsaveSuccess = (articleId) => ({type: UNSAVE, _id: articleId});
-
-
+export const likeToggle = (articleId, userId) => ({type: LIKE_TOGGLE, articleId: articleId, userId: userId});
+export const saveToggle = (articleId, userId) => ({type: SAVE_TOGGLE, articleId: articleId, userId: userId});
 
 
 // Thunk Creators
@@ -123,6 +157,54 @@ export const postArticle = (data) => {
 export const updateArticle = (data) => {
     return (dispatch) => {
         handleArticle(dispatch, data, articlesAPI.updateArticle.bind(articlesAPI));
+    }
+};
+
+const handleLikeSave = (dispatch, articleId, apiMethod, actionCreator, type) => {
+    dispatch(toggleIsFetching(true));
+    dispatch(hideNote());
+
+    apiMethod(articleId)
+        .then(response => {
+            let res = response.data;
+            dispatch(toggleIsFetching(false));
+            if (res.status) {
+                console.log(res, articleId, res.user);
+                dispatch(actionCreator(articleId, res.user));
+                dispatch(setNote({msg: res.message, type: "success", error: false, success: true}));
+            } else {
+                dispatch(setNote({msg: res.message, type: "error", error: true, success: false}));
+            }
+        }).catch(error => {
+        dispatch(toggleIsFetching(false));
+        error.response && dispatch(setNote({
+            msg: error.response.data.message,
+            type: "error",
+            error: true,
+            success: false
+        }));
+    });
+};
+
+
+export const like = (articleId) => {
+    return (dispatch) => {
+        handleLikeSave(dispatch, articleId, articlesAPI.like.bind(articlesAPI), likeToggle, 'like');
+    }
+};
+export const unlike = (articleId) => {
+    return (dispatch) => {
+        handleLikeSave(dispatch, articleId, articlesAPI.unlike.bind(articlesAPI), likeToggle, 'like');
+    }
+};
+export const save = (articleId) => {
+    return (dispatch) => {
+        handleLikeSave(dispatch, articleId, articlesAPI.save.bind(articlesAPI), saveToggle, 'save');
+    }
+};
+export const unsave = (articleId) => {
+    return (dispatch) => {
+        handleLikeSave(dispatch, articleId, articlesAPI.unsave.bind(articlesAPI), saveToggle, 'save');
     }
 };
 

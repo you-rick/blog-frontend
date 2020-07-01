@@ -8,7 +8,6 @@ const axiosInstance = axios.create({
 
 export const usersAPI = {
     getUsers(currentPage = 1, pageSize = 10) {
-        console.log("here somehow?!");
         return axiosInstance.get(`users`, {params: {page: currentPage, limit: pageSize}});
     },
     getUserById(userId) {
@@ -55,16 +54,16 @@ export const articlesAPI = {
         return axiosInstance.delete(`articles`, articleId, {headers: authHeader()});
     },
     like(articleId) {
-        return axiosInstance.put(`articles/${articleId}/like`, {headers: authHeader()});
+        return axiosInstance.put(`articles/${articleId}/like`, {}, {headers: authHeader()});
     },
     unlike(articleId) {
-        return axiosInstance.put(`articles/${articleId}/unlike`, {headers: authHeader()});
+        return axiosInstance.put(`articles/${articleId}/unlike`, {}, {headers: authHeader()});
     },
-    saved(articleId) {
-        return axiosInstance.put(`articles/${articleId}/save`, {headers: authHeader()});
+    save(articleId) {
+        return axiosInstance.put(`articles/${articleId}/save`, {}, {headers: authHeader()});
     },
-    unsaved(articleId) {
-        return axiosInstance.put(`articles/${articleId}/unsave`, {headers: authHeader()});
+    unsave(articleId) {
+        return axiosInstance.put(`articles/${articleId}/unsave`, {}, {headers: authHeader()});
     }
 };
 

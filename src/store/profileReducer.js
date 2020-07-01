@@ -8,6 +8,7 @@ import {toggleIsFetching} from "./appReducer";
 const SET_PROFILE_DATA = 'SET_PROFILE_DATA';
 const SET_AUTH_STATUS = 'SET_AUTH_STATUS';
 
+
 let initialState = {
     _id: null,
     fullName: null,
@@ -56,6 +57,7 @@ export const getProfile = () => {
     }
 };
 
+
 export const register = (data) => {
     return (dispatch) => {
         dispatch(toggleIsFetching(true));
@@ -76,6 +78,7 @@ export const register = (data) => {
         });
     }
 };
+
 
 export const login = (email, password) => {
     return (dispatch) => {
@@ -105,6 +108,7 @@ export const login = (email, password) => {
 export const logout = () => {
     return (dispatch) => {
         dispatch(setAuthStatus(false));
+        dispatch(setProfileData(initialState));
         localStorage.removeItem('token');
     }
 };

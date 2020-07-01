@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react";
 import {Snackbar,} from "@material-ui/core";
 import MuiAlert from '@material-ui/lab/Alert';
 import {hideNote} from "../../../store/notificationReducer";
+import {connect} from "react-redux";
 
 
 const Alert = (props) => {
@@ -22,7 +23,9 @@ const Notification = ({type, msg, hideNote}) => {
             return;
         }
 
+        hideNote();
         setOpen(false);
+
     };
 
     return (
@@ -39,5 +42,6 @@ const Notification = ({type, msg, hideNote}) => {
     );
 };
 
+const mapStateToProps = (state) => ({});
 
-export default Notification;
+export default connect(mapStateToProps, {hideNote})(Notification);

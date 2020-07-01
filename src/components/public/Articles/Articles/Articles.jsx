@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Container, Grid, Box, List, ListItem, Typography, CardContent} from "@material-ui/core";
+import {Container, Grid, Box, List, ListItem, Typography} from "@material-ui/core";
 import Sidebar from "../../../shared/Sidebar/Sidebar";
 import ArticleCard from "../../../shared/ArticleCard/ArticleCard";
 import {connect} from "react-redux";
@@ -21,6 +21,10 @@ const Articles = (props) => {
         }
 
     }, [slug]);
+
+
+    useEffect(() => {
+    }, [props.articles]);
 
     return (
         <Container maxWidth="lg">

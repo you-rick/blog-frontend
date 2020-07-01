@@ -1,3 +1,5 @@
+import _ from "lodash";
+
 export const updateObjectInArray = (items, itemId, objPropName, newObjProps) => {
     return items.map(el => {
         if (el[objPropName] === itemId) {
@@ -13,3 +15,5 @@ export const objectToFormData = (obj) => {
     Object.keys(obj).forEach(key => form_data.append(key, obj[key]));
     return form_data;
 };
+
+export const toggleArrayEl = (array, item) => _.xor(array, [item]);

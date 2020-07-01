@@ -14,7 +14,8 @@ const notificationReducer = (state = initState, action) => {
         case SET_NOTE:
             return {...state, ...action.body};
         case HIDE_NOTE:
-            return {...state, msg: null, type: null, error: false, success: false};
+            console.log("here in HIDE_NOTE");
+            return {...state, msg: null, type: "info", error: false, success: false};
         default:
             return state;
     }
