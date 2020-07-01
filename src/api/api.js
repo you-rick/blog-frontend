@@ -60,10 +60,10 @@ export const articlesAPI = {
     unlike(articleId) {
         return axiosInstance.put(`articles/${articleId}/unlike`, {headers: authHeader()});
     },
-    save(articleId) {
+    saved(articleId) {
         return axiosInstance.put(`articles/${articleId}/save`, {headers: authHeader()});
     },
-    unsave(articleId) {
+    unsaved(articleId) {
         return axiosInstance.put(`articles/${articleId}/unsave`, {headers: authHeader()});
     }
 };

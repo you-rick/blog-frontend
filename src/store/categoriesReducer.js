@@ -25,7 +25,6 @@ export const getCategories = () => {
     return (dispatch) => {
         categoriesAPI.getCategories()
             .then(response => {
-                console.log(response);
                 if (response.status) {
                     dispatch(setCategories(response.data));
                 }

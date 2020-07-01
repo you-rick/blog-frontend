@@ -4,9 +4,13 @@ import {hideNote, setNote} from "./notificationReducer";
 
 
 // Actions
+const LIKE = 'ARTICLE_LIKE';
+const UNLIKE = 'ARTICLE_UNLIKE';
+const SAVE = 'ARTICLE_SAVE';
+const UNSAVE = 'ARTICLE_UNSAVE';
 const SET_ARTICLES = 'SET_ARTICLES';
-const SET_CURRENT_PAGE = 'articles/SET_CURRENT_PAGE';
-const SET_TOTAL_PAGES = 'articles/SET_TOTAL_PAGES';
+const SET_CURRENT_PAGE = 'ARTICLE_SET_CURRENT_PAGE';
+const SET_TOTAL_PAGES = 'ARTICLE_SET_TOTAL_PAGES';
 const SET_CURRENT_ARTICLE = 'SET_CURRENT_ARTICLE';
 
 let initialState = {
@@ -51,6 +55,12 @@ export const setArticles = (articles) => ({type: SET_ARTICLES, articles: article
 export const setCurrentPage = (currentPage) => ({type: SET_CURRENT_PAGE, currentPage: currentPage});
 export const setTotalPages = (totalPages) => ({type: SET_TOTAL_PAGES, totalPages: totalPages});
 export const setCurrentArticle = (article) => ({type: SET_CURRENT_ARTICLE, article: article});
+export const likeSuccess = (articleId) => ({type: LIKE, _id: articleId});
+export const unlikeSuccess = (articleId) => ({type: UNLIKE, _id: articleId});
+export const saveSuccess = (articleId) => ({type: SAVE, _id: articleId});
+export const unsaveSuccess = (articleId) => ({type: UNSAVE, _id: articleId});
+
+
 
 
 // Thunk Creators

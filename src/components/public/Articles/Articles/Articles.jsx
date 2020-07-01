@@ -8,7 +8,6 @@ import {useParams} from 'react-router-dom';
 
 
 const Articles = (props) => {
-    console.log(props);
     const {slug} = useParams();
     const [category, setCategory] = useState('Articles');
 
