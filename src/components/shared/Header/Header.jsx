@@ -16,7 +16,8 @@ import {
     Box,
     Button,
     Menu,
-    MenuItem
+    MenuItem,
+    Avatar
 } from "@material-ui/core";
 import {AccountCircle, BookmarksOutlined, Search} from "@material-ui/icons";
 import themeStyles from "./Header.styles";
@@ -63,8 +64,10 @@ const Header = (props) => {
                                 Small
                             </Typography>
                             <Box>
-                                <Typography variant="h6" component={NavLink} to="/articles">
-                                    Articles
+                                <Typography variant="h6">
+                                    <NavLink to="/articles">Articles</NavLink>
+                                    <span> | </span>
+                                    <NavLink to="/authors">Authors</NavLink>
                                 </Typography>
                             </Box>
                             <Box display="flex" alignItems="center">
@@ -92,7 +95,11 @@ const Header = (props) => {
                                         onClick={handleMenu}
                                         color="inherit"
                                     >
-                                        <AccountCircle/>
+                                        {props.isAuth
+                                            ? <Avatar alt={props.profile.fullName} src={process.env.REACT_APP_SERVER_URL + props.profile.photo} />
+                                            : <AccountCircle/>
+                                        }
+
                                     </IconButton>
                                     <Menu
                                         id="menu-appbar"
@@ -148,6 +155,7 @@ const Header = (props) => {
 
 const mapStateToProps = (state) => ({
     categories: state.categories.list,
+    profile: state.profile,
     isAuth: state.profile.isAuth
 });
 

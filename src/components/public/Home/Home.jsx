@@ -1,36 +1,43 @@
-import React from "react";
+import React, {useEffect} from "react";
 import ArticleCardHome from "./ArticleCardHome/ArticleCardHome";
 import Sidebar from "../../shared/Sidebar/Sidebar";
-import {Container, Grid, Box, Paper} from "@material-ui/core";
+import {Container, Grid, Box} from "@material-ui/core";
+import {connect} from "react-redux"
+import {requestArticles} from "../../../store/articlesReducer";
+import Masonry from 'react-masonry-css';
+import s from './Home.module.scss';
 
-const Home = () => {
+
+const breakpointColumns = {
+    default: 3,
+    980: 2,
+    500: 1
+};
+
+
+const Home = (props) => {
+    useEffect(() => {
+        props.requestArticles();
+        console.log(props.articles);
+    }, []);
+
+
+    const cards = props.articles.map((article) => (
+        <ArticleCardHome key={article._id} {...article}/>
+    ));
+
     return (
         <div style={{padding: 20}}>
             <Container maxWidth="lg">
                 <Grid container spacing={3}>
                     <Grid item xs={12} sm={9}>
-                        <Box>
-                            <Grid container spacing={3}>
-                                <Grid item xs={12} sm={6} md={4}>
-                                    <ArticleCardHome/>
-                                </Grid>
-                                <Grid item xs={12} sm={6} md={4}>
-                                    <ArticleCardHome/>
-                                </Grid>
-                                <Grid item xs={12} sm={6} md={4}>
-                                    <ArticleCardHome/>
-                                </Grid>
-                                <Grid item xs={12} sm={6} md={4}>
-                                    <ArticleCardHome/>
-                                </Grid>
-                                <Grid item xs={12} sm={6} md={4}>
-                                    <ArticleCardHome/>
-                                </Grid>
-                                <Grid item xs={12} sm={6} md={4}>
-                                    <ArticleCardHome/>
-                                </Grid>
-                            </Grid>
-                        </Box>
+                        <Masonry
+                            breakpointCols={breakpointColumns}
+                            className={s.masonryGrid}
+                            columnClassName={s.masonryGridColumn}
+                        >
+                            {cards}
+                        </Masonry>
                     </Grid>
                     <Grid item xs={false} sm={3}>
                         <Sidebar/>
@@ -42,5 +49,8 @@ const Home = () => {
     )
 };
 
+const mapStateToProps = (state) => ({
+    articles: state.articles.list
+});
 
-export default Home;
+export default connect(mapStateToProps, {requestArticles})(Home);

@@ -43,7 +43,11 @@ const AuthorCard = (props) => {
             <CardContent className={classes.content}>
                 <Grid container justify="space-between" alignItems="flex-start">
                     <Grid item>
-                        <Typography gutterBottom variant="h6" component={NavLink} to={`/authors/${props._id}`}>
+                        <Typography
+                            gutterBottom
+                            variant="h6"
+                            component={props.user._id !== props._id ? NavLink : "h4"}
+                            to={`/authors/${props._id}`}>
                             {props.fullName}
                         </Typography>
                         <Typography variant="body2" color="textSecondary" component="p">
