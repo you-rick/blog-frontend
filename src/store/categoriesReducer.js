@@ -20,7 +20,7 @@ const categoriesReducer = (state = initialState, action) => {
 // Action Creators
 export const setCategories = (data) => ({type: SET_CATEGORIES, data: data});
 
-// Thunk Creators
+// Thunks
 export const getCategories = () => {
     return (dispatch) => {
         categoriesAPI.getCategories()

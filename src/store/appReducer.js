@@ -32,7 +32,7 @@ export const toggleIsFetching = (isDataFetching) => ({type: TOGGLE_IS_FETCHING, 
 export const initializedSuccess = () => ({type: INITIALIZED_SUCCESS});
 
 
-// Thunk Creators
+// Thunks
 export const initializeApp = () => {
     return (dispatch) => {
         if (localStorage.getItem('token')) {

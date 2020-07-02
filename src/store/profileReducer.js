@@ -43,7 +43,7 @@ export const setProfileData = (data) => ({type: SET_PROFILE_DATA, data: data});
 export const setAuthStatus = (isAuth) => ({type: SET_AUTH_STATUS, isAuth});
 
 
-// Thunk Creators
+// Thunks
 export const getProfile = () => {
     return (dispatch) => {
         profileAPI.me()

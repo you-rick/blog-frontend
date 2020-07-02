@@ -44,42 +44,23 @@ const articlesReducer = (state = initialState, action) => {
         case SET_CURRENT_ARTICLE:
             return {...state, currentArticle: {...action.article}};
         case LIKE_TOGGLE:
-            let newList = state.list.map(el => {
-                if (el._id === action.articleId) {
-                    el.liked = [...toggleArrayEl(el.liked, action.userId)];
-                    console.log(toggleArrayEl(['bla1', 'bla2', 'bla3'], 'bla3'));
-                    console.log(toggleArrayEl(['bla1', 'bla2', 'bla3'], 'bla4'));
-                }
-                return el
-            });
-
-            console.log(newList);
-
-            return {
-                ...state,
-                list: [...newList],
-                currentArticle: {
-                    ...state.currentArticle,
-                    liked:
-                        state.currentArticle._id === action.articleId
-                            ? [...toggleArrayEl(state.currentArticle.liked, action.userId)]
-                            : state.currentArticle.liked
-                }
-            };
         case SAVE_TOGGLE:
+            let currentArticleProp = {};
+            currentArticleProp[action.property] = state.currentArticle._id === action.articleId
+                ? [...toggleArrayEl(state.currentArticle[action.property], action.userId)]
+                : state.currentArticle[action.property];
+
             return {
                 ...state,
                 list: [...state.list.map(el => {
                     if (el._id === action.articleId) {
-                        el.saved = toggleArrayEl(el.saved, action.userId);
+                        el[action.property] = [...toggleArrayEl(el[action.property], action.userId)];
                     }
                     return el
                 })],
                 currentArticle: {
                     ...state.currentArticle,
-                    saved: state.currentArticle._id === action.articleId
-                        ? [...toggleArrayEl(state.currentArticle.saved, action.userId)]
-                        : state.currentArticle.saved
+                    ...currentArticleProp
                 }
             };
         default:
@@ -93,11 +74,21 @@ export const setArticles = (articles) => ({type: SET_ARTICLES, articles: article
 export const setCurrentPage = (currentPage) => ({type: SET_CURRENT_PAGE, currentPage: currentPage});
 export const setTotalPages = (totalPages) => ({type: SET_TOTAL_PAGES, totalPages: totalPages});
 export const setCurrentArticle = (article) => ({type: SET_CURRENT_ARTICLE, article: article});
-export const likeToggle = (articleId, userId) => ({type: LIKE_TOGGLE, articleId: articleId, userId: userId});
-export const saveToggle = (articleId, userId) => ({type: SAVE_TOGGLE, articleId: articleId, userId: userId});
+export const likeToggle = (articleId, userId) => ({
+    type: LIKE_TOGGLE,
+    articleId: articleId,
+    userId: userId,
+    property: 'liked'
+});
+export const saveToggle = (articleId, userId) => ({
+    type: SAVE_TOGGLE,
+    articleId: articleId,
+    userId: userId,
+    property: 'saved'
+});
 
 
-// Thunk Creators
+// Thunks
 export const requestArticles = (page, pageSize, author, category) => {
     return (dispatch) => {
         articlesAPI.getArticles(page, pageSize, author, category)

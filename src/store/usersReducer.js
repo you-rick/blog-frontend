@@ -1,5 +1,4 @@
 import {usersAPI} from "../api/api";
-import {updateObjectInArray} from "../utils/helpers/object-helpers";
 
 
 // Actions
@@ -56,7 +55,7 @@ export const followSuccess = (userId) => ({type: FOLLOW, userId: userId});
 export const unfollowSuccess = (userId) => ({type: UNFOLLOW, userId: userId});
 
 
-// Thunk Creators
+// Thunks
 export const requestUsers = (page, pageSize) => {
     return (dispatch) => {
         usersAPI.getUsers(page, pageSize)
