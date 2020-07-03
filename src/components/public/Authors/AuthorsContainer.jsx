@@ -5,7 +5,6 @@ import Author from "./Author/Author";
 
 const AuthorsContainer = (props) => {
     let url = props.match.url;
-    console.log(url);
     return (
         <>
             <Switch>

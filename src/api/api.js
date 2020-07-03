@@ -14,10 +14,10 @@ export const usersAPI = {
         return axiosInstance.get(`users/${userId}`);
     },
     follow(userId) {
-        return axiosInstance.put(`users/${userId}/follow`, {headers: authHeader()});
+        return axiosInstance.put(`users/${userId}/follow`, {}, {headers: authHeader()});
     },
     unfollow(userId) {
-        return axiosInstance.put(`users/${userId}/unfollow`, {headers: authHeader()});
+        return axiosInstance.put(`users/${userId}/unfollow`, {}, {headers: authHeader()});
     }
 };
 

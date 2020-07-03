@@ -151,7 +151,7 @@ export const updateArticle = (data) => {
     }
 };
 
-const handleLikeSave = (dispatch, articleId, apiMethod, actionCreator, type) => {
+const handleLikeSave = (dispatch, articleId, apiMethod, actionCreator) => {
     dispatch(toggleIsFetching(true));
     dispatch(hideNote());
 
@@ -160,7 +160,6 @@ const handleLikeSave = (dispatch, articleId, apiMethod, actionCreator, type) => 
             let res = response.data;
             dispatch(toggleIsFetching(false));
             if (res.status) {
-                console.log(res, articleId, res.user);
                 dispatch(actionCreator(articleId, res.user));
                 dispatch(setNote({msg: res.message, type: "success", error: false, success: true}));
             } else {
@@ -180,22 +179,22 @@ const handleLikeSave = (dispatch, articleId, apiMethod, actionCreator, type) => 
 
 export const like = (articleId) => {
     return (dispatch) => {
-        handleLikeSave(dispatch, articleId, articlesAPI.like.bind(articlesAPI), likeToggle, 'like');
+        handleLikeSave(dispatch, articleId, articlesAPI.like.bind(articlesAPI), likeToggle);
     }
 };
 export const unlike = (articleId) => {
     return (dispatch) => {
-        handleLikeSave(dispatch, articleId, articlesAPI.unlike.bind(articlesAPI), likeToggle, 'like');
+        handleLikeSave(dispatch, articleId, articlesAPI.unlike.bind(articlesAPI), likeToggle);
     }
 };
 export const save = (articleId) => {
     return (dispatch) => {
-        handleLikeSave(dispatch, articleId, articlesAPI.save.bind(articlesAPI), saveToggle, 'save');
+        handleLikeSave(dispatch, articleId, articlesAPI.save.bind(articlesAPI), saveToggle);
     }
 };
 export const unsave = (articleId) => {
     return (dispatch) => {
-        handleLikeSave(dispatch, articleId, articlesAPI.unsave.bind(articlesAPI), saveToggle, 'save');
+        handleLikeSave(dispatch, articleId, articlesAPI.unsave.bind(articlesAPI), saveToggle);
     }
 };
 

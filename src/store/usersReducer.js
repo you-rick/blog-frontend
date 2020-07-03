@@ -1,9 +1,11 @@
 import {usersAPI} from "../api/api";
+import {toggleIsFetching} from "./appReducer";
+import {hideNote, setNote} from "./notificationReducer";
+import {toggleArrayEl} from "../utils/helpers/object-helpers";
 
 
 // Actions
-const FOLLOW = 'FOLLOW';
-const UNFOLLOW = 'UNFOLLOW';
+const FOLLOW_TOGGLE = 'FOLLOW_TOGGLE';
 const SET_USERS = 'SET_USERS';
 const SET_CURRENT_PAGE = 'USERS_SET_CURRENT_PAGE';
 const SET_TOTAL_PAGES = 'USERS_SET_TOTAL_PAGES';
@@ -40,6 +42,22 @@ const usersReducer = (state = initialState, action) => {
             return {...state, totalPages: action.totalPages};
         case SET_CURRENT_USER:
             return {...state, currentUser: {...action.user}};
+        case FOLLOW_TOGGLE:
+            return {
+                ...state,
+                list: [...state.list.map(el => {
+                    if (el._id === action.authorId) {
+                        el.followers = [...toggleArrayEl(el.followers, action.userId)];
+                    }
+                    return el
+                })],
+                currentUser: {
+                    ...state.currentUser,
+                    followers: state.currentUser._id === action.authorId
+                        ? [...toggleArrayEl(state.currentUser.followers, action.userId)]
+                        : state.currentUser.followers
+                }
+            };
         default:
             return state;
     }
@@ -51,8 +69,7 @@ export const setUsers = (users) => ({type: SET_USERS, users: users});
 export const setCurrentPage = (currentPage) => ({type: SET_CURRENT_PAGE, currentPage: currentPage});
 export const setTotalPages = (totalPages) => ({type: SET_TOTAL_PAGES, totalPages: totalPages});
 export const setCurrentUser = (user) => ({type: SET_CURRENT_USER, user: user});
-export const followSuccess = (userId) => ({type: FOLLOW, userId: userId});
-export const unfollowSuccess = (userId) => ({type: UNFOLLOW, userId: userId});
+export const followToggle = (authorId, userId) => ({type: FOLLOW_TOGGLE, authorId: authorId, userId: userId});
 
 
 // Thunks
@@ -61,7 +78,6 @@ export const requestUsers = (page, pageSize) => {
         usersAPI.getUsers(page, pageSize)
             .then(response => {
                 let res = response.data;
-                console.log(response);
                 if (res.status) {
                     dispatch(setUsers(res.users));
                     dispatch(setCurrentPage(res.currentPage));
@@ -78,7 +94,6 @@ export const requestUserById = (userId) => {
             .then(response => {
                 let res = response.data;
                 if (res.status) {
-                    console.log(res);
                     dispatch(setCurrentUser(res.user));
                 }
             });
@@ -86,24 +101,41 @@ export const requestUserById = (userId) => {
 };
 
 // Follow Helper
-const followUnfollowFlow = async (dispatch, userId, apiMethod, actionCreator) => {
-    let response = await apiMethod(userId);
-    if (response.status) {
-        dispatch(actionCreator(userId));
-    }
+const handleFollowUnfollow = (dispatch, authorId, apiMethod, actionCreator) => {
+    dispatch(toggleIsFetching(true));
+    dispatch(hideNote());
+
+    apiMethod(authorId).then(response => {
+            let res = response.data;
+            dispatch(toggleIsFetching(false));
+            if (res.status) {
+                dispatch(actionCreator(authorId, res.user));
+                dispatch(setNote({msg: res.message, type: "success", error: false, success: true}));
+            } else {
+                dispatch(setNote({msg: res.message, type: "error", error: true, success: false}));
+            }
+        }).catch(error => {
+        dispatch(toggleIsFetching(false));
+        error.response && dispatch(setNote({
+            msg: error.response.data.message,
+            type: "error",
+            error: true,
+            success: false
+        }));
+    });
 };
 
 //Follow Thunk Creators
-export const follow = (userId) => {
-    return async (dispatch) => {
-        followUnfollowFlow(dispatch, userId, usersAPI.follow.bind(usersAPI), followSuccess);
+export const follow = (authorId) => {
+    return (dispatch) => {
+        handleFollowUnfollow(dispatch, authorId, usersAPI.follow.bind(usersAPI), followToggle);
     }
 };
 
 
-export const unfollow = (userId) => {
-    return async (dispatch) => {
-        followUnfollowFlow(dispatch, userId, usersAPI.unfollow.bind(usersAPI), unfollowSuccess);
+export const unfollow = (authorId) => {
+    return (dispatch) => {
+        handleFollowUnfollow(dispatch, authorId, usersAPI.unfollow.bind(usersAPI), followToggle);
     }
 };
 

@@ -4,6 +4,8 @@ import {connect} from "react-redux";
 import Moment from "react-moment";
 import {NavLink} from "react-router-dom";
 import {Grid, Box, Button, Card, CardContent, CardMedia, Typography} from "@material-ui/core";
+import {follow, unfollow} from "../../../store/usersReducer";
+import {setNote} from "../../../store/notificationReducer";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -14,24 +16,43 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: '1'
     },
     media: {
-        flexBasis: '16%',
-        paddingBottom: '16%',
+        flexBasis: '10%',
+        paddingBottom: '10%',
         height: '0',
         borderRadius: '50%',
         margin: theme.spacing(2)
     },
+    header: {
+        color: "#222",
+        textDecoration: 'none'
+    }
 }));
 
 const AuthorCard = (props) => {
+    const classes = useStyles();
+    const {followers} = props;
+    const noAuthMsg = "User should be logged in";
     const [avatar, setAvatar] = useState("/images/placeholder/default-avatar.png");
+    const followCondition = followers.some(id => id === props.profile._id);
+    const [isFollowed, setIsFollowed] = useState(followCondition);
 
     useEffect(() => {
-        if (props.photo) {
-            setAvatar(process.env.REACT_APP_SERVER_URL + props.photo);
-        }
+        props.photo && setAvatar(process.env.REACT_APP_SERVER_URL + props.photo);
     }, [props.photo]);
 
-    const classes = useStyles();
+    useEffect(() => {
+        console.log(props.fullName, followers, props.profile._id);
+        setIsFollowed(followCondition);
+    }, [followers]);
+
+    const handleFollow = () => {
+        if (!props.profile.isAuth) {
+            props.setNote({msg: noAuthMsg});
+        } else {
+            !isFollowed && props.follow(props._id);
+            isFollowed && props.unfollow(props._id);
+        }
+    };
 
     return (
         <Card className={classes.root}>
@@ -46,7 +67,8 @@ const AuthorCard = (props) => {
                         <Typography
                             gutterBottom
                             variant="h6"
-                            component={props.user._id !== props._id ? NavLink : "h4"}
+                            className={classes.header}
+                            component={props.profile._id !== props._id ? NavLink : "h4"}
                             to={`/authors/${props._id}`}>
                             {props.fullName}
                         </Typography>
@@ -63,7 +85,11 @@ const AuthorCard = (props) => {
                         </Box>
                     </Grid>
                     <Grid item>
-                        {(props.user._id !== props._id) && <Button variant="outlined" color="primary">Follow</Button>}
+                        {(props.profile._id !== props._id) &&
+                        <Button variant="outlined" color="primary" onClick={handleFollow}>
+                            {!isFollowed ? 'Follow' : 'Unfollow'}
+                        </Button>
+                        }
                     </Grid>
                 </Grid>
 
@@ -75,7 +101,7 @@ const AuthorCard = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-    user: state.profile
+    profile: state.profile
 });
 
-export default connect(mapStateToProps, {})(AuthorCard);
+export default connect(mapStateToProps, {follow, unfollow, setNote})(AuthorCard);
