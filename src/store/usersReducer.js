@@ -2,6 +2,7 @@ import {usersAPI} from "../api/api";
 import {toggleIsFetching} from "./appReducer";
 import {hideNote, setNote} from "./notificationReducer";
 import {toggleArrayEl} from "../utils/helpers/object-helpers";
+import {push} from "connected-react-router";
 
 
 // Actions
@@ -101,6 +102,7 @@ export const requestUserById = (userId) => {
                 }
             }).catch(error => {
             dispatch(toggleIsFetching(false));
+            dispatch(push('/authors'));
             error.response && dispatch(setNote({
                 msg: error.response.data.message,
                 type: "error",

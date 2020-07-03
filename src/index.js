@@ -3,13 +3,16 @@ import ReactDOM from 'react-dom';
 import './assets/styles/index.scss';
 import App from './App';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import store from './store/store';
+import store, {history} from './store/store';
 import {Provider} from 'react-redux';
+import {ConnectedRouter} from "connected-react-router";
 
 ReactDOM.render(
     <Provider store={store}>
-        <CssBaseline/>
-        <App/>
+        <ConnectedRouter history={history}>
+            <CssBaseline/>
+            <App/>
+        </ConnectedRouter>
     </Provider>,
     document.getElementById('root')
 );

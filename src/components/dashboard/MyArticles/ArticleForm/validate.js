@@ -16,8 +16,8 @@ const validate = values => {
     } else if (values.description.length > 200) {
         errors.description = 'Must be 200 characters or less';
     }
-    if (!values.body) {
-        errors.body = 'Required field'
+    if (!values.content) {
+        errors.content = 'Required field'
     }
 
 

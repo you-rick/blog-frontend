@@ -1,5 +1,7 @@
 import React, {useEffect} from 'react';
-import {BrowserRouter, Route, Switch, withRouter} from 'react-router-dom';
+import {Router, Route, Switch, withRouter} from 'react-router-dom';
+import {ConnectedRouter} from "connected-react-router";
+import {history} from "./store/store";
 import {compose} from "redux";
 import {connect} from "react-redux";
 import {hideNote} from "./store/notificationReducer";
@@ -27,25 +29,28 @@ const AppContainer = (props) => {
     }
 
     return (
-        <BrowserRouter>
-            <div className="appWrapper">
-                <Header/>
 
-                <div className="mainContainer">
-                    <Switch>
-                        <Route exact path="/" render={() => <Home/>}/>
-                        <Route path="/articles" render={() => <ArticlesContainer/>}/>
-                        <Route path="/category/:slug" render={() => <Articles/>}/>
-                        <Route path="/authors" render={() => <AuthorsContainer/>}/>
-                        <Route path="/login" render={() => <Login/>}/>
-                        <Route path="/register" render={() => <Register/>}/>
-                        <Route path="/profile" render={() => <Dashboard/>}/>
-                    </Switch>
-                </div>
+        <div className="appWrapper">
+            <Header/>
 
-                <Notification type={props.notification.type} msg={props.notification.msg} hideNote={props.hideNote}/>
+            <div className="mainContainer">
+                <Switch>
+                    <Route exact path="/" render={() => <Home/>}/>
+                    <Route path="/articles" render={() => <ArticlesContainer/>}/>
+                    <Route path="/category/:slug" render={() => <Articles/>}/>
+                    <Route path="/authors" render={() => <AuthorsContainer/>}/>
+                    <Route path="/login" render={() => <Login/>}/>
+                    <Route path="/register" render={() => <Register/>}/>
+                    <Route path="/profile" render={() => <Dashboard/>}/>
+                </Switch>
             </div>
-        </BrowserRouter>
+
+            <Notification type={props.notification.type}
+                          msg={props.notification.msg}
+                          hideNote={props.hideNote}
+            />
+        </div>
+
     );
 };
 
@@ -56,15 +61,6 @@ const mapStateToProps = (state) => ({
 });
 
 
-let AppWrapper = compose(withRouter, connect(mapStateToProps, {hideNote, initializeApp}))(AppContainer);
-
-const App = () => {
-    return (
-        <BrowserRouter>
-            <AppWrapper/>
-        </BrowserRouter>
-    );
-};
-
+const App = compose(withRouter, connect(mapStateToProps, {hideNote, initializeApp}))(AppContainer);
 
 export default App;

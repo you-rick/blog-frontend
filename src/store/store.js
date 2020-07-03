@@ -1,28 +1,23 @@
-import {applyMiddleware, combineReducers, compose, createStore} from "redux";
+import {applyMiddleware, compose, createStore} from "redux";
+import {routerMiddleware} from "connected-react-router";
 
 import thunkMiddleware from "redux-thunk";
-import usersReducer from "./usersReducer";
-import categoriesReducer from "./categoriesReducer";
-import articlesReducer from "./articlesReducer";
-import profileReducer from "./profileReducer";
-import notificationReducer from "./notificationReducer";
-import {reducer as formReducer} from "redux-form";
-import appReducer from "./appReducer";
+import reducersGroup from "./reducers";
+import {createBrowserHistory} from "history";
 
-const redusersGroup = combineReducers({
-    app: appReducer,
-    users: usersReducer,
-    profile: profileReducer,
-    articles: articlesReducer,
-    categories: categoriesReducer,
-    notification: notificationReducer,
-    form: formReducer
-});
-
+export const history = createBrowserHistory();
 
 // For Redux Browser Extension
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store = createStore(redusersGroup, composeEnhancers(applyMiddleware(thunkMiddleware)));
+
+
+const store = createStore(
+    reducersGroup(history),
+    composeEnhancers(applyMiddleware(
+        routerMiddleware(history),
+        thunkMiddleware
+    ))
+);
 window.__store__ = store;
 
 export default store;
