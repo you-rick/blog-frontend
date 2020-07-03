@@ -23,9 +23,6 @@ const Articles = (props) => {
     }, [slug]);
 
 
-    useEffect(() => {
-    }, [props.articles]);
-
     return (
         <Container maxWidth="lg">
             <Grid container spacing={3} justify="space-between">

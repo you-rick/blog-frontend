@@ -95,6 +95,7 @@ export const requestArticles = (page, pageSize, author, category) => {
             .then(response => {
                 let res = response.data;
                 if (res.status) {
+                    console.log(res);
                     dispatch(setArticles(res.articles));
                     dispatch(setCurrentPage(res.currentPage));
                     dispatch(setTotalPages(res.totalPages));

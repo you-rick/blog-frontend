@@ -90,13 +90,24 @@ export const requestUsers = (page, pageSize) => {
 
 export const requestUserById = (userId) => {
     return (dispatch) => {
+        dispatch(toggleIsFetching(true));
+        dispatch(hideNote());
         usersAPI.getUserById(userId)
             .then(response => {
+                dispatch(toggleIsFetching(false));
                 let res = response.data;
                 if (res.status) {
                     dispatch(setCurrentUser(res.user));
                 }
-            });
+            }).catch(error => {
+            dispatch(toggleIsFetching(false));
+            error.response && dispatch(setNote({
+                msg: error.response.data.message,
+                type: "error",
+                error: true,
+                success: false
+            }));
+        });
     }
 };
 
@@ -106,15 +117,15 @@ const handleFollowUnfollow = (dispatch, authorId, apiMethod, actionCreator) => {
     dispatch(hideNote());
 
     apiMethod(authorId).then(response => {
-            let res = response.data;
-            dispatch(toggleIsFetching(false));
-            if (res.status) {
-                dispatch(actionCreator(authorId, res.user));
-                dispatch(setNote({msg: res.message, type: "success", error: false, success: true}));
-            } else {
-                dispatch(setNote({msg: res.message, type: "error", error: true, success: false}));
-            }
-        }).catch(error => {
+        let res = response.data;
+        dispatch(toggleIsFetching(false));
+        if (res.status) {
+            dispatch(actionCreator(authorId, res.user));
+            dispatch(setNote({msg: res.message, type: "success", error: false, success: true}));
+        } else {
+            dispatch(setNote({msg: res.message, type: "error", error: true, success: false}));
+        }
+    }).catch(error => {
         dispatch(toggleIsFetching(false));
         error.response && dispatch(setNote({
             msg: error.response.data.message,

@@ -6,6 +6,7 @@ import {NavLink} from "react-router-dom";
 import {Grid, Box, Button, Card, CardContent, CardMedia, Typography} from "@material-ui/core";
 import {follow, unfollow} from "../../../store/usersReducer";
 import {setNote} from "../../../store/notificationReducer";
+import {useParams} from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -17,6 +18,7 @@ const useStyles = makeStyles((theme) => ({
     },
     media: {
         flexBasis: '10%',
+        flexShrink: '0',
         paddingBottom: '10%',
         height: '0',
         borderRadius: '50%',
@@ -29,21 +31,28 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AuthorCard = (props) => {
+    const {id} = useParams();
     const classes = useStyles();
     const {followers} = props;
     const noAuthMsg = "User should be logged in";
     const [avatar, setAvatar] = useState("/images/placeholder/default-avatar.png");
     const followCondition = followers.some(id => id === props.profile._id);
     const [isFollowed, setIsFollowed] = useState(followCondition);
+    const [showAbout, setShowAbout] = useState(false);
+
 
     useEffect(() => {
         props.photo && setAvatar(process.env.REACT_APP_SERVER_URL + props.photo);
     }, [props.photo]);
 
     useEffect(() => {
-        console.log(props.fullName, followers, props.profile._id);
         setIsFollowed(followCondition);
     }, [followers]);
+
+    useEffect(() => {
+        id && setShowAbout(true);
+    }, []);
+
 
     const handleFollow = () => {
         if (!props.profile.isAuth) {
@@ -62,7 +71,7 @@ const AuthorCard = (props) => {
                 title="Contemplative Reptile"
             />
             <CardContent className={classes.content}>
-                <Grid container justify="space-between" alignItems="flex-start">
+                <Grid container justify="space-between" alignItems="flex-start" wrap="nowrap">
                     <Grid item>
                         <Typography
                             gutterBottom
@@ -83,6 +92,13 @@ const AuthorCard = (props) => {
                                 {props.followers.length} followers, {props.following.length} following
                             </Typography>
                         </Box>
+                        {showAbout &&
+                        <Box m="1rem 0">
+                            <Typography variant="body2" color="textSecondary" component="p">
+                                {props.about}
+                            </Typography>
+                        </Box>
+                        }
                     </Grid>
                     <Grid item>
                         {(props.profile._id !== props._id) &&
