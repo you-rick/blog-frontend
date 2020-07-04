@@ -2,6 +2,7 @@ import {articlesAPI} from "../api/api";
 import {toggleIsFetching} from "./appReducer";
 import {hideNote, setNote} from "./notificationReducer";
 import {toggleArrayEl} from "../utils/helpers/object-helpers";
+import {push} from "connected-react-router";
 
 
 // Actions
@@ -106,13 +107,26 @@ export const requestArticles = (page, pageSize, author, category) => {
 
 export const requestArticleBySlug = (slug) => {
     return (dispatch) => {
+        dispatch(toggleIsFetching(true));
         articlesAPI.getArticleBySlug(slug)
             .then(response => {
                 let res = response.data;
                 if (res.status) {
+                    dispatch(toggleIsFetching(false));
                     dispatch(setCurrentArticle(res.article[0]));
                 }
-            });
+            }).catch(error => {
+            dispatch(toggleIsFetching(false));
+            dispatch(push('/articles'));
+            console.log("sdfsf");
+            error.response && dispatch(setNote({
+                msg: error.response.data.message,
+                type: "error",
+                error: true,
+                success: false
+            }));
+        });
+        ;
     }
 };
 

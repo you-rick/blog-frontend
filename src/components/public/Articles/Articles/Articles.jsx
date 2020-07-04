@@ -5,6 +5,7 @@ import ArticleCard from "../../../shared/ArticleCard/ArticleCard";
 import {connect} from "react-redux";
 import {requestArticles} from "../../../../store/articlesReducer";
 import {useParams} from 'react-router-dom';
+import {setNote} from "../../../../store/notificationReducer";
 
 
 const Articles = (props) => {
@@ -14,8 +15,16 @@ const Articles = (props) => {
     useEffect(() => {
         if (slug) {
             let ctg = props.categories.filter(el => el.slug === slug)[0];
-            setCategory(ctg.title);
-            props.requestArticles(1, 10, '', ctg._id);
+            if (ctg) {
+                setCategory(ctg.title);
+                props.requestArticles(1, 10, '', ctg._id);
+            } else {
+                props.setNote({
+                    msg: "No category - " + slug,
+                    type: "error"
+                });
+            }
+
         } else {
             props.requestArticles();
         }
@@ -59,4 +68,4 @@ const mapStateToProps = (state) => ({
     categories: state.categories.list
 });
 
-export default connect(mapStateToProps, {requestArticles})(Articles);
+export default connect(mapStateToProps, {requestArticles, setNote})(Articles);

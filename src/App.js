@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Router, Route, Switch, withRouter} from 'react-router-dom';
+import {Router, Route, Switch, withRouter, Redirect} from 'react-router-dom';
 import {ConnectedRouter} from "connected-react-router";
 import {history} from "./store/store";
 import {compose} from "redux";
@@ -17,6 +17,7 @@ import ArticlesContainer from "./components/public/Articles/ArticlesContainer";
 import Preloader from "./components/shared/Preloader/Preloader";
 import AuthorsContainer from "./components/public/Authors/AuthorsContainer";
 import Articles from "./components/public/Articles/Articles/Articles";
+import NotFound from "./components/public/NotFound/NotFound";
 
 const AppContainer = (props) => {
     useEffect(() => {
@@ -42,6 +43,8 @@ const AppContainer = (props) => {
                     <Route path="/login" render={() => <Login/>}/>
                     <Route path="/register" render={() => <Register/>}/>
                     <Route path="/profile" render={() => <Dashboard/>}/>
+                    <Route path="/404" render={() => <NotFound/>}/>
+                    <Redirect to="/404"/>
                 </Switch>
             </div>
 
