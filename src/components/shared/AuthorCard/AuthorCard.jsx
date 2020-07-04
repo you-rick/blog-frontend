@@ -88,9 +88,7 @@ const AuthorCard = (props) => {
                             </Moment>
                         </Typography>
                         <Box m="1rem 0 0">
-                            <Typography variant="subtitle2" color="textSecondary">
-                                {props.followers.length} followers, {props.following.length} following
-                            </Typography>
+
                         </Box>
                         {showAbout &&
                         <Box m="1rem 0">

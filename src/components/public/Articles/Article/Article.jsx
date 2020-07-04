@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {Container, Box, Grid, Typography, IconButton} from "@material-ui/core";
 import {connect} from "react-redux";
 import {useParams} from 'react-router-dom';
@@ -7,23 +7,31 @@ import ReactHtmlParser from 'react-html-parser';
 import EditIcon from '@material-ui/icons/Edit';
 import s from './Article.module.scss';
 import {NavLink} from "react-router-dom";
+import AuthorInfo from "./AuthorInfo/AuthorInfo";
 
 
 const Article = (props) => {
     let {slug} = useParams();
+    const {authorInfo} = props;
+    const [authorData, setAuthorData] = useState(authorInfo);
 
     useEffect(() => {
         props.requestArticleBySlug(slug);
     }, []);
 
+    useEffect(() => {
+        setAuthorData(authorInfo);
+    }, [props.authorInfo]);
+
+
     return (
         <Container maxWidth="md">
             <Grid container direction="column" justify="center" alignItems="center">
-                <Typography component="h1" variant="h4" align="center" className="headline">
+                <Typography component="h1" variant="h4" className="headline">
                     {props.article.title}
                 </Typography>
-                {props.profileId === props.article.author &&
-                  (
+                {props.profile._id === props.article.author &&
+                (
                     <IconButton
                         color="primary"
                         className={s.iconButton}
@@ -32,18 +40,22 @@ const Article = (props) => {
                     >
                         <EditIcon fontSize="small"/>
                     </IconButton>
-                  )
+                )
                 }
             </Grid>
-
             <Box m="2rem 0 0 ">
-                <Typography component="h6" variant="body1" align="center">
+                <Typography component="h6" variant="body1">
                     {props.article.description}
                 </Typography>
             </Box>
+
+            {authorData && <Box m="2rem 0"><AuthorInfo {...authorData}/></Box>}
+
             <Box m="3rem 0" alignItems="center">
                 <Grid container justify="center">
+                    {props.article.image.length &&
                     <img src={process.env.REACT_APP_SERVER_URL + props.article.image} alt={props.article.title}/>
+                    }
                 </Grid>
             </Box>
             <Typography variant="body1" component="div">
@@ -55,7 +67,8 @@ const Article = (props) => {
 
 const mapStateToProps = (state) => ({
     article: state.articles.currentArticle,
-    profileId: state.profile._id
+    profile: state.profile,
+    authorInfo: state.users.currentUser
 });
 
 export default connect(mapStateToProps, {requestArticleBySlug})(Article);

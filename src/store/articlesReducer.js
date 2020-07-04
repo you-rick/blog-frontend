@@ -1,6 +1,7 @@
-import {articlesAPI} from "../api/api";
+import {articlesAPI, usersAPI} from "../api/api";
 import {toggleIsFetching} from "./appReducer";
 import {hideNote, setNote} from "./notificationReducer";
+import {setCurrentUser} from "./usersReducer";
 import {toggleArrayEl} from "../utils/helpers/object-helpers";
 import {push} from "connected-react-router";
 
@@ -43,7 +44,10 @@ const articlesReducer = (state = initialState, action) => {
         case SET_TOTAL_PAGES:
             return {...state, totalPages: action.totalPages};
         case SET_CURRENT_ARTICLE:
-            return {...state, currentArticle: {...action.article}};
+            return {
+                ...state,
+                currentArticle: {...action.article}
+            };
         case LIKE_TOGGLE:
         case SAVE_TOGGLE:
             let currentArticleProp = {};
@@ -109,23 +113,34 @@ export const requestArticleBySlug = (slug) => {
     return (dispatch) => {
         dispatch(toggleIsFetching(true));
         articlesAPI.getArticleBySlug(slug)
-            .then(response => {
-                let res = response.data;
+            .then(articleData => {
+                let res = articleData.data;
                 if (res.status) {
-                    dispatch(toggleIsFetching(false));
                     dispatch(setCurrentArticle(res.article[0]));
+
+                    let userId = res.article[0].author;
+                    console.log(userId);
+                    usersAPI.getUserById(userId).then(userData => {
+                        let res = userData.data;
+                        console.log(res.user);
+                        if (res.status) {
+                            dispatch(setCurrentUser(res.user));
+                            dispatch(toggleIsFetching(false));
+
+                        }
+                    })
                 }
-            }).catch(error => {
-            dispatch(toggleIsFetching(false));
-            dispatch(push('/articles'));
-            console.log("sdfsf");
-            error.response && dispatch(setNote({
-                msg: error.response.data.message,
-                type: "error",
-                error: true,
-                success: false
-            }));
-        });
+            })
+            .catch(error => {
+                dispatch(toggleIsFetching(false));
+                dispatch(push('/articles'));
+                error.response && dispatch(setNote({
+                    msg: error.response.data.message,
+                    type: "error",
+                    error: true,
+                    success: false
+                }));
+            });
         ;
     }
 };
