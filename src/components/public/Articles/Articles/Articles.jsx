@@ -6,17 +6,22 @@ import {connect} from "react-redux";
 import {requestArticles} from "../../../../store/articlesReducer";
 import {useParams} from 'react-router-dom';
 import {setNote} from "../../../../store/notificationReducer";
+import ReactPaginate from "react-paginate";
+import s from "./Articles.module.scss";
 
 
 const Articles = (props) => {
     const {slug} = useParams();
     const [category, setCategory] = useState('Articles');
+    const [slugId, setSlugId] = useState('');
+    const [page, setPage] = useState(props.pagesNumber);
 
     useEffect(() => {
         if (slug) {
             let ctg = props.categories.filter(el => el.slug === slug)[0];
             if (ctg) {
                 setCategory(ctg.title);
+                setSlugId(ctg._id);
                 props.requestArticles(1, 10, '', ctg._id);
             } else {
                 props.setNote({
@@ -30,6 +35,16 @@ const Articles = (props) => {
         }
 
     }, [slug]);
+
+
+    useEffect(() => {
+        setPage(props.pagesNumber);
+    }, [props.pagesNumber]);
+
+
+    const handlePageChange = (page) => {
+        props.requestArticles(page.selected + 1, 10, '', slugId ? slugId : '');
+    };
 
 
     return (
@@ -54,6 +69,21 @@ const Articles = (props) => {
                         </List>
 
                     </Box>
+                    <ReactPaginate
+                        pageCount={page}
+                        pageRangeDisplayed={15}
+                        marginPagesDisplayed={3}
+                        onPageChange={handlePageChange}
+                        previousLabel={'previous'}
+                        nextLabel={'next'}
+                        breakLabel={'...'}
+                        breakClassName={s.pageItem}
+                        containerClassName={s.pagination}
+                        pageClassName={s.pageItem}
+                        previousClassName={s.pageItem}
+                        nextClassName={s.pageItem}
+                        activeClassName={s.activePage}
+                    />
                 </Grid>
                 <Grid item xs={false} sm={3}>
                     <Sidebar/>
@@ -65,7 +95,8 @@ const Articles = (props) => {
 
 const mapStateToProps = (state) => ({
     articles: state.articles.list,
-    categories: state.categories.list
+    categories: state.categories.list,
+    pagesNumber: state.articles.totalPages
 });
 
 export default connect(mapStateToProps, {requestArticles, setNote})(Articles);

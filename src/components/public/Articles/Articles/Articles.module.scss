@@ -1,0 +1,37 @@
+// Paginator
+.pagination {
+  display: inline-flex;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+  padding-left: 0;
+  border-radius: 4px;
+  overflow: hidden;
+
+  .pageItem {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    a {
+      padding: 3px 10px;
+      background: #f7f7f7;
+      cursor: pointer;
+
+      &:hover {
+        background: #ccc;
+      }
+    }
+
+
+    & + .pageItem {
+      border-left: 1px solid #ccc;
+    }
+  }
+}
+
+.activePage.activePage.activePage {
+  a {
+    color: #fff;
+    background: #336699;
+  }
+}
