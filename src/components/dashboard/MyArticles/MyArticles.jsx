@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import {Box, Container, List, ListItem, Grid, Button} from "@material-ui/core";
+import {Box, Container, List, ListItem, Grid, Button, Typography} from "@material-ui/core";
 import ArticleCard from "../../shared/ArticleCard/ArticleCard";
 import {NavLink} from "react-router-dom";
 import {connect} from "react-redux";
@@ -32,6 +32,11 @@ const MyArticles = (props) => {
                             <ArticleCard key={article._id} {...article}/>
                         </ListItem>
                     ))}
+                    {!props.articles.length &&
+                    <Typography variant="body2" color="textSecondary" component="p">
+                        You don't have articles yet
+                    </Typography>
+                    }
                 </List>
             </Box>
         </Container>

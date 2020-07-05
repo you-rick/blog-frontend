@@ -26,7 +26,7 @@ const Article = (props) => {
 
     return (
         <Container maxWidth="md">
-            <Grid container direction="column" justify="center" alignItems="center">
+            <Grid container>
                 <Typography component="h1" variant="h4" className="headline">
                     {props.article.title}
                 </Typography>

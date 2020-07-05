@@ -50,7 +50,7 @@ const AuthorCard = (props) => {
     }, [followers]);
 
     useEffect(() => {
-        id && setShowAbout(true);
+       id && setShowAbout(true);
     }, []);
 
 
@@ -97,6 +97,9 @@ const AuthorCard = (props) => {
                             </Typography>
                         </Box>
                         }
+                        <Typography variant="subtitle2" color="textSecondary">
+                            {props.followers.length} followers, {props.following.length} following
+                        </Typography>
                     </Grid>
                     <Grid item>
                         {(props.profile._id !== props._id) &&

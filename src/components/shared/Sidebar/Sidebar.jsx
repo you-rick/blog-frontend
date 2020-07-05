@@ -1,5 +1,4 @@
 import React from "react";
-import s from "./Sidebar.module.scss";
 import {List, ListItem, ListItemAvatar, ListItemText, Typography, Avatar, Divider, Box} from "@material-ui/core";
 import {makeStyles} from '@material-ui/core/styles';
 
@@ -20,8 +19,8 @@ const Sidebar = () => {
 
     return (
         <>
-            <h2>Popular on Small</h2>
-            <Box boxShadow={1}>
+            <Typography variant="h6" component="h2">Popular on Small</Typography>
+            <Box boxShadow={1} m="0 0 2rem">
                 <List className={classes.root}>
                     <ListItem alignItems="flex-start">
                         <ListItemAvatar>
@@ -91,8 +90,7 @@ const Sidebar = () => {
                 </List>
             </Box>
 
-
-            <h2 className={s.secondHeadline}>Best Authors</h2>
+            <Typography variant="h6" component="h2">Best Authors</Typography>
             <Box boxShadow={1}>
                 <List className={classes.root}>
                     <ListItem>

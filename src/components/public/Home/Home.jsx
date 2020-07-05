@@ -17,7 +17,7 @@ const breakpointColumns = {
 
 const Home = (props) => {
     useEffect(() => {
-        props.requestArticles();
+        props.requestArticles(1, 12, '', '');
         console.log(props.articles);
     }, []);
 

@@ -21,7 +21,7 @@ const useStyles = makeStyles({
         flexGrow: '1'
     },
     media: {
-        flexBasis: '20%',
+        flexBasis: '22%',
         flexShrink: '0',
         minHeight: '160px'
     },
