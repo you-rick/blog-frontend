@@ -8,45 +8,40 @@ import {useParams} from 'react-router-dom';
 import {setNote} from "../../../../store/notificationReducer";
 import ReactPaginate from "react-paginate";
 import s from "./Articles.module.scss";
+import {push} from "connected-react-router";
 
 
 const Articles = (props) => {
-    const {slug} = useParams();
+    const {slug, page} = useParams();
     const [category, setCategory] = useState('Articles');
-    const [slugId, setSlugId] = useState('');
-    const [page, setPage] = useState(props.pagesNumber);
+    const [totalPages, setTotalPages] = useState(props.pagesNumber);
+    const [currentPage, setCurrentPage] = useState(page);
 
     useEffect(() => {
         if (slug) {
             let ctg = props.categories.filter(el => el.slug === slug)[0];
             if (ctg) {
                 setCategory(ctg.title);
-                setSlugId(ctg._id);
-                props.requestArticles(1, 10, '', ctg._id);
+                props.requestArticles(page ? page : 1, 10, '', ctg._id);
             } else {
-                props.setNote({
-                    msg: "No category - " + slug,
-                    type: "error"
-                });
+                props.setNote({msg: "No category - " + slug, type: "error"});
             }
-
-        } else {
-            props.requestArticles();
         }
+        else if (page) {props.requestArticles(page, 10, '', '');}
+        else {props.requestArticles();}
 
-    }, [slug]);
-
+    }, [slug, page]);
 
     useEffect(() => {
-        setPage(props.pagesNumber);
+        setTotalPages(props.pagesNumber);
     }, [props.pagesNumber]);
 
-
     const handlePageChange = (page) => {
-        props.requestArticles(page.selected + 1, 10, '', slugId ? slugId : '');
+        let pageNumber = page.selected === 0 ? '' : page.selected + 1;
+        let slugParam = slug ? slug + '/' : '';
+        props.push(`/articles/${slugParam}${pageNumber}`);
     };
-
-
+    
     return (
         <Container maxWidth="lg">
             <Grid container spacing={3} justify="space-between">
@@ -70,10 +65,12 @@ const Articles = (props) => {
 
                     </Box>
                     <ReactPaginate
-                        pageCount={page}
+                        pageCount={totalPages}
+                        initialPage={currentPage - 1 || 0}
                         pageRangeDisplayed={15}
                         marginPagesDisplayed={3}
                         onPageChange={handlePageChange}
+                        disableInitialCallback={true}
                         previousLabel={'previous'}
                         nextLabel={'next'}
                         breakLabel={'...'}
@@ -99,4 +96,4 @@ const mapStateToProps = (state) => ({
     pagesNumber: state.articles.totalPages
 });
 
-export default connect(mapStateToProps, {requestArticles, setNote})(Articles);
+export default connect(mapStateToProps, {requestArticles, setNote, push})(Articles);
