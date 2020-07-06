@@ -13,10 +13,10 @@ import Login from "./components/auth/Login/Login";
 import Register from "./components/auth/Register/Register";
 import Notification from "./components/shared/Notification/Notification";
 import Dashboard from "./components/dashboard/Dashboard";
-import ArticlesContainer from "./components/public/Articles/ArticlesContainer";
 import Preloader from "./components/shared/Preloader/Preloader";
 import AuthorsContainer from "./components/public/Authors/AuthorsContainer";
 import Articles from "./components/public/Articles/Articles/Articles";
+import Article from "./components/public/Articles/Article/Article";
 import NotFound from "./components/public/NotFound/NotFound";
 
 const AppContainer = (props) => {
@@ -37,8 +37,9 @@ const AppContainer = (props) => {
             <div className="mainContainer">
                 <Switch>
                     <Route exact path="/" render={() => <Home/>}/>
-                    <Route path="/articles" render={() => <ArticlesContainer/>}/>
-                    <Route path="/category/:slug" render={() => <Articles/>}/>
+                    <Route path="/category/:slug/:page?" render={() => <Articles/>}/>
+                    <Route path="/articles/:page?" render={() => <Articles/>}/>
+                    <Route path="/article/:slug" render={() => <Article/>}/>
                     <Route path="/authors" render={() => <AuthorsContainer/>}/>
                     <Route path="/login" render={() => <Login/>}/>
                     <Route path="/register" render={() => <Register/>}/>

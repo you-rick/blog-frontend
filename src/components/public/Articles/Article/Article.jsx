@@ -58,7 +58,7 @@ const Article = (props) => {
                     }
                 </Grid>
             </Box>
-            <Typography variant="body1" component="div">
+            <Typography variant="body1" component="div" className="articleBody">
                 {ReactHtmlParser(props.article.content)}
             </Typography>
         </Container>

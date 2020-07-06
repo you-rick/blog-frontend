@@ -70,7 +70,7 @@ const ArticleCard = (props) => {
     return (
         <Card key={props._id} className={classes.root}>
             <CardContent className={classes.content}>
-                <Typography gutterBottom variant="h6" component={NavLink} to={`/articles/${props.slug}`}
+                <Typography gutterBottom variant="h6" component={NavLink} to={`/article/${props.slug}`}
                             className={classes.link}>
                     {props.title}
                 </Typography>

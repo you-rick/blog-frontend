@@ -60,7 +60,7 @@ const ArticleCardHome = (props) => {
             />
             <CardHeader
                 classes={{title: s.cardHeader, subheader: s.cardSubheader}}
-                title={<NavLink to={`/articles/${props.slug}`} className={s.title}>{props.title}</NavLink>}
+                title={<NavLink to={`/article/${props.slug}`} className={s.title}>{props.title}</NavLink>}
                 subheader={<Moment format="DD MMMM YYYY">{props.date}</Moment>}
             />
             <CardContent>

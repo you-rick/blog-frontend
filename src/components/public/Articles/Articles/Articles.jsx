@@ -18,6 +18,7 @@ const Articles = (props) => {
     const [currentPage, setCurrentPage] = useState(page);
 
     useEffect(() => {
+        console.log("something was changed!");
         if (slug) {
             let ctg = props.categories.filter(el => el.slug === slug)[0];
             if (ctg) {
@@ -26,22 +27,30 @@ const Articles = (props) => {
             } else {
                 props.setNote({msg: "No category - " + slug, type: "error"});
             }
+        } else if (page) {
+            props.requestArticles(page, 10, '', '');
+        } else {
+            props.requestArticles();
         }
-        else if (page) {props.requestArticles(page, 10, '', '');}
-        else {props.requestArticles();}
-
     }, [slug, page]);
 
     useEffect(() => {
         setTotalPages(props.pagesNumber);
     }, [props.pagesNumber]);
 
+
     const handlePageChange = (page) => {
         let pageNumber = page.selected === 0 ? '' : page.selected + 1;
         let slugParam = slug ? slug + '/' : '';
-        props.push(`/articles/${slugParam}${pageNumber}`);
+        if (slug) {
+            props.push(`/category/${slugParam}${pageNumber}`);
+        } else {
+            props.push(`/articles/${pageNumber}`);
+        }
+
     };
-    
+
+
     return (
         <Container maxWidth="lg">
             <Grid container spacing={3} justify="space-between">
