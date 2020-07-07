@@ -109,7 +109,6 @@ export const requestArticles = (page, pageSize, author, category, component) => 
             .then(response => {
                 let res = response.data;
                 if (res.status) {
-                    console.log(res);
                     if (component === 'Home') {
                         dispatch(setHomeArticles(res.articles));
                     } else {

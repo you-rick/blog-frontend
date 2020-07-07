@@ -27,7 +27,7 @@ const Sidebar = (props) => {
     }, []);
 
     useEffect(() => {
-        props.requestSidebarArticles(1, 3, '', '');
+        props.requestSidebarArticles(1, 3, '', '', 1);
     }, []);
 
     return (

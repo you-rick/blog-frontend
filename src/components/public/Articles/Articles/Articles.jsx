@@ -73,6 +73,7 @@ const Articles = (props) => {
                         </List>
 
                     </Box>
+                    {totalPages > 1 &&
                     <ReactPaginate
                         pageCount={totalPages}
                         initialPage={currentPage - 1 || 0}
@@ -90,6 +91,8 @@ const Articles = (props) => {
                         nextClassName={s.pageItem}
                         activeClassName={s.activePage}
                     />
+                    }
+
                 </Grid>
                 <Grid item xs={false} sm={3}>
                     <Sidebar/>

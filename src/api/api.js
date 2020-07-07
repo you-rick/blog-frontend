@@ -37,8 +37,8 @@ export const profileAPI = {
 };
 
 export const articlesAPI = {
-    getArticles(currentPage = 1, pageSize = 10, author = '', category = '') {
-        let query = `page=${currentPage}&limit=${pageSize}&author=${author}&category=${category}`;
+    getArticles(currentPage = 1, pageSize = 10, author = '', category = '', best = 0) {
+        let query = `page=${currentPage}&limit=${pageSize}&author=${author}&category=${category}&best=${best}`;
         return axiosInstance.get(`articles?${query}`);
     },
     getArticleBySlug(slug) {

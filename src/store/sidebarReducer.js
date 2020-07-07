@@ -29,10 +29,10 @@ export const setUsers = (users) => ({type: SET_USERS, users: users});
 
 
 // Thunks
-export const requestSidebarArticles = (page, pageSize, author, category) => {
+export const requestSidebarArticles = (page, pageSize, author, category, best) => {
     return (dispatch) => {
         dispatch(toggleIsFetching(true));
-        articlesAPI.getArticles(page, pageSize, author, category)
+        articlesAPI.getArticles(page, pageSize, author, category, best)
             .then(response => {
                 dispatch(toggleIsFetching(false));
                 let res = response.data;
