@@ -46,6 +46,7 @@ const Articles = (props) => {
         } else {
             props.push(`/articles/${pageNumber}`);
         }
+        window.scrollTo(0, 0);
 
     };
 
