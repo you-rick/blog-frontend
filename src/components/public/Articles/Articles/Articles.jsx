@@ -18,7 +18,6 @@ const Articles = (props) => {
     const [currentPage, setCurrentPage] = useState(page);
 
     useEffect(() => {
-        console.log("something was changed!");
         if (slug) {
             let ctg = props.categories.filter(el => el.slug === slug)[0];
             if (ctg) {

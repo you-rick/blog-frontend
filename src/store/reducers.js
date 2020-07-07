@@ -8,10 +8,12 @@ import profileReducer from "./profileReducer";
 import notificationReducer from "./notificationReducer";
 import {reducer as formReducer} from "redux-form";
 import appReducer from "./appReducer";
+import sidebarReducer from "./sidebarReducer";
 
 
 const reducersGroup = (history) => combineReducers({
     router: connectRouter(history),
+    sidebar: sidebarReducer,
     app: appReducer,
     users: usersReducer,
     profile: profileReducer,

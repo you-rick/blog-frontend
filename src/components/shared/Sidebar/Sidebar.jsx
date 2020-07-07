@@ -1,6 +1,10 @@
-import React from "react";
-import {List, ListItem, ListItemAvatar, ListItemText, Typography, Avatar, Divider, Box} from "@material-ui/core";
+import React, {useEffect} from "react";
+import {List, Typography, Box} from "@material-ui/core";
 import {makeStyles} from '@material-ui/core/styles';
+import {connect} from "react-redux";
+import {requestSidebarUsers, requestSidebarArticles} from "../../../store/sidebarReducer";
+import User from "./User/User";
+import ArticlePreview from "./ArticlePreview/ArticlePreview";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -14,107 +18,35 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const Sidebar = () => {
+const Sidebar = (props) => {
+    const {users, articles} = props;
     const classes = useStyles();
+
+    useEffect(() => {
+        props.requestSidebarUsers(1, 5);
+    }, []);
+
+    useEffect(() => {
+        props.requestSidebarArticles(1, 3, '', '');
+    }, []);
 
     return (
         <>
-            <Typography variant="h6" component="h2">Popular on Small</Typography>
+            <Typography variant="h6" component="h2">Best on Small</Typography>
             <Box boxShadow={1} m="0 0 2rem">
                 <List className={classes.root}>
-                    <ListItem alignItems="flex-start">
-                        <ListItemAvatar>
-                            <Avatar>01</Avatar>
-                        </ListItemAvatar>
-                        <ListItemText
-                            primary="Brunch this weekend?"
-                            secondary={
-                                <React.Fragment>
-                                    <Typography
-                                        component="span"
-                                        variant="body2"
-                                        className={classes.inline}
-                                        color="textPrimary"
-                                    >
-                                        Ali Connors
-                                    </Typography>
-                                    {" — I'll be in your neighborhood doing errands this…"}
-                                </React.Fragment>
-                            }
-                        />
-                    </ListItem>
-                    <Divider variant="inset" component="li"/>
-                    <ListItem alignItems="flex-start">
-                        <ListItemAvatar>
-                            <Avatar>02</Avatar>
-                        </ListItemAvatar>
-                        <ListItemText
-                            primary="Summer BBQ"
-                            secondary={
-                                <React.Fragment>
-                                    <Typography
-                                        component="span"
-                                        variant="body2"
-                                        className={classes.inline}
-                                        color="textPrimary"
-                                    >
-                                        to Scott, Alex, Jennifer
-                                    </Typography>
-                                    {" — Wish I could come, but I'm out of town this…"}
-                                </React.Fragment>
-                            }
-                        />
-                    </ListItem>
-                    <Divider variant="inset" component="li"/>
-                    <ListItem alignItems="flex-start">
-                        <ListItemAvatar>
-                            <Avatar>03</Avatar>
-                        </ListItemAvatar>
-                        <ListItemText
-                            primary="Oui Oui"
-                            secondary={
-                                <React.Fragment>
-                                    <Typography
-                                        component="span"
-                                        variant="body2"
-                                        className={classes.inline}
-                                        color="textPrimary"
-                                    >
-                                        Sandra Adams
-                                    </Typography>
-                                    {' — Do you have Paris recommendations? Have you ever…'}
-                                </React.Fragment>
-                            }
-                        />
-                    </ListItem>
+                    {articles.map((article, index) => (
+                        <ArticlePreview key={article._id} index={index} {...article} />
+                    ))}
                 </List>
             </Box>
 
-            <Typography variant="h6" component="h2">Best Authors</Typography>
+            <Typography variant="h6" component="h2">Popular Authors</Typography>
             <Box boxShadow={1}>
                 <List className={classes.root}>
-                    <ListItem>
-                        <ListItemAvatar>
-                            <Avatar>J</Avatar>
-                        </ListItemAvatar>
-                        <ListItemText primary="John Doe" secondary="10 posts, 78 likes"/>
-                    </ListItem>
-                    <ListItem>
-                        <ListItemAvatar>
-                            <Avatar>
-                                <Avatar>M</Avatar>
-                            </Avatar>
-                        </ListItemAvatar>
-                        <ListItemText primary="Marlon Brando" secondary="6 posts, 14 likes"/>
-                    </ListItem>
-                    <ListItem>
-                        <ListItemAvatar>
-                            <Avatar>
-                                <Avatar>R</Avatar>
-                            </Avatar>
-                        </ListItemAvatar>
-                        <ListItemText primary="Robert De Niro" secondary="11 posts, 55 likes"/>
-                    </ListItem>
+                    {users.map((user) => (
+                        <User key={user._id} {...user} />
+                    ))}
                 </List>
             </Box>
 
@@ -122,5 +54,10 @@ const Sidebar = () => {
     )
 };
 
+const mapStateToProps = (state) => ({
+    users: state.sidebar.users,
+    articles: state.sidebar.articles
+});
 
-export default Sidebar;
+
+export default connect(mapStateToProps, {requestSidebarUsers, requestSidebarArticles})(Sidebar);
