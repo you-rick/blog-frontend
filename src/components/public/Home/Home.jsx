@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import ArticleCardHome from "./ArticleCardHome/ArticleCardHome";
 import Sidebar from "../../shared/Sidebar/Sidebar";
 import {Container, Grid, Box} from "@material-ui/core";
@@ -6,6 +6,7 @@ import {connect} from "react-redux"
 import {requestArticles} from "../../../store/articlesReducer";
 import Masonry from 'react-masonry-css';
 import s from './Home.module.scss';
+import InfiniteScroll from "react-infinite-scroll-component";
 
 
 const breakpointColumns = {
@@ -14,16 +15,28 @@ const breakpointColumns = {
     500: 1
 };
 
-
 const Home = (props) => {
+    const {articles, totalArticles} = props;
+    const [page, setPage] = useState(1);
+    const [hasMore, setHasMore] = useState(true);
+    const [step, setStep] = useState(12);
+
     useEffect(() => {
-        props.requestArticles(1, 12, '', '');
-        console.log(props.articles);
+        props.requestArticles(page, step, '', '', 'Home');
+        setPage(page + 1);
     }, []);
 
+    useEffect(() => {
+        setHasMore(articles.length !== totalArticles);
+    }, [articles, totalArticles]);
 
-    const cards = props.articles.map((article) => (
-        <ArticleCardHome key={article._id} {...article}/>
+    const loadMore = () => {
+        props.requestArticles(page, step, '', '', 'Home');
+        setPage(page + 1);
+    };
+
+    const cards = articles.map((article, index) => (
+        <ArticleCardHome key={index} {...article}/>
     ));
 
     return (
@@ -31,13 +44,26 @@ const Home = (props) => {
             <Container maxWidth="lg">
                 <Grid container spacing={3}>
                     <Grid item xs={12} sm={9}>
-                        <Masonry
-                            breakpointCols={breakpointColumns}
-                            className={s.masonryGrid}
-                            columnClassName={s.masonryGridColumn}
+                        <InfiniteScroll
+                            next={loadMore}
+                            hasMore={hasMore}
+                            loader={<h4>Loading...</h4>}
+                            dataLength={page * step}
+                            endMessage={
+                                <p style={{textAlign: 'center'}}>
+                                    <b>Yay! You have seen it all</b>
+                                </p>
+                            }
                         >
-                            {cards}
-                        </Masonry>
+                            <Masonry
+                                breakpointCols={breakpointColumns}
+                                className={s.masonryGrid}
+                                columnClassName={s.masonryGridColumn}
+                            >
+                                {cards}
+                            </Masonry>
+                        </InfiniteScroll>
+
                     </Grid>
                     <Grid item xs={false} sm={3}>
                         <Sidebar/>
@@ -50,7 +76,8 @@ const Home = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-    articles: state.articles.list
+    articles: state.articles.list,
+    totalArticles: state.articles.totalArticles
 });
 
 export default connect(mapStateToProps, {requestArticles})(Home);

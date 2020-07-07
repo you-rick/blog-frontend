@@ -10,9 +10,11 @@ import {push} from "connected-react-router";
 const LIKE_TOGGLE = 'ARTICLE_LIKE_TOGGLE';
 const SAVE_TOGGLE = 'ARTICLE_SAVE_TOGGLE';
 const SET_ARTICLES = 'SET_ARTICLES';
+const SET_HOME_ARTICLES = 'SET_HOME_ARTICLES';
 const SET_CURRENT_PAGE = 'ARTICLE_SET_CURRENT_PAGE';
 const SET_TOTAL_PAGES = 'ARTICLE_SET_TOTAL_PAGES';
 const SET_CURRENT_ARTICLE = 'SET_CURRENT_ARTICLE';
+const SET_TOTAL_ARTICLES = 'SET_TOTAL_ARTICLES';
 
 let initialState = {
     list: [],
@@ -32,17 +34,22 @@ let initialState = {
     },
     pageSize: 10,
     totalPages: 1,
-    currentPage: 1
+    currentPage: 1,
+    totalArticles: 0
 };
 
 const articlesReducer = (state = initialState, action) => {
     switch (action.type) {
         case SET_ARTICLES:
             return {...state, list: [...action.articles]};
+        case SET_HOME_ARTICLES:
+            return {...state, list: [...state.list, ...action.articles]};
         case SET_CURRENT_PAGE:
             return {...state, currentPage: action.currentPage};
         case SET_TOTAL_PAGES:
             return {...state, totalPages: action.totalPages};
+        case SET_TOTAL_ARTICLES:
+            return {...state, totalArticles: action.totalArticles};
         case SET_CURRENT_ARTICLE:
             return {
                 ...state,
@@ -76,7 +83,9 @@ const articlesReducer = (state = initialState, action) => {
 
 // Action Creators
 export const setArticles = (articles) => ({type: SET_ARTICLES, articles: articles});
+export const setHomeArticles = (articles) => ({type: SET_HOME_ARTICLES, articles: articles});
 export const setCurrentPage = (currentPage) => ({type: SET_CURRENT_PAGE, currentPage: currentPage});
+export const setTotalArticles = (totalArticles) => ({type: SET_TOTAL_ARTICLES, totalArticles: totalArticles});
 export const setTotalPages = (totalPages) => ({type: SET_TOTAL_PAGES, totalPages: totalPages});
 export const setCurrentArticle = (article) => ({type: SET_CURRENT_ARTICLE, article: article});
 export const likeToggle = (articleId, userId) => ({
@@ -94,13 +103,20 @@ export const saveToggle = (articleId, userId) => ({
 
 
 // Thunks
-export const requestArticles = (page, pageSize, author, category) => {
+export const requestArticles = (page, pageSize, author, category, component) => {
     return (dispatch) => {
         articlesAPI.getArticles(page, pageSize, author, category)
             .then(response => {
                 let res = response.data;
                 if (res.status) {
-                    dispatch(setArticles(res.articles));
+                    console.log(res);
+                    if (component === 'Home') {
+                        dispatch(setHomeArticles(res.articles));
+                    } else {
+                        dispatch(setArticles(res.articles));
+                    }
+
+                    dispatch(setTotalArticles(res.totalArticles));
                     dispatch(setCurrentPage(res.currentPage));
                     dispatch(setTotalPages(res.totalPages));
                 }
