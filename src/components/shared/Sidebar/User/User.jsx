@@ -11,6 +11,10 @@ const useStyles = makeStyles((theme) => ({
         lineHeight: "1.5",
         marginBottom: "0.5rem",
         display: "block"
+    },
+    listItem: {
+        paddingTop: "4px",
+        paddingBottom: "4px"
     }
 }));
 
@@ -18,7 +22,7 @@ const User = (props) => {
     const classes = useStyles();
 
     return (
-        <ListItem component={NavLink} to={`/authors/${props._id}`}>
+        <ListItem component={NavLink} to={`/authors/${props._id}`} className={classes.listItem}>
             <ListItemAvatar>
                 <Avatar alt={props.fullName} size="big" src={process.env.REACT_APP_SERVER_URL + props.photo} />
             </ListItemAvatar>

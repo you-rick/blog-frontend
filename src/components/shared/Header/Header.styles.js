@@ -18,6 +18,9 @@ const themeStyles = theme => ({
     },
     sliderButton: {
         textAlign: 'center'
+    },
+    divider: {
+        margin: "0 0.5rem"
     }
 });
 

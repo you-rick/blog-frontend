@@ -34,6 +34,7 @@ const Articles = (props) => {
         } else if (page) {
             props.requestArticles(page, 10, '', '');
         } else {
+            setCategory('Articles');
             props.requestArticles();
         }
     }, [slug, page, categories]);
@@ -46,7 +47,7 @@ const Articles = (props) => {
     useEffect(() => {
         setTimeout(() => {
             setShowArticles(true);
-        }, 500);
+        }, 100);
     }, [props.articles]);
 
 
@@ -81,7 +82,7 @@ const Articles = (props) => {
                                 </ListItem>
                             ))}
 
-                            {(showArticles && !props.articles.length) &&
+                            {(!props.articles.length && !props.isDataFetching) &&
                             <Typography variant="body2" color="textSecondary" component="p">
                                 Sorry, no articles with this topic
                             </Typography>
@@ -121,7 +122,8 @@ const Articles = (props) => {
 const mapStateToProps = (state) => ({
     articles: state.articles.list,
     categories: state.categories.list,
-    pagesNumber: state.articles.totalPages
+    pagesNumber: state.articles.totalPages,
+    isDataFetching: state.app.isDataFetching
 });
 
 export default connect(mapStateToProps, {requestArticles, setNote, push})(Articles);

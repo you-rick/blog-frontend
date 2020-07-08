@@ -17,7 +17,8 @@ import {
     Button,
     Menu,
     MenuItem,
-    Avatar
+    Avatar,
+    Divider
 } from "@material-ui/core";
 import {AccountCircle, BookmarksOutlined, Search, FavoriteBorderOutlined} from "@material-ui/icons";
 import themeStyles from "./Header.styles";
@@ -66,26 +67,13 @@ const Header = (props) => {
                                 Small
                             </Typography>
                             <Box>
-                                <Typography variant="h6">
-                                    <NavLink to="/articles">Articles</NavLink>
-                                    <span> | </span>
-                                    <NavLink to="/authors">Authors</NavLink>
-                                </Typography>
+                                <Grid item container alignItems="center">
+                                    <Button color="inherit" component={NavLink} to="/articles">Articles</Button>
+                                    <Divider orientation="vertical" flexItem className={classes.divider}/>
+                                    <Button color="inherit" component={NavLink} to="/authors">Authors</Button>
+                                </Grid>
                             </Box>
                             <Box display="flex" alignItems="center">
-                                <Grid container spacing={1} alignItems="flex-end">
-                                    <Grid item>
-                                        <Search/>
-                                    </Grid>
-                                    <Grid item>
-                                        <InputBase
-                                            placeholder="Search…"
-                                            inputProps={{'aria-label': 'search'}}
-                                            classes={{input: classes.searchInput}}
-                                        />
-                                    </Grid>
-                                </Grid>
-
                                 <IconButton omponent={NavLink} to="/profile/liked" color="inherit">
                                     <FavoriteBorderOutlined/>
                                 </IconButton>
@@ -123,9 +111,11 @@ const Header = (props) => {
                                         onClose={handleClose}
                                     >
                                         {!props.isAuth && <MenuItem component={NavLink} to="/login">Login</MenuItem>}
-                                        {!props.isAuth && <MenuItem component={NavLink} to="/register">Sign Up</MenuItem>}
+                                        {!props.isAuth &&
+                                        <MenuItem component={NavLink} to="/register">Sign Up</MenuItem>}
                                         {props.isAuth && <MenuItem component={NavLink} to="/profile">Profile</MenuItem>}
-                                        {props.isAuth && <MenuItem component={NavLink} to="/profile/articles" divider>My Articles</MenuItem>}
+                                        {props.isAuth && <MenuItem component={NavLink} to="/profile/articles" divider>My
+                                            Articles</MenuItem>}
                                         {props.isAuth && <MenuItem onClick={logout}>Logout</MenuItem>}
                                     </Menu>
                                 </div>

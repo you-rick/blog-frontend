@@ -110,10 +110,15 @@ export const saveToggle = (articleId, userId) => ({
 // Thunks
 export const requestArticles = (page, pageSize, author, category, component) => {
     return (dispatch) => {
+        console.log(page == 1);
+        page == 1 && dispatch(setArticles([]));
+
+        dispatch(toggleIsFetching(true));
         articlesAPI.getArticles(page, pageSize, author, category)
             .then(response => {
                 let res = response.data;
                 if (res.status) {
+                    dispatch(toggleIsFetching(false));
                     if (component === 'Home') {
                         dispatch(setHomeArticles(res.articles, page));
                     } else {
