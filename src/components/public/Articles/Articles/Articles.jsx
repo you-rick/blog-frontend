@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Container, Grid, Box, List, ListItem, Typography} from "@material-ui/core";
 import Sidebar from "../../../shared/Sidebar/Sidebar";
 import ArticleCard from "../../../shared/ArticleCard/ArticleCard";
+import ArticleCardSkeleton from "../../../shared/ArticleCardSkeleton/ArticleCardSkeleton";
 import {connect} from "react-redux";
 import {requestArticles} from "../../../../store/articlesReducer";
 import {useParams} from 'react-router-dom';
@@ -13,13 +14,17 @@ import {push} from "connected-react-router";
 
 const Articles = (props) => {
     const {slug, page} = useParams();
+    const {categories} = props;
     const [category, setCategory] = useState('Articles');
     const [totalPages, setTotalPages] = useState(props.pagesNumber);
     const [currentPage, setCurrentPage] = useState(page);
+    const [showArticles, setShowArticles] = useState(false);
 
     useEffect(() => {
-        if (slug) {
-            let ctg = props.categories.filter(el => el.slug === slug)[0];
+        setShowArticles(false);
+
+        if (slug && categories.length) {
+            let ctg = categories.filter(el => el.slug === slug)[0];
             if (ctg) {
                 setCategory(ctg.title);
                 props.requestArticles(page ? page : 1, 10, '', ctg._id);
@@ -31,11 +36,18 @@ const Articles = (props) => {
         } else {
             props.requestArticles();
         }
-    }, [slug, page]);
+    }, [slug, page, categories]);
+
 
     useEffect(() => {
         setTotalPages(props.pagesNumber);
     }, [props.pagesNumber]);
+
+    useEffect(() => {
+        setTimeout(() => {
+            setShowArticles(true);
+        }, 500);
+    }, [props.articles]);
 
 
     const handlePageChange = (page) => {
@@ -46,8 +58,6 @@ const Articles = (props) => {
         } else {
             props.push(`/articles/${pageNumber}`);
         }
-        window.scrollTo(0, 0);
-
     };
 
 
@@ -59,13 +69,19 @@ const Articles = (props) => {
 
                     <Box m="1.5rem 0 0" p="0 2rem 0 0">
                         <List>
-                            {props.articles.map((article) => (
+                            {showArticles && props.articles.map((article) => (
                                 <ListItem key={article._id} disableGutters>
                                     <ArticleCard {...article}/>
                                 </ListItem>
                             ))}
 
-                            {!props.articles.length &&
+                            {!showArticles && Array(3).fill().map((item, index) => (
+                                <ListItem key={index} disableGutters>
+                                    <ArticleCardSkeleton/>
+                                </ListItem>
+                            ))}
+
+                            {(showArticles && !props.articles.length) &&
                             <Typography variant="body2" color="textSecondary" component="p">
                                 Sorry, no articles with this topic
                             </Typography>

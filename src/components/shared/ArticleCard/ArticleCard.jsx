@@ -23,7 +23,8 @@ const useStyles = makeStyles({
     media: {
         flexBasis: '22%',
         flexShrink: '0',
-        minHeight: '160px'
+        minHeight: '160px',
+        backgroundColor: '#eee'
     },
     link: {
         textDecoration: 'none',

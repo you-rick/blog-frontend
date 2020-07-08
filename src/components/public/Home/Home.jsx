@@ -40,7 +40,7 @@ const Home = (props) => {
     ));
 
     return (
-        <div style={{padding: 20}}>
+        <div style={{padding: '0 20px'}}>
             <Container maxWidth="lg">
                 <Grid container spacing={3}>
                     <Grid item sm={12} md={9}>

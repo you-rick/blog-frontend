@@ -19,7 +19,7 @@ import {
     MenuItem,
     Avatar
 } from "@material-ui/core";
-import {AccountCircle, BookmarksOutlined, Search} from "@material-ui/icons";
+import {AccountCircle, BookmarksOutlined, Search, FavoriteBorderOutlined} from "@material-ui/icons";
 import themeStyles from "./Header.styles";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 
@@ -27,11 +27,9 @@ const useStyles = makeStyles((theme) => themeStyles(theme));
 
 const Header = (props) => {
     const classes = useStyles();
-
     const [anchorEl, setAnchorEl] = useState(null);
+    const [showCategories, setShowCategories] = useState(false);
     const open = Boolean(anchorEl);
-
-
     const carouselSettings = {
         className: "slider variable-width",
         dots: false,
@@ -41,6 +39,10 @@ const Header = (props) => {
         slidesToScroll: 2,
         variableWidth: true
     };
+
+    useEffect(() => {
+        setShowCategories(true);
+    }, [props.categories]);
 
     const handleMenu = (event) => {
         setAnchorEl(event.currentTarget);
@@ -84,7 +86,10 @@ const Header = (props) => {
                                     </Grid>
                                 </Grid>
 
-                                <IconButton aria-label="saved articles" aria-controls="menu-appbar" color="inherit">
+                                <IconButton omponent={NavLink} to="/profile/liked" color="inherit">
+                                    <FavoriteBorderOutlined/>
+                                </IconButton>
+                                <IconButton component={NavLink} to="/profile/saved" color="inherit">
                                     <BookmarksOutlined/>
                                 </IconButton>
                                 <div>
@@ -96,7 +101,8 @@ const Header = (props) => {
                                         color="inherit"
                                     >
                                         {props.isAuth
-                                            ? <Avatar alt={props.profile.fullName} src={process.env.REACT_APP_SERVER_URL + props.profile.photo} />
+                                            ? <Avatar alt={props.profile.fullName}
+                                                      src={process.env.REACT_APP_SERVER_URL + props.profile.photo}/>
                                             : <AccountCircle/>
                                         }
 
@@ -117,15 +123,9 @@ const Header = (props) => {
                                         onClose={handleClose}
                                     >
                                         {!props.isAuth && <MenuItem component={NavLink} to="/login">Login</MenuItem>}
-                                        {!props.isAuth &&
-                                        <MenuItem component={NavLink} to="/register">Sign Up</MenuItem>}
+                                        {!props.isAuth && <MenuItem component={NavLink} to="/register">Sign Up</MenuItem>}
                                         {props.isAuth && <MenuItem component={NavLink} to="/profile">Profile</MenuItem>}
-                                        {props.isAuth &&
-                                        <MenuItem component={NavLink} to="/profile/articles">My Articles</MenuItem>}
-                                        {props.isAuth &&
-                                        <MenuItem component={NavLink} to="/profile/saved">Saved</MenuItem>}
-                                        {props.isAuth &&
-                                        <MenuItem component={NavLink} to="/profile/liked" divider>Liked</MenuItem>}
+                                        {props.isAuth && <MenuItem component={NavLink} to="/profile/articles" divider>My Articles</MenuItem>}
                                         {props.isAuth && <MenuItem onClick={logout}>Logout</MenuItem>}
                                     </Menu>
                                 </div>
@@ -137,6 +137,7 @@ const Header = (props) => {
             <Box m={4}>
                 <Container maxWidth="lg">
                     <Box p="0 2rem">
+                        {showCategories &&
                         <Slider {...carouselSettings}>
                             {props.categories.map(category =>
                                 <Button key={category._id} className={classes.sliderButton} component={NavLink}
@@ -145,6 +146,8 @@ const Header = (props) => {
                                 </Button>
                             )}
                         </Slider>
+                        }
+
                     </Box>
                 </Container>
             </Box>
