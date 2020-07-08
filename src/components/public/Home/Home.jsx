@@ -17,8 +17,8 @@ const breakpointColumns = {
 
 const Home = (props) => {
     const {articles, totalArticles} = props;
-    const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
+    const [page, setPage] = useState(1);
     const [step, setStep] = useState(12);
 
     useEffect(() => {
@@ -27,7 +27,7 @@ const Home = (props) => {
     }, []);
 
     useEffect(() => {
-        setHasMore(articles.length !== totalArticles);
+        setHasMore(articles.length < totalArticles);
     }, [articles, totalArticles]);
 
     const loadMore = () => {
@@ -43,7 +43,7 @@ const Home = (props) => {
         <div style={{padding: 20}}>
             <Container maxWidth="lg">
                 <Grid container spacing={3}>
-                    <Grid item xs={12} sm={9}>
+                    <Grid item sm={12} md={9}>
                         <InfiniteScroll
                             next={loadMore}
                             hasMore={hasMore}
@@ -65,7 +65,7 @@ const Home = (props) => {
                         </InfiniteScroll>
 
                     </Grid>
-                    <Grid item xs={false} sm={3}>
+                    <Grid item sm={false} md={3}>
                         <Sidebar/>
                     </Grid>
                 </Grid>

@@ -18,6 +18,7 @@ import AuthorsContainer from "./components/public/Authors/AuthorsContainer";
 import Articles from "./components/public/Articles/Articles/Articles";
 import Article from "./components/public/Articles/Article/Article";
 import NotFound from "./components/public/NotFound/NotFound";
+import Footer from "./components/shared/Footer/Footer";
 
 const AppContainer = (props) => {
     useEffect(() => {
@@ -26,7 +27,7 @@ const AppContainer = (props) => {
 
 
     if (!props.initialized) {
-        return <Preloader/>
+       return <Preloader/>
     }
 
     return (
@@ -49,6 +50,8 @@ const AppContainer = (props) => {
                 </Switch>
             </div>
 
+
+            <Footer/>
             <Notification type={props.notification.type}
                           msg={props.notification.msg}
                           hideNote={props.hideNote}
@@ -61,7 +64,8 @@ const AppContainer = (props) => {
 
 const mapStateToProps = (state) => ({
     notification: state.notification,
-    initialized: state.app.initialized
+    initialized: state.app.initialized,
+    isDataFetching: state.app.isDataFetching
 });
 
 

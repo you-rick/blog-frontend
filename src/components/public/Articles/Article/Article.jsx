@@ -26,39 +26,41 @@ const Article = (props) => {
 
     return (
         <Container maxWidth="md">
-            <Grid container>
-                <Typography component="h1" variant="h4" className="headline">
-                    {props.article.title}
-                </Typography>
-                {props.profile._id === props.article.author &&
-                (
-                    <IconButton
-                        color="primary"
-                        className={s.iconButton}
-                        component={NavLink}
-                        to={`/profile/articles/edit/${props.article.slug}`}
-                    >
-                        <EditIcon fontSize="small"/>
-                    </IconButton>
-                )
-                }
-            </Grid>
-            <Box m="2rem 0 0 ">
-                <Typography component="h6" variant="body1">
-                    {props.article.description}
-                </Typography>
+            <Box className={s.articleHeader}>
+                <Grid container>
+                    <Typography component="h1" variant="h4" className="headline">
+                        {props.article.title}
+                    </Typography>
+                    {props.profile._id === props.article.author &&
+                    (
+                        <IconButton
+                            color="primary"
+                            className={s.iconButton}
+                            component={NavLink}
+                            to={`/profile/articles/edit/${props.article.slug}`}
+                        >
+                            <EditIcon fontSize="small"/>
+                        </IconButton>
+                    )
+                    }
+                </Grid>
+                <Box m="2rem 0 0 ">
+                    <Typography component="h6" variant="body1">
+                        {props.article.description}
+                    </Typography>
+                </Box>
+
+                {authorData && <Box m="2rem 0"><AuthorInfo {...authorData}/></Box>}
             </Box>
 
-            {authorData && <Box m="2rem 0"><AuthorInfo {...authorData}/></Box>}
-
-            <Box m="3rem 0" alignItems="center">
+            <Box alignItems="center">
                 <Grid container justify="center">
                     {props.article.image.length &&
                     <img src={process.env.REACT_APP_SERVER_URL + props.article.image} alt={props.article.title}/>
                     }
                 </Grid>
             </Box>
-            <Typography variant="body1" component="div" className="articleBody">
+            <Typography variant="body1" component="div" className={s.articleBody}>
                 {ReactHtmlParser(props.article.content)}
             </Typography>
         </Container>

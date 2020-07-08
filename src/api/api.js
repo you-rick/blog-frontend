@@ -1,8 +1,25 @@
 import * as axios from 'axios';
 import {authHeader} from "../utils/helpers/auth-helpers";
 
+
 const axiosInstance = axios.create({
     baseURL: process.env.REACT_APP_SERVER_URL
+});
+
+
+axiosInstance.interceptors.request.use(function (config) {
+    console.log('loading started');
+    return config
+}, function (error) {
+    return Promise.reject(error);
+});
+
+axiosInstance.interceptors.response.use(function (response) {
+    console.log('loading finished');
+
+    return response;
+}, function (error) {
+    return Promise.reject(error);
 });
 
 

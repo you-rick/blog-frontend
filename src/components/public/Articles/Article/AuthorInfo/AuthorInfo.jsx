@@ -41,6 +41,7 @@ const AuthorInfo = (props) => {
                             <Box m="0 1.5rem 0 1rem">
                                 <Typography
                                     variant="body1"
+                                    color="textPrimary"
                                     component={props.profile._id !== props._id ? NavLink : "span"}
                                     to={`/authors/${props._id}`}>
                                     {props.fullName}

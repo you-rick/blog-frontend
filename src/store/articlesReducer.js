@@ -43,7 +43,12 @@ const articlesReducer = (state = initialState, action) => {
         case SET_ARTICLES:
             return {...state, list: [...action.articles]};
         case SET_HOME_ARTICLES:
-            return {...state, list: [...state.list, ...action.articles]};
+            if (action.page == 1) {
+                return {...state, list: [...action.articles]};
+            } else {
+                return {...state, list: [...state.list, ...action.articles]};
+            }
+
         case SET_CURRENT_PAGE:
             return {...state, currentPage: action.currentPage};
         case SET_TOTAL_PAGES:
@@ -83,7 +88,7 @@ const articlesReducer = (state = initialState, action) => {
 
 // Action Creators
 export const setArticles = (articles) => ({type: SET_ARTICLES, articles: articles});
-export const setHomeArticles = (articles) => ({type: SET_HOME_ARTICLES, articles: articles});
+export const setHomeArticles = (articles, page) => ({type: SET_HOME_ARTICLES, articles: articles, page: page});
 export const setCurrentPage = (currentPage) => ({type: SET_CURRENT_PAGE, currentPage: currentPage});
 export const setTotalArticles = (totalArticles) => ({type: SET_TOTAL_ARTICLES, totalArticles: totalArticles});
 export const setTotalPages = (totalPages) => ({type: SET_TOTAL_PAGES, totalPages: totalPages});
@@ -110,7 +115,7 @@ export const requestArticles = (page, pageSize, author, category, component) => 
                 let res = response.data;
                 if (res.status) {
                     if (component === 'Home') {
-                        dispatch(setHomeArticles(res.articles));
+                        dispatch(setHomeArticles(res.articles, page));
                     } else {
                         dispatch(setArticles(res.articles));
                     }

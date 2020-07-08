@@ -61,7 +61,7 @@ const Articles = (props) => {
                         <List>
                             {props.articles.map((article) => (
                                 <ListItem key={article._id} disableGutters>
-                                    <ArticleCard key={article._id} {...article}/>
+                                    <ArticleCard {...article}/>
                                 </ListItem>
                             ))}
 
