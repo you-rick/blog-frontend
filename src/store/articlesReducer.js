@@ -43,7 +43,7 @@ const articlesReducer = (state = initialState, action) => {
         case SET_ARTICLES:
             return {...state, list: [...action.articles]};
         case SET_HOME_ARTICLES:
-            if (action.page == 1) {
+            if (parseInt(action.page) === 1) {
                 return {...state, list: [...action.articles]};
             } else {
                 return {...state, list: [...state.list, ...action.articles]};
@@ -108,12 +108,11 @@ export const saveToggle = (articleId, userId) => ({
 
 
 // Thunks
-export const requestArticles = (page, pageSize, author, category, component) => {
+export const requestArticles = (page = 1, pageSize = 10, author, category, component) => {
     return (dispatch) => {
-        console.log(page == 1);
-        page == 1 && dispatch(setArticles([]));
-
         dispatch(toggleIsFetching(true));
+        (page * 1) === 1 && dispatch(setArticles([]));
+
         articlesAPI.getArticles(page, pageSize, author, category)
             .then(response => {
                 let res = response.data;

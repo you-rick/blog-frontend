@@ -8,7 +8,7 @@ const AuthorsContainer = (props) => {
     return (
         <>
             <Switch>
-                <Route exact path={`${url}/`} render={() => <Authors/>}/>
+                <Route exact path={`${url}/:page?`} render={() => <Authors/>}/>
                 <Route path={`${url}/:id`} render={() => <Author/>}/>
             </Switch>
         </>

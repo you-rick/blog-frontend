@@ -8,7 +8,6 @@ import {requestArticles} from "../../../../store/articlesReducer";
 import {useParams} from 'react-router-dom';
 import {setNote} from "../../../../store/notificationReducer";
 import ReactPaginate from "react-paginate";
-import s from "./Articles.module.scss";
 import {push} from "connected-react-router";
 
 
@@ -22,7 +21,7 @@ const Articles = (props) => {
 
     useEffect(() => {
         setShowArticles(false);
-
+        console.log("here!");
         if (slug && categories.length) {
             let ctg = categories.filter(el => el.slug === slug)[0];
             if (ctg) {
@@ -45,9 +44,9 @@ const Articles = (props) => {
     }, [props.pagesNumber]);
 
     useEffect(() => {
-        setTimeout(() => {
-            setShowArticles(true);
-        }, 100);
+       setTimeout(() => {
+           setShowArticles(true);
+       }, 200);
     }, [props.articles]);
 
 
@@ -82,7 +81,7 @@ const Articles = (props) => {
                                 </ListItem>
                             ))}
 
-                            {(!props.articles.length && !props.isDataFetching) &&
+                            {(showArticles && !props.articles.length && !props.isDataFetching) &&
                             <Typography variant="body2" color="textSecondary" component="p">
                                 Sorry, no articles with this topic
                             </Typography>
@@ -101,12 +100,12 @@ const Articles = (props) => {
                         previousLabel={'previous'}
                         nextLabel={'next'}
                         breakLabel={'...'}
-                        breakClassName={s.pageItem}
-                        containerClassName={s.pagination}
-                        pageClassName={s.pageItem}
-                        previousClassName={s.pageItem}
-                        nextClassName={s.pageItem}
-                        activeClassName={s.activePage}
+                        breakClassName="pageItem"
+                        containerClassName="pagination"
+                        pageClassName="pageItem"
+                        previousClassName="pageItem"
+                        nextClassName="pageItem"
+                        activeClassName="activePage"
                     />
                     }
 
