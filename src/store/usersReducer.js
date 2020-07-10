@@ -76,9 +76,12 @@ export const followToggle = (authorId, userId) => ({type: FOLLOW_TOGGLE, authorI
 // Thunks
 export const requestUsers = (page, pageSize) => {
     return (dispatch) => {
+        dispatch(setUsers(initialState.list));
+        dispatch(toggleIsFetching(true));
         usersAPI.getUsers(page, pageSize)
             .then(response => {
                 let res = response.data;
+                dispatch(toggleIsFetching(false));
                 if (res.status) {
                     dispatch(setUsers(res.users));
                     dispatch(setCurrentPage(res.currentPage));

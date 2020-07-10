@@ -134,6 +134,7 @@ export const requestArticles = (page = 1, pageSize = 10, author, category, compo
 
 export const requestArticleBySlug = (slug) => {
     return (dispatch) => {
+        dispatch(setCurrentArticle(initialState.currentArticle));
         dispatch(toggleIsFetching(true));
         articlesAPI.getArticleBySlug(slug)
             .then(articleData => {

@@ -8,11 +8,13 @@ import EditIcon from '@material-ui/icons/Edit';
 import s from './Article.module.scss';
 import {NavLink} from "react-router-dom";
 import AuthorInfo from "./AuthorInfo/AuthorInfo";
+import ArticleSkeleton from "./ArticleSkeleton/ArticleSkeleton";
 
 
 const Article = (props) => {
     let {slug} = useParams();
-    const {authorInfo} = props;
+    const {authorInfo, isDataFetching} = props;
+    const [showArticle, setShowArticle] = useState(false);
     const [authorData, setAuthorData] = useState(authorInfo);
 
     useEffect(() => {
@@ -21,8 +23,13 @@ const Article = (props) => {
 
     useEffect(() => {
         setAuthorData(authorInfo);
-    }, [props.authorInfo]);
+    }, [authorInfo]);
 
+    useEffect(() => {
+        props.article.title && setShowArticle(true);
+    }, [props.article.title]);
+
+    if (!showArticle || isDataFetching) return <ArticleSkeleton/>;
 
     return (
         <Container maxWidth="md">
@@ -70,7 +77,8 @@ const Article = (props) => {
 const mapStateToProps = (state) => ({
     article: state.articles.currentArticle,
     profile: state.profile,
-    authorInfo: state.users.currentUser
+    authorInfo: state.users.currentUser,
+    isDataFetching: state.app.isDataFetching
 });
 
 export default connect(mapStateToProps, {requestArticleBySlug})(Article);

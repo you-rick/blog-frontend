@@ -22,7 +22,8 @@ const Authors = (props) => {
     }, [page]);
 
     useEffect(() => {
-        setShowAuthors(true);
+        console.log("something here!");
+        authors.length && setShowAuthors(true);
     }, [authors]);
 
     useEffect(() => {

@@ -15,13 +15,12 @@ const Articles = (props) => {
     const {slug, page} = useParams();
     const {categories} = props;
     const [category, setCategory] = useState('Articles');
-    const [totalPages, setTotalPages] = useState(props.pagesNumber);
+    const [totalPages, setTotalPages] = useState(1);
     const [currentPage, setCurrentPage] = useState(page);
     const [showArticles, setShowArticles] = useState(false);
 
     useEffect(() => {
         setShowArticles(false);
-        console.log("here!");
         if (slug && categories.length) {
             let ctg = categories.filter(el => el.slug === slug)[0];
             if (ctg) {
@@ -44,9 +43,9 @@ const Articles = (props) => {
     }, [props.pagesNumber]);
 
     useEffect(() => {
-       setTimeout(() => {
-           setShowArticles(true);
-       }, 200);
+        setTimeout(() => {
+            props.articles.length && setShowArticles(true);
+        }, 100);
     }, [props.articles]);
 
 
@@ -69,13 +68,13 @@ const Articles = (props) => {
 
                     <Box m="1.5rem 0 0" p="0 2rem 0 0">
                         <List>
-                            {showArticles && props.articles.map((article) => (
+                            {(showArticles && !props.isDataFetching) && props.articles.map((article) => (
                                 <ListItem key={article._id} disableGutters>
                                     <ArticleCard {...article}/>
                                 </ListItem>
                             ))}
 
-                            {!showArticles && Array(3).fill().map((item, index) => (
+                            {(!showArticles || props.isDataFetching) && Array(3).fill().map((item, index) => (
                                 <ListItem key={index} disableGutters>
                                     <ArticleCardSkeleton/>
                                 </ListItem>

@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
         paddingBottom: '10%',
         height: '0',
         borderRadius: '50%',
+        backgroundColor: '#eee',
         margin: theme.spacing(2)
     },
     header: {
