@@ -28,9 +28,13 @@ const AccountForm = (props) => {
                     <Field name="repeatPassword" label="Repeat password" type="password" fullWidth={true}
                            component={renderTextField}/>
                 </Grid>
+
                 <Grid container justify="flex-end">
-                    <Button variant="contained" color="primary" type="submit">Next</Button>
+                    <Box m="2rem 0.5rem 0.5rem">
+                        <Button variant="contained" color="primary" type="submit">Next</Button>
+                    </Box>
                 </Grid>
+
             </Grid>
         </form>
     )

@@ -16,9 +16,10 @@ const steps = ['Create Account', 'Personal Information', 'Topics'];
 
 
 const RegisterForm = (props) => {
-    const {onSubmit} = props;
+    const {onSubmit, categories} = props;
     const [activeStep, setActiveStep] = useState(0);
     const [imagePreview, setImagePreview] = useState('');
+    const [categoriesList, setCategoriesList] = useState([]);
 
     useEffect(() => {
         if (props.isSuccessNote && activeStep !== 0) {
@@ -26,8 +27,13 @@ const RegisterForm = (props) => {
         }
     }, [props]);
 
+    useEffect(() => {
+        setCategoriesList(categories);
+    }, [categories]);
+
     const fileChange = ((file, preview) => {
         setImagePreview(preview);
+        console.log(preview);
     });
 
     const handleNext = () => {
@@ -63,6 +69,7 @@ const RegisterForm = (props) => {
                         />}
                         {activeStep === 2 &&
                         <CategoriesForm
+                            categories={categoriesList}
                             previousPage={handleBack}
                             onSubmit={onSubmit}/>}
                         {activeStep === 3 &&
@@ -81,7 +88,7 @@ const Register = (props) => {
         props.register(objectToFormData(data));
     };
 
-    return <RegisterForm onSubmit={onSubmit} isFetching={props.isFetching} isSuccessNote={props.isSuccessNote}/>;
+    return <RegisterForm onSubmit={onSubmit} categories={props.categories} isFetching={props.isFetching} isSuccessNote={props.isSuccessNote}/>;
 };
 
 

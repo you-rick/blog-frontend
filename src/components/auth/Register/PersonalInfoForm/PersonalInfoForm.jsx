@@ -14,7 +14,7 @@ const maxMbFileSize = 4 * 1024 * 1024; // 5Mb
 
 const PersonalInfoForm = (props) => {
 
-    const { handleSubmit, previousPage } = props;
+    const {handleSubmit, previousPage} = props;
 
     const onDrop = (image) => {
         console.log(image);
@@ -31,7 +31,7 @@ const PersonalInfoForm = (props) => {
                         maxNumber={maxNumber}
                         maxFileSize={maxMbFileSize}
                         defaultValue={props.preview && [{dataURL: props.preview}]}
-                        acceptType={["jpg", "gif", "png"]}
+                        acceptType={["jpg", "jpeg", "gif", "png"]}
                     >
                         {({imageList, onImageUpload, onImageRemoveAll}) => (
                             // write your building UI
@@ -84,8 +84,13 @@ const PersonalInfoForm = (props) => {
                 </Grid>
             </Grid>
             <Grid container justify="flex-end">
-                <Button type="button" onClick={previousPage}>Back</Button>
-                <Button variant="contained" color="primary" type="submit">Next</Button>
+                <Box m="2rem 0 0">
+                    <Grid container justify="flex-end">
+                        <Button type="button" onClick={previousPage}>Back</Button>
+                        <Button variant="contained" color="primary" type="submit">Next</Button>
+                    </Grid>
+                </Box>
+
             </Grid>
         </form>
     );

@@ -4,10 +4,8 @@ import {connect} from "react-redux";
 import Slider from "react-slick";
 import "./Header.scss";
 import {logout} from "../../../store/profileReducer";
-
 import {
     AppBar,
-    InputBase,
     Toolbar,
     Typography,
     Container,
@@ -20,7 +18,7 @@ import {
     Avatar,
     Divider
 } from "@material-ui/core";
-import {AccountCircle, BookmarksOutlined, Search, FavoriteBorderOutlined} from "@material-ui/icons";
+import {AccountCircle, BookmarksOutlined, FavoriteBorderOutlined} from "@material-ui/icons";
 import themeStyles from "./Header.styles";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 

@@ -45,6 +45,7 @@ export const initializeApp = () => {
                 }, 500);
             });
         } else {
+            dispatch(getCategories());
             dispatch(initializedSuccess());
         }
     }
