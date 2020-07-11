@@ -10,7 +10,9 @@ import {postArticle, updateArticle, requestArticleBySlug} from "../../../../stor
 import validate from "./validate";
 import {change, reduxForm, Field} from "redux-form";
 import {renderTextField, renderSelectField} from "../../../shared/FormControls/FormControls";
-import {Box, Container, Card, CardContent, MenuItem, Grid, Button} from "@material-ui/core";
+import {Box, Container, Card, CardContent, MenuItem, Grid, Button, IconButton} from "@material-ui/core";
+import DeleteIcon from '@material-ui/icons/Delete';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import {createMuiTheme, MuiThemeProvider} from '@material-ui/core/styles';
 import {useParams} from 'react-router-dom';
 
@@ -136,17 +138,29 @@ const ArticleForm = (props) => {
                         acceptType={["jpg", "jpeg", "gif", "png"]}
                     >
                         {({imageList, onImageUpload, onImageRemoveAll}) => (
-                            // write your building UI
                             <div>
-                                <button type="button" onClick={onImageUpload}>Upload images</button>
-                                <button type="button" onClick={onImageRemoveAll}>Remove all images</button>
+                                <Field name="preview" component={bodyField} value={imagePreview}/>
+                                <Grid container alignItems="center" justify="center">
+                                    <Button
+                                        type="button"
+                                        variant="outlined"
+                                        color="primary"
+                                        startIcon={<CloudUploadIcon/>}
+                                        onClick={onImageUpload}
+                                    >
+                                        Add image
+                                    </Button>
+                                </Grid>
 
                                 {imageList.map((image) => (
-                                    <div key={image.key}>
-                                        <img src={image.dataURL} className="imagePreview" alt="Preview"/>
-                                        <button type="button" onClick={image.onUpdate}>Update</button>
-                                        <button type="button" onClick={image.onRemove}>Remove</button>
-                                    </div>
+                                    <Grid container alignItems="center" justify="center" key={image.key}
+                                          style={{marginTop: 12}}>
+                                        <img src={image.dataURL} className="postImagePreview" alt="Preview"/>
+                                        <IconButton color="secondary" className="removePreview" type="button"
+                                                    onClick={image.onRemove}>
+                                            <DeleteIcon/>
+                                        </IconButton>
+                                    </Grid>
                                 ))}
                             </div>
                         )}
@@ -212,7 +226,8 @@ const ArticleFormContainer = (props) => {
 
     };
 
-    return <ArticleReduxForm onSubmit={onSubmit} article={props.article} editMode={editMode} categories={props.categories}/>
+    return <ArticleReduxForm onSubmit={onSubmit} article={props.article} editMode={editMode}
+                             categories={props.categories}/>
 };
 
 

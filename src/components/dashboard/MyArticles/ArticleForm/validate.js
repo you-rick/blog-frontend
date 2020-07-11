@@ -19,6 +19,9 @@ const validate = values => {
     if (!values.content) {
         errors.content = 'Required field'
     }
+    if (!values.preview) {
+        errors.preview = 'Image us required'
+    }
 
 
     return errors

@@ -1,3 +1,22 @@
+.imagePreviewWrap {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+}
 .imagePreview {
-  max-width: 200px;
+  width: 140px;
+  height: 140px;
+  border-radius: 100px;
+  background-color: #eee;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.removePreview.removePreview {
+  border: 1px solid;
+  margin-right: -50px;
+  position: relative;
+  right: -10px;
 }

@@ -68,13 +68,13 @@ const Articles = (props) => {
 
                     <Box m="1.5rem 0 0" p="0 2rem 0 0">
                         <List>
-                            {(showArticles && !props.isDataFetching) && props.articles.map((article) => (
+                            {showArticles && props.articles.map((article) => (
                                 <ListItem key={article._id} disableGutters>
                                     <ArticleCard {...article}/>
                                 </ListItem>
                             ))}
 
-                            {(!showArticles || props.isDataFetching) && Array(3).fill().map((item, index) => (
+                            {!showArticles && Array(3).fill().map((item, index) => (
                                 <ListItem key={index} disableGutters>
                                     <ArticleCardSkeleton/>
                                 </ListItem>

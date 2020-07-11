@@ -37,11 +37,11 @@ const useStyles = makeStyles({
 });
 
 const ArticleCard = (props) => {
-    const {saved, liked} = props;
+    const {saved, liked, profile} = props;
     const classes = useStyles();
     const noAuthMsg = "User should be logged in";
-    const likedCondition = liked.some(id => id === props.profile._id);
-    const savedCondition = saved.some(id => id === props.profile._id);
+    const likedCondition = liked.some(id => id === profile._id);
+    const savedCondition = saved.some(id => id === profile._id);
     const [isSaved, setIsSaved] = useState(savedCondition);
     const [isLiked, setIsLiked] = useState(likedCondition);
 
@@ -51,7 +51,7 @@ const ArticleCard = (props) => {
     }, [saved, liked]);
 
     const handleLike = () => {
-        if (!props.profile.isAuth) {
+        if (!profile.isAuth) {
             props.setNote({msg: noAuthMsg});
         } else {
             !isLiked && props.like(props._id);
@@ -60,7 +60,7 @@ const ArticleCard = (props) => {
     };
 
     const handleSave = () => {
-        if (!props.profile.isAuth) {
+        if (!profile.isAuth) {
             props.setNote({msg: noAuthMsg});
         } else {
             !isSaved && props.save(props._id);
@@ -85,6 +85,7 @@ const ArticleCard = (props) => {
                         </Moment>
                     </Typography>
                 </Box>
+                {profile._id !== props.author &&
                 <Grid container>
                     <Box m="0 1rem 0 0">
                         <IconButton className={classes.iconButton} onClick={handleSave}>
@@ -101,6 +102,8 @@ const ArticleCard = (props) => {
                         }
                     </IconButton>
                 </Grid>
+                }
+
             </CardContent>
             <CardMedia
                 className={classes.media}

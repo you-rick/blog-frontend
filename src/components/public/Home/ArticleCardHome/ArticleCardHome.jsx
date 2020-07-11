@@ -20,10 +20,10 @@ import {setNote} from "../../../../store/notificationReducer";
 
 
 const ArticleCardHome = (props) => {
-    const {saved, liked} = props;
+    const {saved, liked, profile} = props;
     const noAuthMsg = "User should be logged in";
-    const likedCondition = liked.some(id => id === props.profile._id);
-    const savedCondition = saved.some(id => id === props.profile._id);
+    const likedCondition = liked.some(id => id === profile._id);
+    const savedCondition = saved.some(id => id === profile._id);
     const [isSaved, setIsSaved] = useState(savedCondition);
     const [isLiked, setIsLiked] = useState(likedCondition);
 
@@ -33,7 +33,7 @@ const ArticleCardHome = (props) => {
     }, [saved, liked]);
 
     const handleLike = () => {
-        if (!props.profile.isAuth) {
+        if (!profile.isAuth) {
             props.setNote({msg: noAuthMsg});
         } else {
             !isLiked && props.like(props._id);
@@ -42,7 +42,7 @@ const ArticleCardHome = (props) => {
     };
 
     const handleSave = () => {
-        if (!props.profile.isAuth) {
+        if (!profile.isAuth) {
             props.setNote({msg: noAuthMsg});
         } else {
             !isSaved && props.save(props._id);
@@ -68,6 +68,8 @@ const ArticleCardHome = (props) => {
                     {props.description}
                 </Typography>
             </CardContent>
+
+            {profile._id !== props.author &&
             <CardActions disableSpacing>
                 <Box m="0 1rem 0 0">
                     <IconButton onClick={handleSave}>
@@ -84,6 +86,7 @@ const ArticleCardHome = (props) => {
                     }
                 </IconButton>
             </CardActions>
+            }
         </Card>
     )
 };

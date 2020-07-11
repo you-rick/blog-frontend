@@ -1,11 +1,13 @@
 import React from "react";
 import ImageUploading from "react-images-uploading";
 import "./PersonalInfoForm.scss";
-import {Button, Grid} from "@material-ui/core";
+import {Button, Grid, IconButton} from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import {change, Field, reduxForm} from "redux-form";
 import validate from "../validate";
 import {renderTextField} from "../../../shared/FormControls/FormControls";
+import DeleteIcon from '@material-ui/icons/Delete';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 
 const maxNumber = 1;
 const maxMbFileSize = 4 * 1024 * 1024; // 5Mb
@@ -34,14 +36,32 @@ const PersonalInfoForm = (props) => {
                         {({imageList, onImageUpload, onImageRemoveAll}) => (
                             // write your building UI
                             <div>
-                                <button type="button" onClick={onImageUpload}>Upload images</button>
-                                <button type="button" onClick={onImageRemoveAll}>Remove all images</button>
-
+                                <Grid container alignItems="center" justify="center">
+                                    <Button
+                                        type="button"
+                                        variant="outlined"
+                                        color="primary"
+                                        startIcon={<CloudUploadIcon/>}
+                                        onClick={onImageUpload}
+                                    >
+                                        Add photo
+                                    </Button>
+                                </Grid>
                                 {imageList.map((image) => (
-                                    <div key={image.key}>
-                                        <img src={image.dataURL} className="imagePreview"/>
-                                        <button type="button" onClick={image.onUpdate}>Update</button>
-                                        <button type="button" onClick={image.onRemove}>Remove</button>
+                                    <div key={image.key} className="imagePreviewWrap">
+                                        <div
+                                            className="imagePreview"
+                                            style={{backgroundImage: `url(${image.dataURL})`}}>
+
+                                        </div>
+                                        <IconButton
+                                            color="secondary"
+                                            className="removePreview"
+                                            type="button"
+                                            onClick={onImageRemoveAll
+                                            }>
+                                            <DeleteIcon/>
+                                        </IconButton>
                                     </div>
                                 ))}
                             </div>

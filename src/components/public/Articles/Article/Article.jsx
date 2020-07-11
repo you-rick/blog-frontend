@@ -6,6 +6,7 @@ import {requestArticleBySlug} from "../../../../store/articlesReducer";
 import ReactHtmlParser from 'react-html-parser';
 import EditIcon from '@material-ui/icons/Edit';
 import s from './Article.module.scss';
+import Moment from "react-moment";
 import {NavLink} from "react-router-dom";
 import AuthorInfo from "./AuthorInfo/AuthorInfo";
 import ArticleSkeleton from "./ArticleSkeleton/ArticleSkeleton";
@@ -55,6 +56,12 @@ const Article = (props) => {
                     <Typography component="h6" variant="body1">
                         {props.article.description}
                     </Typography>
+                    <Typography variant="body2" color="textSecondary" component="p" style={{marginTop: 6}}>
+                        <Moment format="DD MMMM YYYY">
+                            {props.date}
+                        </Moment>
+                    </Typography>
+
                 </Box>
 
                 {authorData && <Box m="2rem 0"><AuthorInfo {...authorData}/></Box>}

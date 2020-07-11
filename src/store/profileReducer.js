@@ -2,6 +2,7 @@ import {profileAPI} from "../api/api";
 import {setNote, hideNote} from "./notificationReducer";
 import {reset} from "redux-form";
 import {toggleIsFetching} from "./appReducer";
+import {push} from "connected-react-router";
 
 
 // Actions
@@ -110,6 +111,7 @@ export const logout = () => {
         dispatch(setAuthStatus(false));
         dispatch(setProfileData(initialState));
         localStorage.removeItem('token');
+        dispatch(push('/login'));
     }
 };
 
