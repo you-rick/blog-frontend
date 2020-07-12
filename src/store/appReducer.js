@@ -35,19 +35,16 @@ export const initializedSuccess = () => ({type: INITIALIZED_SUCCESS});
 // Thunks
 export const initializeApp = () => {
     return (dispatch) => {
-        if (localStorage.getItem('token')) {
-            dispatch(toggleIsFetching(true));
+        let promiseArray = [dispatch(getCategories())];
+        localStorage.getItem('token') && promiseArray.push(dispatch(getProfile()));
+        dispatch(toggleIsFetching(true));
 
-            Promise.all([dispatch(getProfile()), dispatch(getCategories())]).then(() => {
-                setTimeout(() => {
-                    dispatch(toggleIsFetching(false));
-                    dispatch(initializedSuccess());
-                }, 500);
-            });
-        } else {
-            dispatch(getCategories());
-            dispatch(initializedSuccess());
-        }
+        Promise.all(promiseArray).then(() => {
+            setTimeout(() => {
+                dispatch(toggleIsFetching(false));
+                dispatch(initializedSuccess());
+            }, 500);
+        });
     }
 };
 

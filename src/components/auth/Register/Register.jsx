@@ -1,13 +1,13 @@
 import React, {useState, useEffect} from "react";
 import {register} from "../../../store/profileReducer";
 import {connect} from "react-redux";
-import {reduxForm, change} from "redux-form";
 import Preloader from "../../shared/Preloader/Preloader";
 
 import AccountForm from "./AccountForm/AccountForm";
 import CategoriesForm from "./CategoriesForm/CategoriesForm";
 import PersonalInfoForm from "./PersonalInfoForm/PersonalInfoForm";
 import RegisterSuccess from "./RegisterSuccess/RegisterSuccess";
+
 import {Box, Container, Stepper, Step, StepLabel, Card, CardContent} from "@material-ui/core";
 import {objectToFormData} from "../../../utils/helpers/object-helpers";
 
@@ -84,9 +84,7 @@ const RegisterForm = (props) => {
 };
 
 const Register = (props) => {
-    const onSubmit = (data) => {
-        props.register(objectToFormData(data));
-    };
+    const onSubmit = (data) => {props.register(objectToFormData(data))};
 
     return <RegisterForm onSubmit={onSubmit} categories={props.categories} isFetching={props.isFetching} isSuccessNote={props.isSuccessNote}/>;
 };

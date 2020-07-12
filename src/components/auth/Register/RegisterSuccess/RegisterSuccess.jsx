@@ -4,7 +4,7 @@ import {NavLink} from "react-router-dom";
 
 const RegisterSuccess = () => {
     return (
-        <div>
+        <div style={{textAlign: "center"}}>
             <h1>Successful Registration!</h1>
             <p>Now you can <NavLink to="/login">Log In</NavLink></p>
         </div>
