@@ -1,6 +1,6 @@
 Small - is copy of popular Medium blog, created with MERN stack - React, Nodejs, Express, Mongodb.
 
-1.Frontend - React, Redux, Redux Thunk, Redux Forms, Material UI, Skeleton UI, Axios, Masonry, Infinite Scrolling
+1. Frontend - React, Redux, Redux Thunk, Redux Forms, Material UI, Skeleton UI, Axios, Masonry, Infinite Scrolling
 2. Backend - NodeJS, Express, PassportJS, MongoDB
 
 ## Available Scripts
