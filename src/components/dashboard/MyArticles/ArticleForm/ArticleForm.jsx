@@ -91,7 +91,7 @@ const ArticleForm = (props) => {
 
     return (
         <Container maxWidth="md">
-            <h1>Create new post</h1>
+            <h1>{editMode ? 'Update' : 'Create new'} post</h1>
             <form onSubmit={handleSubmit}>
                 <Field
                     name="category"

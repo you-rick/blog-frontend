@@ -79,7 +79,7 @@ const AuthorCard = (props) => {
                             variant="h6"
                             className={classes.header}
                             component={props.profile._id !== props._id ? NavLink : "h4"}
-                            to={`/authors/${props._id}`}>
+                            to={`/author/${props._id}`}>
                             {props.fullName}
                         </Typography>
                         <Typography variant="body2" color="textSecondary" component="p">

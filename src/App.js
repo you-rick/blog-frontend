@@ -1,7 +1,5 @@
 import React, {useEffect} from 'react';
 import {Router, Route, Switch, withRouter, Redirect} from 'react-router-dom';
-import {ConnectedRouter} from "connected-react-router";
-import {history} from "./store/store";
 import {compose} from "redux";
 import {connect} from "react-redux";
 import {hideNote} from "./store/notificationReducer";
@@ -14,11 +12,12 @@ import Register from "./components/auth/Register/Register";
 import Notification from "./components/shared/Notification/Notification";
 import Dashboard from "./components/dashboard/Dashboard";
 import Preloader from "./components/shared/Preloader/Preloader";
-import AuthorsContainer from "./components/public/Authors/AuthorsContainer";
 import Articles from "./components/public/Articles/Articles/Articles";
 import Article from "./components/public/Articles/Article/Article";
 import NotFound from "./components/public/NotFound/NotFound";
 import Footer from "./components/shared/Footer/Footer";
+import Authors from "./components/public/Authors/Authors/Authors";
+import Author from "./components/public/Authors/Author/Author";
 
 const AppContainer = (props) => {
     useEffect(() => {
@@ -27,11 +26,10 @@ const AppContainer = (props) => {
 
 
     if (!props.initialized) {
-       return <Preloader/>
+        return <Preloader/>
     }
 
     return (
-
         <div className="appWrapper">
             <Header/>
 
@@ -41,7 +39,8 @@ const AppContainer = (props) => {
                     <Route path="/category/:slug/:page?" render={() => <Articles/>}/>
                     <Route path="/articles/:page?" render={() => <Articles/>}/>
                     <Route path="/article/:slug" render={() => <Article/>}/>
-                    <Route path="/authors" render={() => <AuthorsContainer/>}/>
+                    <Route path="/authors/:page?" render={() => <Authors/>}/>
+                    <Route path="/author/:id" render={() => <Author/>}/>
                     <Route path="/login" render={() => <Login/>}/>
                     <Route path="/register" render={() => <Register/>}/>
                     <Route path="/profile" render={() => <Dashboard/>}/>
@@ -50,14 +49,13 @@ const AppContainer = (props) => {
                 </Switch>
             </div>
 
-
             <Footer/>
-            <Notification type={props.notification.type}
-                          msg={props.notification.msg}
-                          hideNote={props.hideNote}
+            <Notification
+                type={props.notification.type}
+                msg={props.notification.msg}
+                hideNote={props.hideNote}
             />
         </div>
-
     );
 };
 

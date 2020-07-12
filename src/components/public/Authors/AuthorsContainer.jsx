@@ -6,12 +6,10 @@ import Author from "./Author/Author";
 const AuthorsContainer = (props) => {
     let url = props.match.url;
     return (
-        <>
-            <Switch>
-                <Route exact path={`${url}/:page?`} render={() => <Authors/>}/>
-                <Route path={`${url}/:id`} render={() => <Author/>}/>
-            </Switch>
-        </>
+        <Switch>
+            <Route exact path={`${url}/:page?`} render={() => <Authors/>}/>
+            <Route path={`${url}/:id`} render={() => <Author/>}/>
+        </Switch>
     );
 };
 

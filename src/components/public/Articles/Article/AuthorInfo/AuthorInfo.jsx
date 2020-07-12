@@ -43,7 +43,7 @@ const AuthorInfo = (props) => {
                                     variant="body1"
                                     color="textPrimary"
                                     component={props.profile._id !== props._id ? NavLink : "span"}
-                                    to={`/authors/${props._id}`}>
+                                    to={`/author/${props._id}`}>
                                     {props.fullName}
                                 </Typography>
                                 <Typography variant="subtitle2" color="textSecondary">

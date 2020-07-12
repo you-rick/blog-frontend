@@ -22,7 +22,7 @@ const User = (props) => {
     const classes = useStyles();
 
     return (
-        <ListItem component={NavLink} to={`/authors/${props._id}`} className={classes.listItem}>
+        <ListItem component={NavLink} to={`/author/${props._id}`} className={classes.listItem}>
             <ListItemAvatar>
                 <Avatar alt={props.fullName} size="big" src={process.env.REACT_APP_SERVER_URL + props.photo} />
             </ListItemAvatar>
