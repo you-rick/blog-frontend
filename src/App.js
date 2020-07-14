@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Router, Route, Switch, withRouter, Redirect} from 'react-router-dom';
+import {Route, Switch, withRouter, Redirect} from 'react-router-dom';
 import {compose} from "redux";
 import {connect} from "react-redux";
 import {hideNote} from "./store/notificationReducer";

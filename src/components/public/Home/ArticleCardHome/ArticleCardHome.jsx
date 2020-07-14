@@ -1,17 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {NavLink} from "react-router-dom";
 import s from "./Article.module.scss";
-import {
-    Card,
-    CardHeader,
-    CardMedia,
-    CardContent,
-    CardActions,
-    Typography,
-    IconButton,
-    Box,
-    Grid
-} from "@material-ui/core";
+import {Card, CardHeader, CardMedia, CardContent, CardActions, Typography, IconButton, Box} from "@material-ui/core";
 import {FavoriteBorder, BookmarkBorder, Bookmark, Favorite} from "@material-ui/icons";
 import Moment from "react-moment";
 import {connect} from "react-redux";

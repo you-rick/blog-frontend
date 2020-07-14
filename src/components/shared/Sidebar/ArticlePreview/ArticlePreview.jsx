@@ -1,7 +1,7 @@
 import React from "react";
 import {makeStyles} from "@material-ui/core/styles";
 import deepOrange from "@material-ui/core/colors/deepOrange";
-import {Avatar, Divider, ListItem, ListItemAvatar, ListItemText, Box, Typography} from "@material-ui/core";
+import {Avatar, Divider, ListItem, ListItemAvatar, Box, Typography} from "@material-ui/core";
 import Moment from "react-moment";
 import {NavLink} from "react-router-dom";
 
@@ -40,6 +40,7 @@ const ArticlePreview = (props) => {
                         <Moment format="DD MMMM YYYY">
                             {props.date}
                         </Moment>
+                        <span>, {props.likesNumber} likes</span>
                     </Typography>
                 </Box>
 

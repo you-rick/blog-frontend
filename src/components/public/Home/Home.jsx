@@ -1,14 +1,13 @@
 import React, {useEffect, useState} from "react";
 import ArticleCardHome from "./ArticleCardHome/ArticleCardHome";
 import Sidebar from "../../shared/Sidebar/Sidebar";
-import {Container, Grid, Box, ListItem} from "@material-ui/core";
+import {Container, Grid} from "@material-ui/core";
 import {connect} from "react-redux"
 import {requestArticles} from "../../../store/articlesReducer";
 import Masonry from 'react-masonry-css';
 import s from './Home.module.scss';
 import InfiniteScroll from "react-infinite-scroll-component";
 import ArticleCardHomeSkeleton from "./ArticleCardHomeSkeleton/ArticleCardHomeSkeleton";
-import Preloader from "../../shared/Preloader/Preloader";
 
 
 const breakpointColumns = {

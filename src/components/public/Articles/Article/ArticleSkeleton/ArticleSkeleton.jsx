@@ -1,5 +1,5 @@
 import React from "react";
-import {Container, Box, Grid, Typography, IconButton} from "@material-ui/core";
+import {Container, Box, Grid} from "@material-ui/core";
 import s from '../Article.module.scss';
 import Skeleton from '@material-ui/lab/Skeleton';
 

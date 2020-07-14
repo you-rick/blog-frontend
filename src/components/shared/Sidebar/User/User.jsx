@@ -2,7 +2,6 @@ import React from 'react';
 import {Avatar, ListItem, ListItemAvatar, ListItemText} from "@material-ui/core";
 import {NavLink} from "react-router-dom";
 import {makeStyles} from "@material-ui/core/styles";
-import deepOrange from "@material-ui/core/colors/deepOrange";
 
 const useStyles = makeStyles((theme) => ({
     link: {

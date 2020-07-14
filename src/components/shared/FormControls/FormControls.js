@@ -1,16 +1,6 @@
 import React from 'react';
 import "./FormControls.scss";
-import {
-    TextField,
-    FormControl,
-    FormControlLabel,
-    Checkbox,
-    RadioGroup,
-    FormHelperText,
-    InputLabel,
-    Select,
-    Radio
-} from "@material-ui/core";
+import {TextField, FormControlLabel, Checkbox, FormHelperText} from "@material-ui/core";
 
 
 export const renderTextField = ({label, input, meta: {touched, invalid, error}, ...custom}) => (
