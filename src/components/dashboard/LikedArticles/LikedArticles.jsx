@@ -6,12 +6,12 @@ import {connect} from "react-redux";
 import {requestArticles} from "../../../store/articlesReducer";
 
 
-const SavedArticles = (props) => {
+const LikedArticles = (props) => {
     const {profile, articles} = props;
     const [showArticles, setShowArticles] = useState(false);
 
     useEffect(() => {
-        profile._id && props.requestArticles(1, 10, '', '', 0, '', profile._id);
+        profile._id && props.requestArticles(1, 10, '', '', 0, profile._id, '');
     }, [profile]);
 
     useEffect(() => {
@@ -20,7 +20,7 @@ const SavedArticles = (props) => {
 
     return (
         <Container maxWidth="md">
-            <h1>Saved Articles</h1>
+            <h1>Liked Articles</h1>
 
             <Box m="1.5rem 0 0">
                 <List>
@@ -36,7 +36,7 @@ const SavedArticles = (props) => {
                     ))}
                     {(!props.articles.length && !props.isDataFetching) &&
                     <Typography variant="body2" color="textSecondary" component="p">
-                        No saved articles yet
+                        No liked articles yet
                     </Typography>
                     }
                 </List>
@@ -52,4 +52,4 @@ const mapStateToProps = (state) => ({
     isDataFetching: state.app.isDataFetching
 });
 
-export default connect(mapStateToProps, {requestArticles})(SavedArticles);
+export default connect(mapStateToProps, {requestArticles})(LikedArticles);

@@ -72,7 +72,7 @@ const Header = (props) => {
                                 </Grid>
                             </Box>
                             <Box display="flex" alignItems="center">
-                                <IconButton omponent={NavLink} to="/profile/liked" color="inherit">
+                                <IconButton component={NavLink} to="/profile/liked" color="inherit">
                                     <FavoriteBorderOutlined/>
                                 </IconButton>
                                 <IconButton component={NavLink} to="/profile/saved" color="inherit">

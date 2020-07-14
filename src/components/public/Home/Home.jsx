@@ -26,7 +26,7 @@ const Home = (props) => {
 
         useEffect(() => {
             setShowArticles(false);
-            props.requestArticles(page, step, '', '', 'Home');
+            props.requestArticles(page, step, '', '', 0, '', '', 'Home');
             setPage(page + 1);
         }, []);
 
@@ -39,7 +39,7 @@ const Home = (props) => {
         }, [articles, isDataFetching]);
 
         const loadMore = () => {
-            props.requestArticles(page, step, '', '', 'Home');
+            props.requestArticles(page, step, '', '', 0, '', '', 'Home');
             setPage(page + 1);
         };
 

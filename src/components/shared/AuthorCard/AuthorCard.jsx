@@ -108,6 +108,11 @@ const AuthorCard = (props) => {
                             {!isFollowed ? 'Follow' : 'Unfollow'}
                         </Button>
                         }
+                        {(props.profile._id === props._id) &&
+                        <Button variant="outlined" color="primary" component={NavLink} to="/profile/edit">
+                            Edit
+                        </Button>
+                        }
                     </Grid>
                 </Grid>
 
