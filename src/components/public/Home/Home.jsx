@@ -12,7 +12,7 @@ import ArticleCardHomeSkeleton from "./ArticleCardHomeSkeleton/ArticleCardHomeSk
 
 const breakpointColumns = {
     default: 3,
-    980: 2,
+    1025: 2,
     500: 1
 };
 
@@ -53,7 +53,7 @@ const Home = (props) => {
             <div style={{padding: '0 20px'}}>
                 <Container maxWidth="lg">
                     <Grid container spacing={3}>
-                        <Grid item sm={12} md={9}>
+                        <Grid item sm={12} md={8} lg={9}>
                             <InfiniteScroll
                                 next={loadMore}
                                 hasMore={hasMore}
@@ -75,7 +75,7 @@ const Home = (props) => {
                             </InfiniteScroll>
 
                         </Grid>
-                        <Grid item sm={false} md={3}>
+                        <Grid item sm={false} md={4} lg={3}>
                             <Sidebar/>
                         </Grid>
                     </Grid>

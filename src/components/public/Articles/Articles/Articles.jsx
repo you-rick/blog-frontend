@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from "react";
-import {Container, Grid, Box, List, ListItem, Typography} from "@material-ui/core";
+import {Container, Grid, Box, List, ListItem, Typography, Hidden, withWidth} from "@material-ui/core";
 import Sidebar from "../../../shared/Sidebar/Sidebar";
 import ArticleCard from "../../../shared/ArticleCard/ArticleCard";
 import ArticleCardSkeleton from "../../../shared/ArticleCardSkeleton/ArticleCardSkeleton";
 import {connect} from "react-redux";
+import {compose} from "redux";
 import {requestArticles} from "../../../../store/articlesReducer";
 import {useParams} from 'react-router-dom';
 import {setNote} from "../../../../store/notificationReducer";
@@ -63,7 +64,7 @@ const Articles = (props) => {
     return (
         <Container maxWidth="lg">
             <Grid container spacing={3} justify="space-between">
-                <Grid item xs={12} sm={9}>
+                <Grid item xs={12} lg={9}>
                     <h1>{category}</h1>
 
                     <Box m="1.5rem 0 0" p="0 2rem 0 0">
@@ -109,8 +110,11 @@ const Articles = (props) => {
                     }
 
                 </Grid>
-                <Grid item xs={false} sm={3}>
-                    <Sidebar/>
+                <Grid item lg={3}>
+                    <Hidden mdDown>
+                         <Sidebar/>
+                    </Hidden>
+
                 </Grid>
             </Grid>
         </Container>
@@ -124,4 +128,7 @@ const mapStateToProps = (state) => ({
     isDataFetching: state.app.isDataFetching
 });
 
-export default connect(mapStateToProps, {requestArticles, setNote, push})(Articles);
+export default compose(
+    withWidth(),
+    connect(mapStateToProps, {requestArticles, setNote, push})
+)(Articles);

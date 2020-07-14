@@ -8,6 +8,7 @@ import FollowedAuthors from "./FollowedAuthors/FollowedAuthors";
 import MyArticles from "./MyArticles/MyArticles";
 import ArticleForm from "./MyArticles/ArticleForm/ArticleForm";
 import Profile from "./Profile/Profile";
+import ProfileForm from "./Profile/ProfileForm/ProfileForm";
 
 const Dashboard = (props) => {
     let url = props.match.url;
@@ -19,6 +20,7 @@ const Dashboard = (props) => {
     return (
         <Switch>
             <Route exact path={`${url}/`} render={() => <Profile/>}/>
+            <Route path={`${url}/edit`} render={() => <ProfileForm/>}/>
             <Route path={`${url}/saved`} render={() => <SavedArticles/>}/>
             <Route path={`${url}/liked`} render={() => <LikedArticles/>}/>
             <Route path={`${url}/followed`} render={() => <FollowedAuthors/>}/>
