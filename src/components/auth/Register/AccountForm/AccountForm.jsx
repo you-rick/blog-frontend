@@ -6,7 +6,6 @@ import validate from "../validate";
 import {renderTextField} from "../../../shared/FormControls/FormControls";
 
 const AccountForm = (props) => {
-    console.log(props);
     const {handleSubmit} = props;
 
     return (
@@ -39,6 +38,7 @@ const AccountForm = (props) => {
         </form>
     )
 };
+
 
 export default reduxForm({
     form: 'register', // <------ same form name

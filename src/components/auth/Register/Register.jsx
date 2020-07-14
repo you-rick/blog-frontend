@@ -33,7 +33,6 @@ const RegisterForm = (props) => {
 
     const fileChange = ((file, preview) => {
         setImagePreview(preview);
-        console.log(preview);
     });
 
     const handleNext = () => {

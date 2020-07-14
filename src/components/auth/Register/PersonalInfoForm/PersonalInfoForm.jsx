@@ -8,18 +8,22 @@ import validate from "../validate";
 import {renderTextField} from "../../../shared/FormControls/FormControls";
 import DeleteIcon from '@material-ui/icons/Delete';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import {Alert} from "@material-ui/lab";
 
 const maxNumber = 1;
-const maxMbFileSize = 4 * 1024 * 1024; // 5Mb
+const maxMbFileSize = 5 * 1024 * 1024; // 5Mb
 
 const PersonalInfoForm = (props) => {
-
     const {handleSubmit, previousPage} = props;
 
     const onDrop = (image) => {
-        console.log(image);
-        image.length && props.dispatch(change('register', 'photo', image[0].file));
-        image.length && props.onFileChange(image[0].file, image[0].dataURL);
+        if (image.length) {
+            props.dispatch(change('register', 'photo', image[0].file));
+            props.onFileChange(image[0].file, image[0].dataURL);
+        } else {
+             props.dispatch(change('register', 'photo', {}));
+            props.onFileChange({}, '');
+        }
     };
 
     return (
@@ -31,10 +35,9 @@ const PersonalInfoForm = (props) => {
                         maxNumber={maxNumber}
                         maxFileSize={maxMbFileSize}
                         defaultValue={props.preview && [{dataURL: props.preview}]}
-                        acceptType={["jpg", "jpeg", "gif", "png"]}
+                        acceptType={["jpg", "jpeg", "JPG", "JPEG", "gif", "png"]}
                     >
-                        {({imageList, onImageUpload, onImageRemoveAll}) => (
-                            // write your building UI
+                        {({imageList, onImageUpload, onImageRemoveAll, errors}) => (
                             <div>
                                 <Grid container alignItems="center" justify="center">
                                     <Button
@@ -52,7 +55,6 @@ const PersonalInfoForm = (props) => {
                                         <div
                                             className="imagePreview"
                                             style={{backgroundImage: `url(${image.dataURL})`}}>
-
                                         </div>
                                         <IconButton
                                             color="secondary"
@@ -64,6 +66,18 @@ const PersonalInfoForm = (props) => {
                                         </IconButton>
                                     </div>
                                 ))}
+                                <div style={{marginTop: 10}}>
+                                    {errors.acceptType &&
+                                    <Alert severity="error" variant="outlined">
+                                        Selected file type is not allowed
+                                    </Alert>
+                                    }
+                                    {errors.maxFileSize &&
+                                    <Alert severity="error" variant="outlined">
+                                        File is too big. Maximum file size 5mb
+                                    </Alert>
+                                    }
+                                </div>
                             </div>
                         )}
                     </ImageUploading>

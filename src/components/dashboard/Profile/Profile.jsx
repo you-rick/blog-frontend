@@ -1,24 +1,15 @@
-import React, {useEffect} from "react";
-import AuthorCard from "../../shared/AuthorCard/AuthorCard";
-import {Box, Container} from "@material-ui/core";
+import React from "react";
 import {connect} from "react-redux";
 import {getProfile} from "../../../store/profileReducer";
+import Author from "../../public/Authors/Author/Author";
 
 
 const Profile = (props) => {
-    return (
-        <Container maxWidth="md">
-            <h1>My Profile</h1>
-            <Box m="1.5rem 0 0">
-                <AuthorCard {...props.user}/>
-            </Box>
-        </Container>
-    )
+    return <Author profile={props.profile}/>
 };
 
 const mapStateToProps = (state) => ({
-    user: state.profile
+    profile: state.profile
 });
-
 
 export default connect(mapStateToProps, {getProfile})(Profile);

@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
 const AuthorCard = (props) => {
     const {id} = useParams();
     const classes = useStyles();
-    const {followers} = props;
+    const {followers, detailed} = props;
     const noAuthMsg = "User should be logged in";
     const [avatar, setAvatar] = useState("/images/placeholder/default-avatar.png");
     const followCondition = followers.some(id => id === props.profile._id);
@@ -51,7 +51,7 @@ const AuthorCard = (props) => {
     }, [followers]);
 
     useEffect(() => {
-       id && setShowAbout(true);
+        (id || detailed) && setShowAbout(true);
     }, []);
 
 
@@ -78,7 +78,7 @@ const AuthorCard = (props) => {
                             gutterBottom
                             variant="h6"
                             className={classes.header}
-                            component={props.profile._id !== props._id ? NavLink : "h4"}
+                            component={NavLink}
                             to={`/author/${props._id}`}>
                             {props.fullName}
                         </Typography>

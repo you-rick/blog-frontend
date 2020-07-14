@@ -7,6 +7,7 @@ import {NavLink} from "react-router-dom";
 
 
 const AuthorInfo = (props) => {
+    const serverURL = process.env.REACT_APP_SERVER_URL;
     const noAuthMsg = "User should be logged in";
     const [avatar, setAvatar] = useState("/images/placeholder/default-avatar.png");
     const {followers} = props;
@@ -14,7 +15,7 @@ const AuthorInfo = (props) => {
     const [isFollowed, setIsFollowed] = useState(followCondition);
 
     useEffect(() => {
-        props.photo && setAvatar(process.env.REACT_APP_SERVER_URL + props.photo);
+        props.photo && setAvatar(serverURL + props.photo);
     }, [props.photo]);
 
     useEffect(() => {
