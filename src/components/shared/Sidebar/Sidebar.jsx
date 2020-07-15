@@ -10,7 +10,6 @@ import Skeleton from '@material-ui/lab/Skeleton';
 const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%',
-        maxWidth: '20rem',
         backgroundColor: theme.palette.background.paper,
         marginTop: theme.spacing(2)
     },

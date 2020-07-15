@@ -124,7 +124,7 @@ const Header = (props) => {
             </AppBar>
             <Box m={4}>
                 <Container maxWidth="lg">
-                    <Box class="categorySliderWrap">
+                    <Box className="categorySliderWrap">
                         {showCategories &&
                         <Slider {...carouselSettings}>
                             {props.categories.map(category =>

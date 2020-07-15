@@ -19,11 +19,10 @@ const validate = values => {
     if (!values.content) {
         errors.content = 'Required field'
     }
-    if (!values.preview) {
-        errors.preview = 'Image us required'
+    if (!values.previewImage) {
+        errors.previewImage = 'Image is required';
     }
-
-
+    
     return errors
 };
 

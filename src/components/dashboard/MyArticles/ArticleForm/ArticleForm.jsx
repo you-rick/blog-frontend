@@ -8,21 +8,27 @@ import ImageUploading from "react-images-uploading";
 import {connect} from "react-redux";
 import {postArticle, updateArticle, requestArticleBySlug} from "../../../../store/articlesReducer";
 import validate from "./validate";
-import {change, reduxForm, Field} from "redux-form";
+import {change, reduxForm, touch, Field} from "redux-form";
 import {renderTextField, renderSelectField} from "../../../shared/FormControls/FormControls";
 import {Box, Container, Card, CardContent, MenuItem, Grid, Button, IconButton} from "@material-ui/core";
 import DeleteIcon from '@material-ui/icons/Delete';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import {createMuiTheme, MuiThemeProvider} from '@material-ui/core/styles';
 import {useParams} from 'react-router-dom';
+import {Alert} from "@material-ui/lab";
 
 
 const bodyField = ({input, label, type, meta: {touched, error}}) => (
-    <input {...input} placeholder={label} type="hidden" className={touched && error ? 'bodyFieldError' : ''}/>
+    <div className={touched && error ? 'bodyFieldError' : ''}>
+        <div className="bodyFieldErrorMsg">{touched && error && <span>{error}</span>}</div>
+        <input {...input} placeholder={label} type="hidden"/>
+
+    </div>
+
 );
 
 const maxNumber = 1;
-const maxMbFileSize = 4 * 1024 * 1024; // 5Mb
+const maxMbFileSize = 5 * 1024 * 1024; // 5Mb
 const baseUrl = process.env.REACT_APP_SERVER_URL;
 
 
@@ -43,23 +49,28 @@ const ArticleForm = (props) => {
                     category: article.category,
                     title: article.title,
                     description: article.description,
-                    content: article.content
+                    content: article.content,
+                    previewImage: article.image
                 }
             );
             article.image && setImagePreview(baseUrl + '' + article.image);
 
             const contentHTML = convertFromHTML(article.content || "");
-            const editorState = ContentState
-                .createFromBlockArray(contentHTML.contentBlocks, contentHTML.entityMap);
+            const editorState = ContentState.createFromBlockArray(contentHTML.contentBlocks, contentHTML.entityMap);
             setDefaultPostBody(JSON.stringify(convertToRaw(editorState)));
         } else {
             props.reset();
         }
     }, [article]);
 
+
     const onDrop = (image) => {
-        image.length && props.dispatch(change('articleForm', 'image', image[0].file));
-        image.length && setImagePreview(image[0].dataURL);
+        props.dispatch(change('articleForm', 'image', image.length ? image[0].file : null));
+        props.dispatch(change('articleForm', 'previewImage', image.length ? image[0].dataURL.length : ''));
+        setImagePreview(image.length ? image[0].dataURL : '');
+        setTimeout(() => {
+            props.dispatch(touch('articleForm', 'previewImage'));
+        }, 100);
     };
 
     const editorChange = (state) => {
@@ -128,7 +139,8 @@ const ArticleForm = (props) => {
                     component={renderTextField}
                 />
 
-                <Box m="1.5rem 0 0">
+                <Box m="1.5rem 0 0" className="imageUploadWrap">
+                    <Field name="previewImage" component={bodyField} value={imagePreview.length}/>
                     <ImageUploading
                         key={imagePreview}
                         onChange={onDrop}
@@ -137,9 +149,8 @@ const ArticleForm = (props) => {
                         defaultValue={imagePreview && [{dataURL: imagePreview}]}
                         acceptType={["jpg", "jpeg", "gif", "png"]}
                     >
-                        {({imageList, onImageUpload, onImageRemoveAll}) => (
+                        {({imageList, onImageUpload, onImageRemoveAll, errors}) => (
                             <div>
-                                <Field name="preview" component={bodyField} value={imagePreview}/>
                                 <Grid container alignItems="center" justify="center">
                                     <Button
                                         type="button"
@@ -157,11 +168,23 @@ const ArticleForm = (props) => {
                                           style={{marginTop: 12}}>
                                         <img src={image.dataURL} className="postImagePreview" alt="Preview"/>
                                         <IconButton color="secondary" className="removePreview" type="button"
-                                                    onClick={image.onRemove}>
+                                                    onClick={onImageRemoveAll}>
                                             <DeleteIcon/>
                                         </IconButton>
                                     </Grid>
                                 ))}
+                                <div style={{marginTop: 10}}>
+                                    {errors.acceptType &&
+                                    <Alert severity="error" variant="outlined">
+                                        Selected file type is not allowed
+                                    </Alert>
+                                    }
+                                    {errors.maxFileSize &&
+                                    <Alert severity="error" variant="outlined">
+                                        File is too big. Maximum file size 5mb
+                                    </Alert>
+                                    }
+                                </div>
                             </div>
                         )}
                     </ImageUploading>
@@ -200,7 +223,8 @@ const ArticleReduxForm = reduxForm({
     validate,
     initialValues: {
         image: {},
-        content: ''
+        content: '',
+        previewImage: ''
     }
 })(ArticleForm);
 
@@ -226,8 +250,12 @@ const ArticleFormContainer = (props) => {
 
     };
 
-    return <ArticleReduxForm onSubmit={onSubmit} article={props.article} editMode={editMode}
-                             categories={props.categories}/>
+    return <ArticleReduxForm
+        onSubmit={onSubmit}
+        article={props.article}
+        editMode={editMode}
+        categories={props.categories}
+    />
 };
 
 

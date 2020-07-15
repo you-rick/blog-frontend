@@ -8,32 +8,71 @@ import AuthorCard from "../../../shared/AuthorCard/AuthorCard";
 import ArticleCard from "../../../shared/ArticleCard/ArticleCard";
 import ArticleCardSkeleton from "../../../shared/ArticleCardSkeleton/ArticleCardSkeleton";
 import AuthorCardSkeleton from "../../../shared/AuthorCardSkeleton/AuthorCardSkeleton";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 
 const Author = (props) => {
     let {id} = useParams();
-    const {profile} = props;
+    const {profile, articles, author, totalArticles, isDataFetching} = props;
     const [showArticles, setShowArticles] = useState(false);
     const [showAuthor, setShowAuthor] = useState(false);
+    const [hasMore, setHasMore] = useState(true);
+    const [page, setPage] = useState(1);
+    const [step, setStep] = useState(10);
 
     useEffect(() => {
         if (id) {
             props.requestUserById(id);
-            props.requestArticles(1, 10, id, '');
+            props.requestArticles(page, step, id, '', 0, '', '', 'Infinite');
+            setPage(page + 1);
         }
         if (profile) {
             props.requestUserById(profile._id);
-            props.requestArticles(1, 10, profile._id, '');
+            props.requestArticles(page, step, profile._id, '', 0, '', '', 'Infinite');
+            setPage(page + 1);
         }
     }, []);
 
     useEffect(() => {
-        setShowArticles(true);
-    }, [props.articles]);
+        console.log(articles.length, totalArticles);
+        setHasMore(articles.length < totalArticles);
+    }, [articles, totalArticles]);
 
     useEffect(() => {
-        props.author._id && setShowAuthor(true);
-    }, [props.author]);
+        (articles.length && !isDataFetching) && setShowArticles(true);
+    }, [articles, isDataFetching]);
+
+    useEffect(() => {
+        author._id && setShowAuthor(true);
+    }, [author]);
+
+
+    const loadMore = () => {
+        let userId = '';
+        if (id) {
+            userId = id;
+        }
+        if (profile._id) {
+            userId = profile._id;
+        }
+
+        props.requestArticles(page, step, userId, '', 0, '', '', 'Infinite');
+        setPage(page + 1);
+    };
+
+
+    const articlesList = props.articles.map((article) => (
+        <ListItem key={article._id} disableGutters>
+            <ArticleCard key={article._id} {...article}/>
+        </ListItem>
+    ));
+
+
+    const skeletonList = Array(3).fill().map((item, index) => (
+        <ListItem key={index} disableGutters>
+            <ArticleCardSkeleton/>
+        </ListItem>
+    ));
 
     return (
         <Container maxWidth="md">
@@ -44,7 +83,7 @@ const Author = (props) => {
                 {!profile && <h1>{props.author.fullName + "'s articles"}</h1>}
                 {profile &&
                 <Grid container justify="space-between" alignItems="center">
-                    <h1>Your Articles</h1>
+                    <h1>Your Latest Articles</h1>
                     <Button
                         component={NavLink}
                         to="/profile/articles/add"
@@ -53,21 +92,22 @@ const Author = (props) => {
                         Add Article
                     </Button>
                 </Grid>
-
                 }
                 <List>
-                    {showArticles && props.articles.map((article) => (
-                        <ListItem key={article._id} disableGutters>
-                            <ArticleCard key={article._id} {...article}/>
-                        </ListItem>
-                    ))}
-
-                    {!showArticles && Array(3).fill().map((item, index) => (
-                        <ListItem key={index} disableGutters>
-                            <ArticleCardSkeleton/>
-                        </ListItem>
-                    ))}
-
+                    <InfiniteScroll
+                        next={loadMore}
+                        hasMore={hasMore}
+                        loader={<h4>Loading..</h4>}
+                        dataLength={page * step}
+                        endMessage={
+                            totalArticles > 10 &&
+                            <p style={{textAlign: 'center'}}>
+                                <b>All articles loaded</b>
+                            </p>
+                        }
+                    >
+                        {showArticles ? articlesList : skeletonList}
+                    </InfiniteScroll>
                     {(!props.articles.length && !props.isDataFetching) &&
                     <Typography variant="body2" color="textSecondary" component="p">
                         No articles yet
@@ -83,6 +123,7 @@ const Author = (props) => {
 const mapStateToProps = (state) => ({
     author: state.users.currentUser,
     articles: state.articles.list,
+    totalArticles: state.articles.totalArticles,
     isDataFetching: state.app.isDataFetching
 });
 

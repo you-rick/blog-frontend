@@ -26,7 +26,7 @@ const Home = (props) => {
 
         useEffect(() => {
             setShowArticles(false);
-            props.requestArticles(page, step, '', '', 0, '', '', 'Home');
+            props.requestArticles(page, step, '', '', 0, '', '', 'Infinite');
             setPage(page + 1);
         }, []);
 
@@ -39,7 +39,7 @@ const Home = (props) => {
         }, [articles, isDataFetching]);
 
         const loadMore = () => {
-            props.requestArticles(page, step, '', '', 0, '', '', 'Home');
+            props.requestArticles(page, step, '', '', 0, '', '', 'Infinite');
             setPage(page + 1);
         };
 
@@ -54,7 +54,7 @@ const Home = (props) => {
             <div style={{padding: '0 20px'}}>
                 <Container maxWidth="lg">
                     <Grid container spacing={3}>
-                        <Grid item sm={12} md={8} lg={9}>
+                        <Grid item sm={12} md={9}>
                             <InfiniteScroll
                                 next={loadMore}
                                 hasMore={hasMore}
@@ -76,7 +76,7 @@ const Home = (props) => {
                             </InfiniteScroll>
 
                         </Grid>
-                        <Grid item md={4} lg={3}>
+                        <Grid item md={3}>
                             <Hidden smDown>
                                 <Sidebar/>
                             </Hidden>

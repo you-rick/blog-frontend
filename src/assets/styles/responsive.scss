@@ -1,0 +1,13 @@
+@import "variables";
+@import "mixins";
+
+@media screen and (min-width: 1025px) and (max-width: 1279px) {
+  html {
+    font-size: 90%;
+  }
+}
+@media screen and (max-width: 1024px) {
+  html {
+    font-size: 80%;
+  }
+}

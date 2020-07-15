@@ -10,7 +10,7 @@ import {push} from "connected-react-router";
 const LIKE_TOGGLE = 'ARTICLE_LIKE_TOGGLE';
 const SAVE_TOGGLE = 'ARTICLE_SAVE_TOGGLE';
 const SET_ARTICLES = 'SET_ARTICLES';
-const SET_HOME_ARTICLES = 'SET_HOME_ARTICLES';
+const SET_INFINITE_ARTICLES = 'SET_INFINITE_ARTICLES';
 const SET_CURRENT_PAGE = 'ARTICLE_SET_CURRENT_PAGE';
 const SET_TOTAL_PAGES = 'ARTICLE_SET_TOTAL_PAGES';
 const SET_CURRENT_ARTICLE = 'SET_CURRENT_ARTICLE';
@@ -42,7 +42,7 @@ const articlesReducer = (state = initialState, action) => {
     switch (action.type) {
         case SET_ARTICLES:
             return {...state, list: [...action.articles]};
-        case SET_HOME_ARTICLES:
+        case SET_INFINITE_ARTICLES:
             if (parseInt(action.page) === 1) {
                 return {...state, list: [...action.articles]};
             } else {
@@ -88,7 +88,7 @@ const articlesReducer = (state = initialState, action) => {
 
 // Action Creators
 export const setArticles = (articles) => ({type: SET_ARTICLES, articles: articles});
-export const setHomeArticles = (articles, page) => ({type: SET_HOME_ARTICLES, articles: articles, page: page});
+export const setInfiniteArticles = (articles, page) => ({type: SET_INFINITE_ARTICLES, articles: articles, page: page});
 export const setCurrentPage = (currentPage) => ({type: SET_CURRENT_PAGE, currentPage: currentPage});
 export const setTotalArticles = (totalArticles) => ({type: SET_TOTAL_ARTICLES, totalArticles: totalArticles});
 export const setTotalPages = (totalPages) => ({type: SET_TOTAL_PAGES, totalPages: totalPages});
@@ -118,8 +118,8 @@ export const requestArticles = (page = 1, pageSize = 10, author, category, best,
                 let res = response.data;
                 if (res.status) {
                     dispatch(toggleIsFetching(false));
-                    if (component === 'Home') {
-                        dispatch(setHomeArticles(res.articles, page));
+                    if (component === 'Infinite') {
+                        dispatch(setInfiniteArticles(res.articles, page));
                     } else {
                         dispatch(setArticles(res.articles));
                     }
@@ -146,7 +146,6 @@ export const requestArticleBySlug = (slug) => {
                     console.log(userId);
                     usersAPI.getUserById(userId).then(userData => {
                         let res = userData.data;
-                        console.log(res.user);
                         if (res.status) {
                             dispatch(setCurrentUser(res.user));
                             dispatch(toggleIsFetching(false));
@@ -165,7 +164,6 @@ export const requestArticleBySlug = (slug) => {
                     success: false
                 }));
             });
-        ;
     }
 };
 
