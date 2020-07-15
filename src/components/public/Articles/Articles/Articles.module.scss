@@ -1,0 +1,10 @@
+@import "../../../../assets/styles/variables";
+@import "../../../../assets/styles/mixins";
+
+.listWrap {
+  margin-top: 1rem;
+  padding-right: 2rem;
+  @include till-md-screen {
+    padding-right: 0;
+  }
+}

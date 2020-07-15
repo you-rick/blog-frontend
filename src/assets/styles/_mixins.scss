@@ -20,6 +20,11 @@ $experimental: true !default; // set True for support Old Browsers
   @return #{$remSize}rem;
 }
 
+@function em($size) {
+  $remSize: $size / 16px;
+  @return #{$remSize}em;
+}
+
 @mixin font-smooth-retina {
   @media (-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 144dpi) {
     @content;
@@ -34,62 +39,50 @@ $experimental: true !default; // set True for support Old Browsers
 }
 
 
-@mixin till-small-desktop {
-  @media only screen and (max-width: 1360px) {
-    @content;
-  }
-}
-
-@mixin till-md-desktop {
-  @media only screen and (max-width: 1440px) {
-    @content;
-  }
-}
-
-@mixin md-screen {
-  @media only screen and (max-width: 991.98px) {
-    @content;
-  }
-}
-
-@mixin sm-screen {
-  @media only screen and (max-width: 767.98px) {
-    @content;
-  }
-}
-
-@mixin from-xs-desktop {
-  @media only screen and (min-width: 1260px) {
-    @content;
-  }
-}
-
-@mixin from-small-desktop {
-  @media only screen and (min-width: 1361px) {
-    @content;
-  }
-}
-
-@mixin xs-screen {
-  @media only screen and (max-width: 575.98px) {
-    @content;
-  }
-}
-
 @mixin from-lg-screen {
-  @media only screen and (min-width: 992px) {
+  @media only screen and (min-width: 1280px) {
+    @content;
+  }
+}
+
+@mixin till-lg-screen {
+  @media only screen and (max-width: 1279px) {
     @content;
   }
 }
 
 @mixin from-md-screen {
+  @media only screen and (min-width: 1025px) {
+    @content;
+  }
+}
+
+@mixin till-md-screen {
+  @media only screen and (max-width: 1024px) {
+    @content;
+  }
+}
+
+@mixin from-sm-screen {
   @media only screen and (min-width: 768px) {
+    @content;
+  }
+}
+
+@mixin till-sm-screen {
+  @media only screen and (max-width: 767px) {
     @content;
   }
 }
 
 @mixin from-xs-screen {
   @media only screen and (min-width: 576px) {
+    @content;
+  }
+}
+
+@mixin till-xs-screen {
+  @media only screen and (max-width: 575px) {
     @content;
   }
 }
@@ -133,7 +126,7 @@ $experimental: true !default; // set True for support Old Browsers
   box-sizing: $type;
 }
 
-@mixin radius($radius: 4px) {
+@mixin radius($radius) {
   @if $radius {
     @if $experimental {
       -webkit-border-radius: $radius;
@@ -202,83 +195,9 @@ $experimental: true !default; // set True for support Old Browsers
   animation-duration: $time;
 }
 
-@mixin custom-scroll($width) {
-  scrollbar-color: $baseColor #fff;
-  scrollbar-width: thin;
 
-  &::-webkit-scrollbar {
-    width: $width;
-    color: #fff;
-    border-radius: 0.625rem;
-    background: $baseColor;
-  }
-
-  /* Track */
-  &::-webkit-scrollbar-track {
-    border-radius: 0.625rem;
-  }
-
-  /* Handle */
-  &::-webkit-scrollbar-thumb {
-    background: #fff;
-    border-radius: 0.625rem;
-    border: 1px solid $baseColor;
-  }
-
-  /* Handle on hover */
-  &::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.6);
-  }
-
-}
-
-@mixin custom-scroll-green($width, $color:"", $height:"") {
-  scrollbar-color: $baseColor #F4F4F4;
-  scrollbar-width: thin;
-
-  &::-webkit-scrollbar {
-    width: $width;
-    border-radius: 0.625rem;
-    background: #F4F4F4;
-    @if $color != "" {
-      color: $color;
-    } @else {
-      color: $baseColor;
-    }
-    @if $height != "" {
-      height: $height;
-    } @else {
-      height: auto;
-    }
-  }
-
-  /* Track */
-  &::-webkit-scrollbar-track {
-    border-radius: 0.625rem;
-  }
-
-  /* Handle */
-  &::-webkit-scrollbar-thumb {
-
-    border-radius: 0.625rem;
-    border: 1px solid #F4F4F4;
-    @if $color != "" {
-      background: $color;
-    } @else {
-      background: $baseColor;
-    }
-  }
-
-  /* Handle on hover */
-  &::-webkit-scrollbar-thumb:hover {
-    background: $baseColor;
-  }
-}
-
-
-
-@mixin only_ie11($selector, $map){
-  @media all and (-ms-high-contrast:none){
+@mixin only_ie11($selector, $map) {
+  @media all and (-ms-high-contrast: none) {
     *::-ms-backdrop, #{$selector} {
       @each $property, $value in ($map) {
         // Temporal hidden - IDE marks it as error

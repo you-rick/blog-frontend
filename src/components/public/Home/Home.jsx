@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from "react";
 import ArticleCardHome from "./ArticleCardHome/ArticleCardHome";
 import Sidebar from "../../shared/Sidebar/Sidebar";
-import {Container, Grid} from "@material-ui/core";
-import {connect} from "react-redux"
+import {Container, Grid, Hidden, withWidth} from "@material-ui/core";
+import {connect} from "react-redux";
+import {compose} from "redux";
 import {requestArticles} from "../../../store/articlesReducer";
 import Masonry from 'react-masonry-css';
 import s from './Home.module.scss';
@@ -75,8 +76,10 @@ const Home = (props) => {
                             </InfiniteScroll>
 
                         </Grid>
-                        <Grid item sm={false} md={4} lg={3}>
-                            <Sidebar/>
+                        <Grid item md={4} lg={3}>
+                            <Hidden smDown>
+                                <Sidebar/>
+                            </Hidden>
                         </Grid>
                     </Grid>
 
@@ -92,4 +95,7 @@ const mapStateToProps = (state) => ({
     isDataFetching: state.app.isDataFetching
 });
 
-export default connect(mapStateToProps, {requestArticles})(Home);
+export default compose(
+    withWidth(),
+    connect(mapStateToProps, {requestArticles})
+)(Home);

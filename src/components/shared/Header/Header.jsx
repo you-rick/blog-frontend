@@ -64,7 +64,7 @@ const Header = (props) => {
                             <Typography variant="h4" className={classes.brand} component={NavLink} to="/">
                                 Small
                             </Typography>
-                            <Box>
+                            <Box className="headerLinks">
                                 <Grid item container alignItems="center">
                                     <Button color="inherit" component={NavLink} to="/articles">Articles</Button>
                                     <Divider orientation="vertical" flexItem className={classes.divider}/>
@@ -124,7 +124,7 @@ const Header = (props) => {
             </AppBar>
             <Box m={4}>
                 <Container maxWidth="lg">
-                    <Box p="0 2rem">
+                    <Box class="categorySliderWrap">
                         {showCategories &&
                         <Slider {...carouselSettings}>
                             {props.categories.map(category =>

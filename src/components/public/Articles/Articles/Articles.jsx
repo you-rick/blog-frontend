@@ -10,6 +10,7 @@ import {useParams} from 'react-router-dom';
 import {setNote} from "../../../../store/notificationReducer";
 import ReactPaginate from "react-paginate";
 import {push} from "connected-react-router";
+import s from "./Articles.module.scss";
 
 
 const Articles = (props) => {
@@ -67,7 +68,7 @@ const Articles = (props) => {
                 <Grid item xs={12} lg={9}>
                     <h1>{category}</h1>
 
-                    <Box m="1.5rem 0 0" p="0 2rem 0 0">
+                    <Box className={s.listWrap}>
                         <List>
                             {showArticles && props.articles.map((article) => (
                                 <ListItem key={article._id} disableGutters>
