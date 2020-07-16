@@ -4,3 +4,9 @@
 .headline.headline {
   font-family: $headlineFont;
 }
+
+@include from-sm-screen {
+  .hide-desktop {
+    display: none;
+  }
+}

@@ -12,29 +12,42 @@ import {like, unlike, save, unsave} from "../../../store/articlesReducer";
 import {setNote} from "../../../store/notificationReducer";
 
 
-const useStyles = makeStyles({
-    root: {
-        display: 'flex',
-        width: '100%'
-    },
-    content: {
-        flexGrow: '1'
-    },
-    media: {
-        flexBasis: '22%',
-        flexShrink: '0',
-        minHeight: '160px',
-        backgroundColor: '#eee'
-    },
-    link: {
-        textDecoration: 'none',
-        color: '#222'
-    },
-    iconButton: {
-        border: '1px solid',
-        borderRadius: '50%'
+const useStyles = makeStyles((theme) => ({
+        root: {
+            display: 'flex',
+            width: '100%',
+            [theme.breakpoints.down('sm')]: {
+                flexDirection: 'column'
+            }
+        },
+        content: {
+            flexGrow: '1',
+            [theme.breakpoints.down('sm')]: {
+                order: '2'
+            }
+        },
+        media: {
+            flexBasis: '22%',
+            flexShrink: '0',
+            minHeight: '160px',
+            backgroundColor: '#eee',
+            [theme.breakpoints.down('sm')]: {
+                order: '1',
+                flexBasis: '100%',
+                width: '100%',
+                minHeight: '200px'
+            }
+        },
+        link: {
+            textDecoration: 'none',
+            color: '#222'
+        },
+        iconButton: {
+            border: '1px solid',
+            borderRadius: '50%'
+        }
     }
-});
+));
 
 const ArticleCard = (props) => {
     const {saved, liked, profile} = props;

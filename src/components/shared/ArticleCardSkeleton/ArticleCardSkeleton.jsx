@@ -4,20 +4,33 @@ import {makeStyles} from '@material-ui/core/styles';
 import Skeleton from '@material-ui/lab/Skeleton';
 
 
-const useStyles = makeStyles({
-    root: {
-        display: 'flex',
-        width: '100%'
-    },
-    content: {
-        flexGrow: '1'
-    },
-    media: {
-        flexBasis: '22%',
-        flexShrink: '0',
-        minHeight: '206px'
+const useStyles = makeStyles((theme) => ({
+        root: {
+            display: 'flex',
+            width: '100%',
+            [theme.breakpoints.down('sm')]: {
+                flexDirection: 'column'
+            }
+        },
+        content: {
+            flexGrow: '1',
+            [theme.breakpoints.down('sm')]: {
+                order: '2'
+            }
+        },
+        media: {
+            flexBasis: '22%',
+            flexShrink: '0',
+            minHeight: '206px',
+            [theme.breakpoints.down('sm')]: {
+                order: '1',
+                flexBasis: '100%',
+                width: '100%',
+                minHeight: '200px'
+            }
+        }
     }
-});
+));
 
 const ArticleCardSkeleton = () => {
     const classes = useStyles();

@@ -23,11 +23,26 @@ const useStyles = makeStyles((theme) => ({
         height: '0',
         borderRadius: '50%',
         backgroundColor: '#eee',
-        margin: theme.spacing(2)
+        margin: theme.spacing(2),
+        [theme.breakpoints.down('sm')]: {
+            flexBasis: '5rem',
+            height: '5rem',
+            margin: theme.spacing(2, 1)
+        }
+    },
+    contentGrid: {
+         [theme.breakpoints.down('sm')]: {
+             flexDirection: 'column'
+         }
     },
     header: {
         color: "#222",
         textDecoration: 'none'
+    },
+    btnWrap: {
+        [theme.breakpoints.down('sm')]: {
+            marginTop: theme.spacing(2)
+        }
     }
 }));
 
@@ -72,7 +87,7 @@ const AuthorCard = (props) => {
                 title="Contemplative Reptile"
             />
             <CardContent className={classes.content}>
-                <Grid container justify="space-between" alignItems="flex-start" wrap="nowrap">
+                <Grid container justify="space-between" alignItems="flex-start" wrap="nowrap" className={classes.contentGrid}>
                     <Grid item>
                         <Typography
                             gutterBottom
@@ -102,7 +117,7 @@ const AuthorCard = (props) => {
                             {props.followers.length} followers, {props.following.length} following
                         </Typography>
                     </Grid>
-                    <Grid item>
+                    <Grid item className={classes.btnWrap}>
                         {(props.profile._id !== props._id) &&
                         <Button variant="outlined" color="primary" onClick={handleFollow}>
                             {!isFollowed ? 'Follow' : 'Unfollow'}

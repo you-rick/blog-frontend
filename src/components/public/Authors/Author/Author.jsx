@@ -79,7 +79,7 @@ const Author = (props) => {
             {!showAuthor && <AuthorCardSkeleton/>}
 
             <Box m="3rem 0 0">
-                {!profile && <h1>{props.author.fullName + "'s articles"}</h1>}
+                {showArticles && <h1>{props.author.fullName + "'s articles"}</h1>}
                 {profile &&
                 <Grid container justify="space-between" alignItems="center">
                     <h1>Your Latest Articles</h1>

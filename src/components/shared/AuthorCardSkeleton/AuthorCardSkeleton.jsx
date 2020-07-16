@@ -18,14 +18,32 @@ const useStyles = makeStyles((theme) => ({
         height: '0',
         borderRadius: '50%',
         transform: 'none',
-        margin: theme.spacing(2.5)
+        margin: theme.spacing(2.5),
+        [theme.breakpoints.down('sm')]: {
+            flexBasis: '5rem',
+            height: '5rem',
+            margin: theme.spacing(2, 1)
+        }
+    },
+    contentGrid: {
+         [theme.breakpoints.down('sm')]: {
+             flexDirection: 'column'
+         }
+    },
+    skeleton: {
+        [theme.breakpoints.down('sm')]: {
+            width: '100% !important'
+        }
     },
     header: {
         color: '#222',
         textDecoration: 'none'
     },
     lines: {
-        flexGrow: "1"
+        flexGrow: "1",
+        [theme.breakpoints.down('sm')]: {
+            width: '100% !important'
+        }
     }
 }));
 
@@ -41,13 +59,13 @@ const AuthorCardSkeleton = () => {
                 height={60}
             />
             <CardContent className={classes.content}>
-                <Grid container justify="space-between" alignItems="flex-start" wrap="nowrap">
+                <Grid container justify="space-between" alignItems="flex-start" wrap="nowrap" className={classes.contentGrid}>
                     <Grid item className={classes.lines}>
                         <Box>
-                            <Skeleton width="40%" height={40}/>
-                            <Skeleton width="40%"/>
+                            <Skeleton width="40%" height={40} className={classes.skeleton}/>
+                            <Skeleton width="40%" className={classes.skeleton}/>
                             <Box m="1rem 0 0">
-                                <Skeleton width="40%"/>
+                                <Skeleton width="40%" className={classes.skeleton}/>
                             </Box>
                         </Box>
                     </Grid>

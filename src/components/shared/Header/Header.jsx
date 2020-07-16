@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {NavLink} from "react-router-dom";
 import {connect} from "react-redux";
+import {compose} from "redux";
 import Slider from "react-slick";
 import "./Header.scss";
 import {logout} from "../../../store/profileReducer";
@@ -14,9 +15,12 @@ import {
     Box,
     Button,
     Menu,
+    MenuList,
     MenuItem,
     Avatar,
-    Divider
+    Divider,
+    Hidden,
+    withWidth
 } from "@material-ui/core";
 import {AccountCircle, BookmarksOutlined, FavoriteBorderOutlined} from "@material-ui/icons";
 import themeStyles from "./Header.styles";
@@ -72,12 +76,14 @@ const Header = (props) => {
                                 </Grid>
                             </Box>
                             <Box display="flex" alignItems="center">
-                                <IconButton component={NavLink} to="/profile/liked" color="inherit">
-                                    <FavoriteBorderOutlined/>
-                                </IconButton>
-                                <IconButton component={NavLink} to="/profile/saved" color="inherit">
-                                    <BookmarksOutlined/>
-                                </IconButton>
+                                <Hidden smDown>
+                                    <IconButton component={NavLink} to="/profile/liked" color="inherit">
+                                        <FavoriteBorderOutlined/>
+                                    </IconButton>
+                                    <IconButton component={NavLink} to="/profile/saved" color="inherit">
+                                        <BookmarksOutlined/>
+                                    </IconButton>
+                                </Hidden>
                                 <div>
                                     <IconButton
                                         aria-label="account of current user"
@@ -107,6 +113,7 @@ const Header = (props) => {
                                         }}
                                         open={open}
                                         onClose={handleClose}
+                                        className="headerMenu"
                                     >
                                         {!props.isAuth &&
                                         <MenuItem component={NavLink} to="/login">Login</MenuItem>}
@@ -114,6 +121,10 @@ const Header = (props) => {
                                         <MenuItem component={NavLink} to="/register">Sign Up</MenuItem>}
                                         {props.isAuth &&
                                         <MenuItem component={NavLink} to="/profile" divider>Profile</MenuItem>}
+                                        {props.isAuth &&
+                                        <MenuItem component={NavLink} to="/profile/liked" className="hide-desktop">Liked</MenuItem>}
+                                        {props.isAuth &&
+                                        <MenuItem component={NavLink} to="/profile/saved" className="hide-desktop">Saved</MenuItem>}
                                         {props.isAuth &&
                                         <MenuItem onClick={logout}>Logout</MenuItem>}
                                     </Menu>
@@ -123,7 +134,7 @@ const Header = (props) => {
                     </Toolbar>
                 </Container>
             </AppBar>
-            <Box m={4}>
+            <Box className="categorySliderBox">
                 <Container maxWidth="lg">
                     <Box className="categorySliderWrap">
                         {showCategories &&
@@ -151,4 +162,7 @@ const mapStateToProps = (state) => ({
     isAuth: state.profile.isAuth
 });
 
-export default connect(mapStateToProps, {logout})(Header);
+export default compose(
+    withWidth(),
+    connect(mapStateToProps, {logout})
+)(Header);

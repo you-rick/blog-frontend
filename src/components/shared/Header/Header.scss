@@ -22,3 +22,22 @@
     padding: 0;
   }
 }
+
+.likedSavedLinks.likedSavedLinks {
+  flex-direction: column;
+  padding: 0;
+  align-items: stretch;
+}
+
+.categorySliderBox {
+  margin: 32px;
+  @include till-sm-screen {
+    margin-bottom: 16px;
+  }
+}
+
+@include till-sm-screen {
+  .headerMenu a {
+    min-height: 40px;
+  }
+}
