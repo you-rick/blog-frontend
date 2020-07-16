@@ -9,7 +9,6 @@ import {requestArticles} from "../../../store/articlesReducer";
 const MyArticles = (props) => {
     useEffect(() => {
         props.requestArticles(1, 10, props.profileId, '');
-        console.log(props.articles);
     }, []);
 
     return (

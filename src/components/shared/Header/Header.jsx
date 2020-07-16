@@ -108,13 +108,14 @@ const Header = (props) => {
                                         open={open}
                                         onClose={handleClose}
                                     >
-                                        {!props.isAuth && <MenuItem component={NavLink} to="/login">Login</MenuItem>}
+                                        {!props.isAuth &&
+                                        <MenuItem component={NavLink} to="/login">Login</MenuItem>}
                                         {!props.isAuth &&
                                         <MenuItem component={NavLink} to="/register">Sign Up</MenuItem>}
-                                        {props.isAuth && <MenuItem component={NavLink} to="/profile">Profile</MenuItem>}
-                                        {props.isAuth && <MenuItem component={NavLink} to="/profile/articles" divider>My
-                                            Articles</MenuItem>}
-                                        {props.isAuth && <MenuItem onClick={logout}>Logout</MenuItem>}
+                                        {props.isAuth &&
+                                        <MenuItem component={NavLink} to="/profile" divider>Profile</MenuItem>}
+                                        {props.isAuth &&
+                                        <MenuItem onClick={logout}>Logout</MenuItem>}
                                     </Menu>
                                 </div>
                             </Box>

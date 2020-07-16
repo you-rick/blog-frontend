@@ -95,7 +95,7 @@ export const requestUsers = (page, pageSize) => {
 export const requestUserById = (userId) => {
     return (dispatch) => {
         dispatch(toggleIsFetching(true));
-        dispatch(hideNote());
+        //dispatch(hideNote());
         usersAPI.getUserById(userId)
             .then(response => {
                 dispatch(toggleIsFetching(false));
