@@ -51,8 +51,7 @@ const Author = (props) => {
         let userId = '';
         if (id) {
             userId = id;
-        }
-        if (profile._id) {
+        } else if (profile._id) {
             userId = profile._id;
         }
 
