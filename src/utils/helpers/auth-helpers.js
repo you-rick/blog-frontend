@@ -1,8 +1,4 @@
 export const authHeader = () => {
-    let token = localStorage.getItem('token');
-    if (token) {
-        return { 'Authorization': 'Bearer ' + token };
-    } else {
-        return {};
-    }
+  const token = localStorage.getItem('token');
+  return token ? { 'Authorization': `Bearer ${token}` } : {};
 };

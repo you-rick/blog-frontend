@@ -1,0 +1,9 @@
+@function map-deep-get($map, $keys...) {
+    @each $key in $keys {
+        $map: map-get($map, $key);
+    }
+    @return $map;
+}
+
+// Usage with $materialUiPalette
+// color: map-deep-get($materialUiPalette, 'secondary', 'dark');

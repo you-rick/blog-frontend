@@ -1,36 +1,33 @@
-import {categoriesAPI} from "../api/api";
+import { categoriesAPI } from '../api/api';
 
 // Action
 const SET_CATEGORIES = 'SET_CATEGORIES';
 
-let initialState = {
-    currentCategory: {},
-    list: []
+const initialState = {
+  currentCategory: {},
+  list: [],
 };
 
 const categoriesReducer = (state = initialState, action) => {
-    switch (action.type) {
-        case SET_CATEGORIES:
-            return {state, list: action.data};
-        default:
-            return state;
-    }
+  switch (action.type) {
+    case SET_CATEGORIES:
+      return { state, list: action.data };
+    default:
+      return state;
+  }
 };
 
 // Action Creators
-export const setCategories = (data) => ({type: SET_CATEGORIES, data: data});
+export const setCategories = (data) => ({ type: SET_CATEGORIES, data });
 
 // Thunks
-export const getCategories = () => {
-    return (dispatch) => {
-        categoriesAPI.getCategories()
-            .then(response => {
-                if (response.status) {
-                    dispatch(setCategories(response.data));
-                }
-
-            });
-    }
+export const getCategories = () => (dispatch) => {
+  categoriesAPI.getCategories()
+    .then((response) => {
+      if (response.status) {
+        dispatch(setCategories(response.data));
+      }
+    });
 };
 
 export default categoriesReducer;
