@@ -42,8 +42,9 @@ const Sidebar = (props) => {
           {showArticles && articles.map((article, index) => (
             <ArticlePreview key={article._id} index={index} {...article} />
           ))}
-          {!showArticles && Array(3).fill().map((item) => (
-            <ListItem key={item} alignItems="flex-start">
+          {!showArticles && Array(3).fill().map((item, index) => (
+            // eslint-disable-next-line react/no-array-index-key
+            <ListItem key={index} alignItems="flex-start">
               <ListItemAvatar>
                 <Skeleton variant="circle" width={40} height={40} />
               </ListItemAvatar>
@@ -64,8 +65,9 @@ const Sidebar = (props) => {
           {showUsers && users.map((user) => (
             <User key={user._id} {...user} />
           ))}
-          {!showUsers && Array(5).fill().map((item) => (
-            <ListItem key={item}>
+          {!showUsers && Array(5).fill().map((item, index) => (
+            // eslint-disable-next-line react/no-array-index-key
+            <ListItem key={index}>
               <ListItemAvatar>
                 <Skeleton variant="circle" width={40} height={40} />
               </ListItemAvatar>

@@ -1,15 +1,12 @@
-import React from "react";
-import {connect} from "react-redux";
-import {getProfile} from "../../../store/profileReducer";
-import Author from "../../public/Authors/Author/Author";
+import React from 'react';
+import { connect } from 'react-redux';
+import { getProfile } from '../../../store/profileReducer';
+import Author from '../../public/Authors/Author/Author';
 
-
-const Profile = (props) => {
-    return <Author profile={props.profile}/>
-};
+const Profile = ({ profile }) => <Author profile={profile} />;
 
 const mapStateToProps = (state) => ({
-    profile: state.profile
+  profile: state.profile,
 });
 
-export default connect(mapStateToProps, {getProfile})(Profile);
+export default connect(mapStateToProps, { getProfile })(Profile);
