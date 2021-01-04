@@ -18,15 +18,14 @@ const breakpointColumns = {
 
 const pageStep = 12;
 
-const Home = (props) => {
-  const { articles, totalArticles, isDataFetching } = props;
+const Home = ({ articles, totalArticles, isDataFetching, requestArticles }) => {
   const [showArticles, setShowArticles] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
 
   useEffect(() => {
     setShowArticles(false);
-    props.requestArticles(page, pageStep, '', '', 0, '', '', 'Infinite');
+    requestArticles(page, pageStep, '', '', 0, '', '', 'Infinite');
     setPage(page + 1);
   }, []);
 
@@ -39,7 +38,7 @@ const Home = (props) => {
   }, [articles, isDataFetching]);
 
   const loadMore = () => {
-    props.requestArticles(page, pageStep, '', '', 0, '', '', 'Infinite');
+    requestArticles(page, pageStep, '', '', 0, '', '', 'Infinite');
     setPage(page + 1);
   };
 
@@ -47,10 +46,12 @@ const Home = (props) => {
     // eslint-disable-next-line react/no-array-index-key
     <ArticleCardHome key={index} {...article} />
   ));
-  const cardsSkeleton = Array(9).fill().map((item, index) => (
-    // eslint-disable-next-line react/no-array-index-key
-    <ArticleCardHomeSkeleton key={index} />
-  ));
+  const cardsSkeleton = Array(9)
+    .fill()
+    .map((item, index) => (
+      // eslint-disable-next-line react/no-array-index-key
+      <ArticleCardHomeSkeleton key={index} />
+    ));
 
   return (
     <div style={{ padding: '0 20px' }}>
@@ -66,7 +67,7 @@ const Home = (props) => {
                 <p style={{ textAlign: 'center' }}>
                   <b>Yay! You have seen it all</b>
                 </p>
-                )}
+              )}
             >
               <Masonry
                 breakpointCols={breakpointColumns}

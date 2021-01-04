@@ -18,15 +18,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Sidebar = (props) => {
-  const { users, articles } = props;
+const Sidebar = ({ users, articles, requestSidebarArticles, requestSidebarUsers }) => {
   const classes = useStyles();
   const [showUsers, setShowUsers] = useState(false);
   const [showArticles, setShowArticles] = useState(false);
 
   useEffect(() => {
-    props.requestSidebarArticles(1, 3, '', '', 1);
-    props.requestSidebarUsers(1, 5);
+    requestSidebarArticles(1, 3, '', '', 1);
+    requestSidebarUsers(1, 5);
   }, []);
 
   useEffect(() => {
