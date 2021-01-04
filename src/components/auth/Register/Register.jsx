@@ -22,7 +22,7 @@ const RegisterForm = ({ onSubmit, categories, isSuccessNote, isFetching }) => {
     if (isSuccessNote && activeStep !== 0) {
       setActiveStep(3);
     }
-  }, [isSuccessNote]);
+  }, [isSuccessNote, activeStep]);
 
   useEffect(() => {
     setCategoriesList(categories);

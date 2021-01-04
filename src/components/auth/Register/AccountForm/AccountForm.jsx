@@ -1,53 +1,42 @@
-import React from "react";
-import {Box, Button, Grid, TextField} from "@material-ui/core";
-import {Field} from "redux-form";
-import {reduxForm} from "redux-form";
-import validate from "../validate";
-import {renderTextField} from "../../../shared/FormControls/FormControls";
+import React from 'react';
+import { Box, Button, Grid } from '@material-ui/core';
+import { Field, reduxForm } from 'redux-form';
 
-const AccountForm = (props) => {
-    const {handleSubmit} = props;
+import validate from '../validate';
+import { renderTextField } from '../../../shared/FormControls/FormControls';
 
-    return (
-        <form onSubmit={handleSubmit}>
-            <Grid container spacing={3}>
-                <Grid item xs={12}>
-                    <Field name="fullName" label="Full Name" fullWidth={true}
-                           component={renderTextField}/>
-                </Grid>
-                <Grid item xs={12}>
-                    <Field name="email" label="Email Address" fullWidth={true}
-                           component={renderTextField}/>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                    <Field name="password" label="Password" type="password" fullWidth={true}
-                           component={renderTextField}/>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                    <Field name="repeatPassword" label="Repeat password" type="password" fullWidth={true}
-                           component={renderTextField}/>
-                </Grid>
+const AccountForm = ({ handleSubmit }) => (
+  <form onSubmit={handleSubmit}>
+    <Grid container spacing={3}>
+      <Grid item xs={12}>
+        <Field name="fullName" label="Full Name" fullWidth component={renderTextField} />
+      </Grid>
+      <Grid item xs={12}>
+        <Field name="email" label="Email Address" fullWidth component={renderTextField} />
+      </Grid>
+      <Grid item xs={12} sm={6}>
+        <Field name="password" label="Password" type="password" fullWidth component={renderTextField} />
+      </Grid>
+      <Grid item xs={12} sm={6}>
+        <Field name="repeatPassword" label="Repeat password" type="password" fullWidth component={renderTextField} />
+      </Grid>
 
-                <Grid container justify="flex-end">
-                    <Box m="2rem 0.5rem 0.5rem">
-                        <Button variant="contained" color="primary" type="submit">Next</Button>
-                    </Box>
-                </Grid>
+      <Grid container justify="flex-end">
+        <Box m="2rem 0.5rem 0.5rem">
+          <Button variant="contained" color="primary" type="submit">Next</Button>
+        </Box>
+      </Grid>
 
-            </Grid>
-        </form>
-    )
-};
-
+    </Grid>
+  </form>
+);
 
 export default reduxForm({
-    form: 'register', // <------ same form name
-    destroyOnUnmount: false, // <------ preserve form data
-    forceUnregisterOnUnmount: true, // <------ unregister fields on unmount
-    initialValues: {
-        photo: {}
-    },
-    validate
+  form: 'register',
+  destroyOnUnmount: false,
+  forceUnregisterOnUnmount: true,
+  initialValues: {
+    photo: {},
+  },
+  validate,
 })(AccountForm);
-
-
