@@ -1,4 +1,4 @@
-import { articlesAPI, usersAPI } from '../api/api';
+import { articlesAPI, usersAPI } from '../api';
 import { toggleIsFetching } from './appReducer';
 
 // Actions

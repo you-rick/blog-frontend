@@ -1,4 +1,4 @@
-import { categoriesAPI } from '../api/api';
+import { categoriesAPI } from '../api';
 
 // Action
 const SET_CATEGORIES = 'SET_CATEGORIES';

@@ -1,5 +1,5 @@
 import { push } from 'connected-react-router';
-import { usersAPI } from '../api/api';
+import { usersAPI } from '../api';
 import { toggleIsFetching } from './appReducer';
 import { hideNote, setNote } from './notificationReducer';
 import { toggleArrayEl } from '../utils/helpers/object-helpers';

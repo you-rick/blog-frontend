@@ -1,6 +1,6 @@
 import { reset } from 'redux-form';
 import { push } from 'connected-react-router';
-import { profileAPI } from '../api/api';
+import { profileAPI } from '../api';
 import { setNote, hideNote } from './notificationReducer';
 import { toggleIsFetching } from './appReducer';
 

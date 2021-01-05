@@ -1,5 +1,5 @@
 import { push } from 'connected-react-router';
-import { articlesAPI, usersAPI } from '../api/api';
+import { articlesAPI, usersAPI } from '../api';
 import { toggleIsFetching } from './appReducer';
 import { hideNote, setNote } from './notificationReducer';
 import { setCurrentUser } from './usersReducer';
